@@ -1,0 +1,9 @@
+server:
+  port: 8080
+
+spring:
+  data:
+  mongodb:
+    database: forum-da-probidade
+    port: 27017
+    host: localhost
