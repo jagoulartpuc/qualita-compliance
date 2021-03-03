@@ -28,7 +28,7 @@ public class EmailSender {
                 new javax.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication()
                     {
-                        return new PasswordAuthentication("seuemail@gmail.com",
+                        return new PasswordAuthentication("forumdaprobidade@gmail.com",
                                 "suasenha123");
                     }
                 });
@@ -38,7 +38,7 @@ public class EmailSender {
         try {
 
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("seuemail@gmail.com"));
+            message.setFrom(new InternetAddress("forumdaprobidade@gmail.com"));
 
             Address[] toUser = InternetAddress
                     .parse(destinations);

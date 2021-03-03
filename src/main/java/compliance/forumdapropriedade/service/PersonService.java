@@ -9,38 +9,51 @@ import compliance.forumdapropriedade.util.PasswordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PersonService {
 
     @Autowired
     private PersonRepository personRepository;
+
+    @Autowired
+    private CompanyService companyService;
+
     @Autowired
     private EmailSender emailSender;
+
+    @Autowired
+    private PasswordGenerator passwordGenerator;
 
     public Person addPerson(Person person) {
         CPFValidator validator = new CPFValidator();
         try {
             validator.assertValid(person.getCpf());
-            String password = PasswordGenerator.generatePassword();
+            String password = passwordGenerator.generatePassword();
             emailSender.sendEmail("Fórum da Probidade: Registro e recebimento de senha",
                     "Bem vindo ao Fórum da Probidade " + person.getName() + "! Sua senha é: " + password + ".", person.getEmail());
             person.setPassword(password);
-            return personRepository.save(person);
+            return personRepository.insert(person);
         } catch (InvalidStateException e) {
             throw new InvalidStateException(e.getInvalidMessages());
         }
     }
 
-    public Person getPersonById(String id) {
-        return personRepository.findById(id).orElseThrow();
+    public Person getPersonByCPF(String cpf) {
+        return personRepository.findById(cpf).orElseThrow();
     }
 
-    public Iterable<Person> getPersons() {
+    public List<Person> getPersons() {
         return personRepository.findAll();
     }
 
-    public boolean deletePerson(String id) {
-        personRepository.deleteById(id);
+    public boolean deletePerson(String cpf) {
+        personRepository.deleteById(cpf);
         return true;
+    }
+
+    public boolean validadeLogin(String cpfOrCnpj, String password) {
+        return getPersonByCPF(cpfOrCnpj).getPassword().equals(password) || companyService.getCompanyByCNPJ(cpfOrCnpj).getPassword().equals(password);
     }
 }

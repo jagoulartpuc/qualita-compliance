@@ -1,5 +1,6 @@
 package compliance.forumdapropriedade.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -10,11 +11,9 @@ import org.springframework.lang.NonNull;
 public class Person {
 
     @Id
-    private String id;
+    private String cpf;
     @NonNull
     private String name;
-    @NonNull
-    private String cpf;
     @NonNull
     private String schooling;
     @NonNull
@@ -24,9 +23,11 @@ public class Person {
     @NonNull
     private String email;
     @NonNull
+    @JsonIgnoreProperties
     private Company company;
     private String phone;
     @NonNull
     private String birthday;
+    private boolean isAdmin;
 
 }

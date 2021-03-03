@@ -1,5 +1,6 @@
 package compliance.forumdapropriedade.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,9 +13,10 @@ import java.util.List;
 public class Company {
 
     @Id
-    private String companyId;
+    private String cnpj;
     @NonNull
     private String name;
+    private String password;
     @NonNull
     private String adress;
     @NonNull
@@ -26,7 +28,10 @@ public class Company {
     @NonNull
     private String business;
     private String site;
+    @JsonIgnoreProperties
     private List<Person> persons;
     private List<Report> reports;
+    @NonNull
     private List<String> features;
+    private boolean isAdmin = false;
 }

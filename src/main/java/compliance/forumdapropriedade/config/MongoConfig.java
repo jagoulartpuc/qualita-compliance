@@ -13,7 +13,7 @@ class MongoConfig {
 
     @Bean
     public MongoClient mongo() {
-        ConnectionString connectionString = new ConnectionString("mongodb://localhost:27017/buddy");
+        ConnectionString connectionString = new ConnectionString("mongodb://localhost:27017/forum-da-probidade");
         MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString)
                 .build();
@@ -23,6 +23,6 @@ class MongoConfig {
 
     @Bean
     public MongoTemplate mongoTemplate() {
-        return new MongoTemplate(mongo(), "buddy");
+        return new MongoTemplate(mongo(), "forum-da-probidade");
     }
 }

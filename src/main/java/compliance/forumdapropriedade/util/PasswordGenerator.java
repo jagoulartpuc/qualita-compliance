@@ -7,7 +7,7 @@ import java.util.Random;
 @Component
 public class PasswordGenerator {
 
-    public static String generatePassword() {
+    public String generatePassword() {
         Random random = new Random();
         int leftLimit = 97; // letter 'a'
         int rightLimit = 122; // letter 'z'
