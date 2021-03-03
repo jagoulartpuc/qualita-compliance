@@ -29,7 +29,7 @@ public class ReportController {
         return reportService.addReport(report);
     }
 
-    @PostMapping
+    @PostMapping("/com-anexo")
     public Report postReportWithAttachments(
             @RequestPart("files") List<MultipartFile> files,
             @RequestBody Report report
