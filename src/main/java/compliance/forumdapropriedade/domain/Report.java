@@ -27,5 +27,5 @@ public class Report {
     private List<String> dates;
     private List<byte[]> attachments;
     private List<ReportAnswer> reportAnswers;
-    private String answerToInformer;
+    private ReportAnswer answerToInformer;
 }
