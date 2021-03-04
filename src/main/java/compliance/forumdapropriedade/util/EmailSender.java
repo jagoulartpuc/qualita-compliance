@@ -3,53 +3,48 @@ package compliance.forumdapropriedade.util;
 import org.springframework.stereotype.Component;
 
 import java.util.Properties;
-import javax.mail.Address;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 @Component
 public class EmailSender {
 
-    public void sendEmail(String subject, String text, String destinations) {
-        Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.socketFactory.port", "465");
-        props.put("mail.smtp.socketFactory.class",
-                "javax.net.ssl.SSLSocketFactory");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.port", "465");
+    public void sendEmail(String subject, String text, String destinations) throws MessagingException {
+        Properties prop = new Properties();
 
-        Session session = Session.getDefaultInstance(props,
-                new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication()
-                    {
-                        return new PasswordAuthentication("forumdaprobidade@gmail.com",
-                                "suasenha123");
-                    }
-                });
+        prop.put("mail.transport.protocol", "smtp");
+        prop.put("mail.smtp.auth", true);
+        prop.put("mail.smtp.starttls.enable", "true");
+        prop.put("mail.smtp.host", "smtp.gmail.com");
+        prop.put("mail.smtp.port", "587");
+        prop.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+
+        Session session = Session.getInstance(prop, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("forumdaprobidade.noreply@gmail.com", "probidade123");
+            }
+        });
 
         session.setDebug(true);
 
-        try {
+        Message message = new MimeMessage(session);
+        message.setFrom(new InternetAddress("forumdaprobidade.noreply@gmail.com"));
+        message.setRecipients(
+                Message.RecipientType.TO, InternetAddress.parse(destinations));
+        message.setSubject(subject);
 
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("forumdaprobidade@gmail.com"));
+        MimeBodyPart mimeBodyPart = new MimeBodyPart();
+        mimeBodyPart.setContent(text, "text/html");
 
-            Address[] toUser = InternetAddress
-                    .parse(destinations);
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(mimeBodyPart);
 
-            message.setRecipients(Message.RecipientType.TO, toUser);
-            message.setSubject(subject);
-            message.setText(text);
-            Transport.send(message);
+        message.setContent(multipart);
 
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
-        }
+        Transport.send(message);
     }
 }

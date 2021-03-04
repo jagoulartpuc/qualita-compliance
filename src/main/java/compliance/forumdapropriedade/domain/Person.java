@@ -23,8 +23,7 @@ public class Person {
     @NonNull
     private String email;
     @NonNull
-    @JsonIgnoreProperties
-    private Company company;
+    private String companyCnpj;
     private String phone;
     @NonNull
     private String birthday;

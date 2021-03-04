@@ -9,6 +9,7 @@ import compliance.forumdapropriedade.util.PasswordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import java.util.List;
 
 @Service
@@ -23,13 +24,13 @@ public class CompanyService {
     @Autowired
     private PasswordGenerator passwordGenerator;
 
-    public Company addCompany(Company company) {
+    public Company addCompany(Company company) throws MessagingException {
         CNPJValidator validator = new CNPJValidator();
         try {
             validator.assertValid(company.getCnpj());
             String password = passwordGenerator.generatePassword();
             emailSender.sendEmail("Fórum da Probidade: Registro e recebimento de senha",
-                    "Bem vindo ao Fórum da Probidade " + company.getName() + "! Sua senha é: " + password + ".", company.getEmail());
+                    "Bem vindos ao Fórum da Probidade, equipe da " + company.getName() + "! Sua senha é: " + password + ".", company.getEmail());
             company.setPassword(password);
             return companyRepository.insert(company);
         } catch (InvalidStateException e) {

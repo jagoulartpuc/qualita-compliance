@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.lang.NonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -23,9 +24,9 @@ public class Report {
     private boolean urgent;
     @NonNull
     private String description;
-    private List<String> envolvedPeople;
-    private List<String> dates;
-    private List<byte[]> attachments;
+    private List<String> envolvedPeople = new ArrayList<>();
+    private List<String> dates = new ArrayList<>();
+    private List<byte[]> attachments = new ArrayList<>();
     private List<ReportAnswer> reportAnswers;
     private ReportAnswer answerToInformer;
 }

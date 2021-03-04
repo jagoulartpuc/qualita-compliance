@@ -1,7 +1,5 @@
 package compliance.forumdapropriedade.controller;
 
-import compliance.forumdapropriedade.domain.Company;
-import compliance.forumdapropriedade.domain.Person;
 import compliance.forumdapropriedade.domain.Report;
 import compliance.forumdapropriedade.domain.ReportAnswer;
 import compliance.forumdapropriedade.service.ReportService;
@@ -9,12 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/denuncia")
@@ -26,7 +21,7 @@ public class ReportController {
     @PostMapping
     public Report postReport(
             @RequestBody Report report
-    ) {
+    ) throws MessagingException {
         return reportService.addReport(report);
     }
 
@@ -34,7 +29,7 @@ public class ReportController {
     public Report postReportWithAttachments(
             @RequestPart("files") List<MultipartFile> files,
             @RequestBody Report report
-    ) throws IOException {
+    ) throws IOException, MessagingException {
 
         return reportService.addReportWithAttachment(report, files);
     }
@@ -44,7 +39,7 @@ public class ReportController {
             @RequestParam String cnpj,
             @RequestParam String trackingId,
             @RequestParam String moreDestinations
-    ) {
+    ) throws MessagingException {
         return reportService.shareReportWithEnvolved(cnpj, trackingId, moreDestinations);
     }
 
@@ -54,7 +49,7 @@ public class ReportController {
             @RequestParam String trackingId,
             @RequestParam String moreDestinations,
             @RequestPart("files") List<MultipartFile> files
-    ) throws IOException {
+    ) throws IOException, MessagingException {
         return reportService.shareReportWithEnvolvedWithAttachments(cnpj, trackingId, moreDestinations, files);
     }
 

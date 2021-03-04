@@ -7,3 +7,6 @@ spring:
     database: forum-da-probidade
     port: 27017
     host: localhost
+
+admin:
+  email: advogadosgorla@gmail.com

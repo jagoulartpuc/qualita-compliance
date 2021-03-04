@@ -5,6 +5,7 @@ import compliance.forumdapropriedade.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.util.List;
 
 @RestController
@@ -17,7 +18,7 @@ public class CompanyController {
     @PostMapping
     public Company postCompany(
             @RequestBody Company company
-    ) {
+    ) throws MessagingException {
         return companyService.addCompany(company);
     }
 

@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.lang.NonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -29,9 +30,9 @@ public class Company {
     private String business;
     private String site;
     @JsonIgnoreProperties
-    private List<Person> persons;
-    private List<Report> reports;
+    private List<Person> persons = new ArrayList<>();
+    private List<Report> reports = new ArrayList<>();
     @NonNull
-    private List<String> features;
+    private List<String> features = new ArrayList<>();
     private boolean isAdmin = false;
 }

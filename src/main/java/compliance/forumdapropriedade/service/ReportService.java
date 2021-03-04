@@ -4,11 +4,14 @@ import compliance.forumdapropriedade.domain.Company;
 import compliance.forumdapropriedade.domain.Report;
 import compliance.forumdapropriedade.domain.ReportAnswer;
 import compliance.forumdapropriedade.repository.ReportRepository;
+import compliance.forumdapropriedade.util.AttachmentsUploader;
 import compliance.forumdapropriedade.util.EmailSender;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -29,29 +32,27 @@ public class ReportService {
     @Autowired
     private EmailSender emailSender;
 
-    public Report addReport(Report report) {
-        emailSender.sendEmail("Denúncia recebida", "Uma nova denúncia foi recebida. Protocolo: " + report.getTrackingId(), "host@gmail.com");
-        return reportRepository.insert(report);
+    @Value("${admin.email}")
+    private String adminEmail;
+
+    private AttachmentsUploader attachmentsUploader;
+
+    public Report addReport(Report report) throws MessagingException {
+        String trackingId = reportRepository.insert(report).getTrackingId();
+        emailSender.sendEmail("Denúncia recebida", "Uma nova denúncia foi recebida. Protocolo: " + trackingId, adminEmail);
+        return report;
     }
 
-    public Report addReportWithAttachment(Report report, List<MultipartFile> files) throws IOException {
-        report.setAttachments(uploadFiles(files));
-        emailSender.sendEmail("Denúncia recebida", "Uma nova denúncia foi recebida. Protocolo: " + report.getTrackingId(), "host@gmail.com");
-        return reportRepository.insert(report);
+    public Report addReportWithAttachment(Report report, List<MultipartFile> files) throws IOException, MessagingException {
+        report.setAttachments(attachmentsUploader.uploadFiles(files));
+        String trackingId = reportRepository.insert(report).getTrackingId();
+        emailSender.sendEmail("Denúncia recebida", "Uma nova denúncia foi recebida. Protocolo: " + trackingId, adminEmail);
+        return report;
     }
 
-    private List<byte[]> uploadFiles(List<MultipartFile> files)  throws IOException{
-        List<byte[]> filesBytes = new ArrayList<>();
-        for (MultipartFile file: files) {
-            byte[] bytes = file.getBytes();
-            Path path = Paths.get(Objects.requireNonNull(file.getOriginalFilename()));
-            Files.write(path, bytes);
-            filesBytes.add(bytes);
-        }
-        return filesBytes;
-    }
 
-    public List<Report> shareReportWithEnvolved(String companyCNPJ, String trackingId, String moreDestinations) {
+
+    public List<Report> shareReportWithEnvolved(String companyCNPJ, String trackingId, String moreDestinations) throws MessagingException {
         Company company = companyService.getCompanyByCNPJ(companyCNPJ);
         company.getReports().add(getReportByTrackingId(trackingId));
         companyService.editCompany(company);
@@ -60,9 +61,9 @@ public class ReportService {
         return company.getReports();
     }
 
-    public List<Report> shareReportWithEnvolvedWithAttachments(String companyCNPJ, String trackingId, String moreDestinations, List<MultipartFile> files) throws IOException {
+    public List<Report> shareReportWithEnvolvedWithAttachments(String companyCNPJ, String trackingId, String moreDestinations, List<MultipartFile> files) throws IOException, MessagingException {
         Report report = getReportByTrackingId(trackingId);
-        report.setAttachments(uploadFiles(files));
+        report.setAttachments(attachmentsUploader.uploadFiles(files));
         Company company = companyService.getCompanyByCNPJ(companyCNPJ);
         company.getReports().add(report);
         companyService.editCompany(company);
@@ -79,7 +80,7 @@ public class ReportService {
 
     public Report answerCompanyReportWithAttachments(String trackingId, ReportAnswer answer, List<MultipartFile> files) throws IOException {
         Report report = getReportByTrackingId(trackingId);
-        report.setAttachments(uploadFiles(files));
+        report.setAttachments(attachmentsUploader.uploadFiles(files));
         report.getReportAnswers().add(answer);
         return reportRepository.save(report);
     }
@@ -92,7 +93,7 @@ public class ReportService {
 
     public Report answerInformerReportWithAttachments(String trackingId, ReportAnswer answer, List<MultipartFile> files) throws IOException {
         Report report = getReportByTrackingId(trackingId);
-        report.setAttachments(uploadFiles(files));
+        report.setAttachments(attachmentsUploader.uploadFiles(files));
         report.setAnswerToInformer(answer);
         return reportRepository.save(report);
     }
