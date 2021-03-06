@@ -1,6 +1,7 @@
 package compliance.forumdapropriedade.domain;
 
 import lombok.Data;
+import lombok.NonNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -15,8 +16,10 @@ public class TrainingModule {
 
     @Id
     private String id;
+    @NonNull
     private String title;
     private String description;
+    @NonNull
     private String videoLink;
     private List<byte[]> attachments = new ArrayList<>();
     private Map<String, List<ModuleComment>> comments = new HashMap<>();

@@ -62,12 +62,12 @@ public class TrainingModuleService {
         TrainingModule trainingModule = getTrainingModuleById(trainingModuleId);
         ModuleComment moduleCommentSaved = commentRepository.insert(moduleComment);
         trainingModule.getComments().put(moduleCommentSaved.getId(), asList(moduleCommentSaved));
-        return trainingModule;
+        return editTrainingModule(trainingModule);
     }
 
     public TrainingModule answerCommentModule(String trainingModuleId, ModuleComment commentAnswer, String commentId) {
         TrainingModule trainingModule = getTrainingModuleById(trainingModuleId);
         trainingModule.getComments().get(commentId).add(commentAnswer);
-        return trainingModule;
+        return editTrainingModule(trainingModule);
     }
 }
