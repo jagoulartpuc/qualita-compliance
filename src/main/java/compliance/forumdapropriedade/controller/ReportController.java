@@ -92,6 +92,13 @@ public class ReportController {
         return reportService.getReports();
     }
 
+    @GetMapping("/{trackingId}")
+    public Report getReportById(
+            @PathVariable String trackingId
+    ) {
+        return reportService.getReportByTrackingId(trackingId);
+    }
+
     @DeleteMapping
     public boolean deleteReport(
             @RequestParam String trackingId

@@ -14,14 +14,19 @@ import java.util.Objects;
 @Component
 public class AttachmentsUploader {
 
-    public List<byte[]> uploadFiles(List<MultipartFile> files)  throws IOException {
+    public List<byte[]> uploadFiles(List<MultipartFile> files) throws IOException {
         List<byte[]> filesBytes = new ArrayList<>();
         for (MultipartFile file: files) {
-            byte[] bytes = file.getBytes();
-            Path path = Paths.get(Objects.requireNonNull(file.getOriginalFilename()));
-            Files.write(path, bytes);
-            filesBytes.add(bytes);
+            filesBytes.add(uploadFile(file));
         }
         return filesBytes;
+    }
+
+    public byte[] uploadFile(MultipartFile file) throws IOException {
+        byte[] bytes = file.getBytes();
+        Path path = Paths.get(Objects.requireNonNull(file.getOriginalFilename()));
+        Files.write(path, bytes);
+
+        return bytes;
     }
 }

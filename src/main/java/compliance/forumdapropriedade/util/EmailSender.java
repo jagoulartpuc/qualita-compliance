@@ -12,6 +12,9 @@ import javax.mail.internet.MimeMultipart;
 @Component
 public class EmailSender {
 
+    private final String botEmail = "forumdaprobidade.noreply@gmail.com";
+    private final String botPassword = "probidade123";
+
     public void sendEmail(String subject, String text, String destinations) throws MessagingException {
         Properties prop = new Properties();
 
@@ -25,14 +28,14 @@ public class EmailSender {
         Session session = Session.getInstance(prop, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("forumdaprobidade.noreply@gmail.com", "probidade123");
+                return new PasswordAuthentication(botEmail, botPassword);
             }
         });
 
         session.setDebug(true);
 
         Message message = new MimeMessage(session);
-        message.setFrom(new InternetAddress("forumdaprobidade.noreply@gmail.com"));
+        message.setFrom(new InternetAddress(botEmail));
         message.setRecipients(
                 Message.RecipientType.TO, InternetAddress.parse(destinations));
         message.setSubject(subject);

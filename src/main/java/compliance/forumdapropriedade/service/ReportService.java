@@ -13,12 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class ReportService {
@@ -32,10 +27,11 @@ public class ReportService {
     @Autowired
     private EmailSender emailSender;
 
+    @Autowired
+    private AttachmentsUploader attachmentsUploader;
+
     @Value("${admin.email}")
     private String adminEmail;
-
-    private AttachmentsUploader attachmentsUploader;
 
     public Report addReport(Report report) throws MessagingException {
         String trackingId = reportRepository.insert(report).getTrackingId();
@@ -49,8 +45,6 @@ public class ReportService {
         emailSender.sendEmail("Denúncia recebida", "Uma nova denúncia foi recebida. Protocolo: " + trackingId, adminEmail);
         return report;
     }
-
-
 
     public List<Report> shareReportWithEnvolved(String companyCNPJ, String trackingId, String moreDestinations) throws MessagingException {
         Company company = companyService.getCompanyByCNPJ(companyCNPJ);
