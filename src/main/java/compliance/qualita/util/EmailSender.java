@@ -1,6 +1,5 @@
 package compliance.qualita.util;
 
-import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Component;
 
 import java.util.Properties;
