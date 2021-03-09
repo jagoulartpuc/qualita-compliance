@@ -1,6 +1,7 @@
 package compliance.qualita.controller;
 
 import compliance.qualita.domain.Company;
+import compliance.qualita.domain.TrainingModule;
 import compliance.qualita.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,5 +33,13 @@ public class CompanyController {
             @RequestParam String cnpj
     ) {
         return companyService.deleteCompany(cnpj);
+    }
+
+    @PutMapping
+    public TrainingModule validateTrainingModule(
+            @RequestParam String moduleId,
+            @RequestParam String cnpj
+    ) {
+        return companyService.validateTrainingModule(moduleId, cnpj);
     }
 }

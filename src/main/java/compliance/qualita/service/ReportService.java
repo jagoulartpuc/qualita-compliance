@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,9 +18,6 @@ import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class ReportService {
@@ -103,7 +99,7 @@ public class ReportService {
     public Page<Report> getReports(Pageable pageable) {
         return reportRepository.findAll(pageable);
     }
-    
+
     public Page<Report> filterReports(String category, String date, String urgent, Pageable pageable) {
         List<Report> filteredReports = new ArrayList<>();
         List<Report> reports = reportRepository.findAll();
@@ -111,7 +107,6 @@ public class ReportService {
         for (Report report: reports) {
             if (urgent != null && category != null && !report.getDates().isEmpty() && date != null) {
                 if (report.isUrgent() && report.getCategory().equals(category) && report.getDates().get(0).equals(date)) {
-                    System.out.println("aqui1");
                     filteredReports.add(report);
                 }
             } else if (urgent != null && category != null) {

@@ -14,6 +14,7 @@ import java.util.List;
 public class Company {
 
     @Id
+    @NonNull
     private String cnpj;
     @NonNull
     private String name;

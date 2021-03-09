@@ -10,6 +10,7 @@ import org.springframework.lang.NonNull;
 public class Person {
 
     @Id
+    @NonNull
     private String cpf;
     @NonNull
     private String name;
