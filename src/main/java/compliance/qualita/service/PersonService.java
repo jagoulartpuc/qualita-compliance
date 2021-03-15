@@ -2,6 +2,7 @@ package compliance.qualita.service;
 
 import br.com.caelum.stella.validation.CPFValidator;
 import br.com.caelum.stella.validation.InvalidStateException;
+import compliance.qualita.domain.Company;
 import compliance.qualita.domain.Person;
 import compliance.qualita.repository.PersonRepository;
 import compliance.qualita.util.EmailSender;
@@ -35,7 +36,11 @@ public class PersonService {
             emailSender.sendEmail("Qualitá Compliance: Registro e recebimento de senha",
                     "Bem vindo ao Qualitá Compliance, " + person.getName() + "! Sua senha é: " + password + ".", person.getEmail());
             person.setPassword(password);
-            return personRepository.insert(person);
+            Person personPersisted = personRepository.insert(person);
+            Company company = companyService.getCompanyByCNPJ(personPersisted.getCompanyCnpj());
+            company.getPersons().add(personPersisted);
+            companyService.editCompany(company);
+            return personPersisted;
         } catch (InvalidStateException e) {
             throw new InvalidStateException(e.getInvalidMessages());
         }
@@ -43,10 +48,6 @@ public class PersonService {
 
     public Person getPersonByCPF(String cpf) {
         return personRepository.findById(cpf).orElseThrow();
-    }
-
-    public List<Person> getPersons() {
-        return personRepository.findAll();
     }
 
     public boolean deletePerson(String cpf) {

@@ -35,7 +35,7 @@ public class CompanyController {
         return companyService.deleteCompany(cnpj);
     }
 
-    @PutMapping
+    @PutMapping("/validacao")
     public TrainingModule validateTrainingModule(
             @RequestParam String moduleId,
             @RequestParam String cnpj
