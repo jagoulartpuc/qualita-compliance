@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&family=Roboto:wght@300;400&display=swap');
+
+* {
+  padding: 0;
+  margin: 0;
+  vertical-align: baseline;
+  list-style: none;
+  border: 0;
+}
+
+input,
+textarea {
+  outline: none;
+  text-decoration: inherit;
+  resize: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+a,
+button {
+  border: none;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  text-decoration: inherit;
+  cursor: pointer;
+  color: inherit;
+}

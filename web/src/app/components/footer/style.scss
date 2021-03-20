@@ -1,0 +1,16 @@
+@import "@StyleCommon/colors.scss";
+@import "@StyleCommon/fonts.scss";
+
+#footer-component {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 40px;
+    background-color: $color-gray;
+    color: $color-black;
+    > .footer-text {
+        font-size: 16px;
+        font-weight: $fweight-medium;
+    }
+}

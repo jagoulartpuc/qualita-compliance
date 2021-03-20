@@ -1,0 +1,19 @@
+@import "@StyleCommon/fonts.scss";
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+button {
+  font-family: $montserrat-font;
+}
+
+label,
+input,
+textarea,
+p,
+a {
+  font-family: $roboto-font;
+}

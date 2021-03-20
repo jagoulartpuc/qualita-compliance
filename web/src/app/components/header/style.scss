@@ -1,0 +1,38 @@
+@import '@StyleCommon/other-patterns.scss';
+@import '@StyleCommon/fonts.scss';
+@import '@StyleCommon/colors.scss';
+
+#header-component {
+    padding: 20px 30px;
+
+    display: flex;
+    align-items: center;
+
+    box-shadow: $standard-box-shadow;
+
+    > .logo-name {
+        display: flex;
+        align-items: center;
+
+        > .logo {
+            $size: 35px;
+
+            height: $size;
+            width: $size;
+
+            margin-right: 10px;
+        }
+
+        > .name {
+            font-size: 16px;
+            font-weight: $fweight-regular;
+            text-align: left;
+
+            color: $color-white;
+
+            > .compliance-name {
+                font-size: 12px;
+            }
+        }
+    }
+}

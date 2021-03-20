@@ -1,0 +1,8 @@
+@import "@StyleCommon/mixins.scss";
+
+#report-page {
+    @include page-basic;
+    > main {
+        flex: 1;
+    }
+}

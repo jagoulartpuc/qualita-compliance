@@ -1,0 +1,93 @@
+@import "@StyleCommon/colors.scss";
+@import "@StyleCommon/fonts.scss";
+@import "@StyleCommon/other-patterns.scss";
+@import "@StyleCommon/mixins.scss";
+
+#login-page {
+    display: flex;
+    flex-direction: column;
+    
+    @include page-basic;
+
+    > .presentation {
+        background-image: url("~@Images/office-bg.jpg");
+        background-size: contain;
+        box-shadow: $standard-box-shadow;
+
+        > .presentation-text-wrapper {
+            height: 100%;
+
+            justify-content: center;
+            display: flex;
+            align-items: center;
+
+            padding: 60px 100px;
+
+            background-color: rgba($color: #000000, $alpha: 0.75);
+        }
+    }
+
+    > .modules-and-login {
+        display: flex;
+        flex: 1;
+
+        > .section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 60px 100px;
+            flex: 1;
+
+            > .module-wrapper {
+
+                > .module-title {
+                    font-size: 48px;
+                    font-weight: $fweight-light;
+                }
+                > .module-content {
+                    font-size: 14px;
+                    margin: 10px 0 40px 0;
+                }
+                > .report-link-wrapper {
+                    color: $color-black;
+                    font-size: 16px;
+                    font-weight: $fweight-light;
+                    
+                    > .report-link {
+                        color: $color-white;
+                        text-decoration: underline;
+                    }
+                }
+            }
+            > .login-form {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                font-size: 18px;
+                font-weight: $fweight-light;
+
+                width: 40%;
+                > .form-item:not(:first-child) {
+                    margin-top: 30px;
+                }
+
+                > .forgot-password {
+                    text-decoration: underline;
+                    align-self: flex-end;
+
+                    font-size: 14px;
+                }
+
+                > .talk-to-us-text {
+                    color: $color-black;
+                    
+                    > .talk-to-us-link {
+                        color: white;
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+    }
+}

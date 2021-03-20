@@ -1,0 +1,12 @@
+@import "@StyleCommon/fonts.scss";
+@import "@StyleCommon/colors.scss";
+
+@mixin page-basic {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    background-image: linear-gradient($color-light-green, $color-blue);
+    color: $color-white;
+    font-weight: $fweight-light;
+}
