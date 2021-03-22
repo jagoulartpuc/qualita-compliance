@@ -5,8 +5,14 @@
 - Rodar a aplicação Spring via linha de comando ou em uma IDE Java (O mesmo vale para os testes unitários e de integração).
 - Certificar que o lombok está configurado.
 
-# Rotas da solução: 
-# Funcionario
+# Rotas da solução divididas por funcionalidade: 
+- Funcionário
+- Empresa
+- Denúncias
+- Treinamento
+
+
+# Funcionário
 # POST /funcionario
 - Params: Person person
 - Role: Admin
