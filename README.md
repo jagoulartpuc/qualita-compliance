@@ -6,13 +6,28 @@
 - Certificar que o lombok está configurado.
 
 # Rotas da solução: 
+# Funcionario
 # POST /funcionario
-- Params:
-- Role:
+- Params: Person person
+- Role: Admin
 - Insere um novo funcionário, enviando um email com a senha gerada para tal.
 
 # DELETE /funcionario
-- Remove um funcionário pelo id.
+- Params: String cpf
+- Role: Admin
+- Remove um funcionário pelo cpf.
+
+# PUT /mudar-senha
+- Params: String cpf, String password
+- Role: Funcionario
+- Muda a senha gerada de um funcionário.
+
+# GET /login
+- Params: String cpfOrCnpj, String password
+- Role: Funcionario/Empresa
+- Realiza o login de um funcionário ou empresa.
 
 # POST /funcionario
+- Params: Person person
+- Role: Admin
 - Insere um novo funcionário, enviando um email com a senha gerada para tal.
