@@ -3,11 +3,11 @@
 @import '@StyleCommon/colors.scss';
 
 #header-component {
-    padding: 20px 30px;
+    padding: 10px 10px;
 
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
 
     box-shadow: $standard-box-shadow;
 
@@ -18,7 +18,7 @@
         align-items: center;
 
         > .logo {
-            $size: 155px;
+            $size: 90px;
 
             height: $size;
             width: $size;
@@ -27,8 +27,8 @@
         }
 
         > .name {
-            font-size: 18px;
-            font-weight: $fweight-regular;
+            font-size: 27px;
+            font-weight: bolder;
             text-align: left;
 
             color: $color-blue;
