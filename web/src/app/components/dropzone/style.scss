@@ -1,0 +1,17 @@
+@import "@StyleCommon/colors.scss";
+
+#dropzone-component {
+    background: #e1faec;
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='30' ry='30' stroke='%23333' stroke-width='2' stroke-dasharray='10%2c 10' stroke-dashoffset='50' stroke-linecap='square'/%3e%3c/svg%3e");
+    border-radius: 30px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    outline: 0;
+
+    cursor: pointer;
+
+    transition: background 0.2s ease;
+}

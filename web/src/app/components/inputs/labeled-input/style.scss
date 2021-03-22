@@ -1,8 +1,8 @@
-@import '@StyleCommon/colors.scss';
-@import '@StyleCommon/other-patterns.scss';
-@import '@StyleCommon/fonts.scss';
+@import "@StyleCommon/colors.scss";
+@import "@StyleCommon/other-patterns.scss";
+@import "@StyleCommon/fonts.scss";
 
-#input-component {
+#basic-input-component {
     display: flex;
     flex-direction: column;
 
@@ -23,5 +23,8 @@
         background-color: $color-white;
 
         box-shadow: inset $standard-box-shadow;
+
+        font-size: 16px;
+        font-weight: $fweight-medium;
     }
 }

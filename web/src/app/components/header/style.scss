@@ -6,16 +6,19 @@
     padding: 20px 30px;
 
     display: flex;
+    justify-content: center;
     align-items: center;
 
     box-shadow: $standard-box-shadow;
+
+    background-color: $color-white;
 
     > .logo-name {
         display: flex;
         align-items: center;
 
         > .logo {
-            $size: 35px;
+            $size: 155px;
 
             height: $size;
             width: $size;
@@ -24,14 +27,14 @@
         }
 
         > .name {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: $fweight-regular;
             text-align: left;
 
-            color: $color-white;
+            color: $color-blue;
 
             > .compliance-name {
-                font-size: 12px;
+                font-size: 14px;
             }
         }
     }

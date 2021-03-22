@@ -11,10 +11,10 @@ export function Header() {
         <header id="header-component">
             <Link to={routes.HOME_PAGE} className="logo-name">
                 <img className="logo" src={Logo} alt="Qualitá Compliance Logo" />
-                <h3 className="name">
+                {/* <h3 className="name">
                     Qualitá <br />
                     <span className="compliance-name">Compliance</span>
-                </h3>
+                </h3> */}
             </Link>
         </header>
     )

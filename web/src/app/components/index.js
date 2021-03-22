@@ -1,4 +1,6 @@
 export { Footer } from './footer'
 export { Header } from './header'
-export { Input } from './input'
+export { LabeledInput } from './inputs/labeled-input'
+export { PasswordInput } from './inputs/password-input'
 export { Button } from './button'
+export { Dropzone } from './dropzone'
