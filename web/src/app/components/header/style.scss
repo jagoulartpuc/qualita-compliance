@@ -1,41 +1,51 @@
-@import '@StyleCommon/other-patterns.scss';
-@import '@StyleCommon/fonts.scss';
-@import '@StyleCommon/colors.scss';
+@import "@StyleCommon/other-patterns.scss";
+@import "@StyleCommon/fonts.scss";
+@import "@StyleCommon/colors.scss";
 
 #header-component {
-    padding: 10px 10px;
+  position: relative;
+  padding: 10px 10px;
+  width: 60%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
 
+  box-shadow: $standard-box-shadow;
+
+  background-color: $color-white;
+
+  &::after {
+    position: absolute;
+    content: "";
+    top: 0;
+    right: -90px;
+    border-top: 110px solid $color-white;
+    border-right: 90px solid transparent;
+  }
+
+  > .logo-name {
     display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
+    align-items: center;
 
-    box-shadow: $standard-box-shadow;
+    > .logo {
+      $size: 90px;
 
-    background-color: $color-white;
+      height: $size;
+      width: $size;
 
-    > .logo-name {
-        display: flex;
-        align-items: center;
-
-        > .logo {
-            $size: 90px;
-
-            height: $size;
-            width: $size;
-
-            margin-right: 10px;
-        }
-
-        > .name {
-            font-size: 27px;
-            font-weight: bolder;
-            text-align: left;
-
-            color: $color-blue;
-
-            > .compliance-name {
-                font-size: 14px;
-            }
-        }
+      margin-right: 10px;
     }
+
+    > .name {
+      font-size: 27px;
+      font-weight: bolder;
+      text-align: left;
+
+      color: $color-blue;
+
+      > .compliance-name {
+        font-size: 14px;
+      }
+    }
+  }
 }
