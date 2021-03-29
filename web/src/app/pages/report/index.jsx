@@ -87,10 +87,11 @@ export function ReportPage() {
 
   const addRecipient = () => {
     const { value } = recipentEmailRef.current;
-    setRecipientsEmails([...recipentsEmails, value]);
+    value && setRecipientsEmails([...recipentsEmails, value]);
   };
 
   const removeRecipient = (value) => {
+    console.log(recipentsEmails.filter((email) => value !== email));
     setRecipientsEmails(recipentsEmails.filter((email) => value !== email));
   };
 
@@ -153,8 +154,8 @@ export function ReportPage() {
             type="email"
             style={{ flex: 1 }}
           />
-          <IconButton>
-            <FontAwesomeIcon onClick={addRecipient} icon={faPlus} />
+          <IconButton onClick={addRecipient}>
+            <FontAwesomeIcon icon={faPlus} />
           </IconButton>
         </FormControl>
         {recipentsEmails.length ? (
@@ -165,7 +166,7 @@ export function ReportPage() {
                   className="email-chip"
                   clickable
                   label={email}
-                  key={index}
+                  key={email}
                   onDelete={() => removeRecipient(email)}
                 />
               </>
