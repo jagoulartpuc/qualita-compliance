@@ -1,0 +1,61 @@
+compliance/qualita/util/PasswordGenerator.java
+ compliance.qualita.util.PasswordGenerator
+compliance/qualita/config/MongoConfig.java
+ compliance.qualita.config.MongoConfig
+compliance/qualita/repository/CompanyRepository.java
+ compliance.qualita.repository.CompanyRepository
+compliance/qualita/domain/Role.java
+ compliance.qualita.domain.Role
+compliance/qualita/service/ReportService.java
+ compliance.qualita.service.ReportService
+compliance/qualita/service/TrainingModuleService.java
+ compliance.qualita.service.TrainingModuleService
+compliance/qualita/util/AttachmentsUploader.java
+ compliance.qualita.util.AttachmentsUploader
+compliance/qualita/domain/ReportAnswer.java
+ compliance.qualita.domain.ReportAnswer
+compliance/qualita/domain/TrainingModule.java
+ compliance.qualita.domain.TrainingModule
+compliance/qualita/domain/ModuleComment.java
+ compliance.qualita.domain.ModuleComment
+compliance/qualita/domain/Person.java
+ compliance.qualita.domain.Person
+compliance/qualita/domain/Feature.java
+ compliance.qualita.domain.Feature
+compliance/qualita/controller/ReportController.java
+ compliance.qualita.controller.ReportController
+compliance/qualita/util/EmailSender.java
+ compliance.qualita.util.EmailSender
+ compliance.qualita.util.EmailSender$1
+compliance/qualita/controller/CompanyController.java
+ compliance.qualita.controller.CompanyController
+compliance/qualita/repository/ModuleCommentRepository.java
+ compliance.qualita.repository.ModuleCommentRepository
+compliance/qualita/repository/TrainingModuleRepository.java
+ compliance.qualita.repository.TrainingModuleRepository
+compliance/qualita/controller/TrainingModuleController.java
+ compliance.qualita.controller.TrainingModuleController
+compliance/qualita/exception/IncorrectPasswordException.java
+ compliance.qualita.exception.IncorrectPasswordException
+compliance/qualita/service/CompanyService.java
+ compliance.qualita.service.CompanyService
+compliance/qualita/domain/Company.java
+ compliance.qualita.domain.Company
+compliance/qualita/domain/Report.java
+ compliance.qualita.domain.Report
+compliance/qualita/repository/PersonRepository.java
+ compliance.qualita.repository.PersonRepository
+compliance/qualita/repository/ReportRepository.java
+ compliance.qualita.repository.ReportRepository
+compliance/qualita/domain/LoginResponse.java
+ compliance.qualita.domain.LoginResponse
+compliance/qualita/QualitaApplication.java
+ compliance.qualita.QualitaApplication
+compliance/qualita/service/PersonService.java
+ compliance.qualita.service.PersonService
+compliance/qualita/controller/PersonController.java
+ compliance.qualita.controller.PersonController
+compliance/qualita/controller/LoginController.java
+ compliance.qualita.controller.LoginController
+compliance/qualita/service/LoginService.java
+ compliance.qualita.service.LoginService

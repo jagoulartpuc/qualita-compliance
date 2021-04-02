@@ -1,5 +1,6 @@
 package compliance.qualita.controller;
 
+import compliance.qualita.domain.LoginResponse;
 import compliance.qualita.domain.Person;
 import compliance.qualita.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,11 +37,5 @@ public class PersonController {
         return personService.deletePerson(cpf);
     }
 
-    @GetMapping("/login")
-    public boolean login(
-            @RequestParam String cpfOrCnpj,
-            @RequestParam String password
-    ) {
-        return personService.validadeLogin(cpfOrCnpj, password);
-    }
+
 }
