@@ -1,0 +1,4 @@
+compliance/qualita/ForumDaPropriedadeApplicationTests.java
+ compliance.qualita.ForumDaPropriedadeApplicationTests
+compliance/qualita/controller/PersonControllerTest.java
+ compliance.qualita.controller.PersonControllerTest

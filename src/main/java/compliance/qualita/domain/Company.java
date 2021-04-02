@@ -34,6 +34,6 @@ public class Company {
     private List<Person> persons = new ArrayList<>();
     private List<Report> reports = new ArrayList<>();
     @NonNull
-    private List<String> features = new ArrayList<>();
-    private boolean isAdmin = false;
+    private List<Feature> features;
+
 }

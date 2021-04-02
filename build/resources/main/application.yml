@@ -1,0 +1,12 @@
+server:
+  port: 8080
+
+spring:
+  data:
+  mongodb:
+    database: qualita
+    port: 27017
+    host: localhost
+
+admin:
+  email: jagoulart1601@gmail.com

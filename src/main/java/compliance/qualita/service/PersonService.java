@@ -2,8 +2,8 @@ package compliance.qualita.service;
 
 import br.com.caelum.stella.validation.CPFValidator;
 import br.com.caelum.stella.validation.InvalidStateException;
-import compliance.qualita.domain.Company;
-import compliance.qualita.domain.Person;
+import compliance.qualita.domain.*;
+import compliance.qualita.exception.IncorrectPasswordException;
 import compliance.qualita.repository.PersonRepository;
 import compliance.qualita.util.EmailSender;
 import compliance.qualita.util.PasswordGenerator;
@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -53,10 +54,6 @@ public class PersonService {
     public boolean deletePerson(String cpf) {
         personRepository.deleteById(cpf);
         return true;
-    }
-
-    public boolean validadeLogin(String cpfOrCnpj, String password) {
-        return getPersonByCPF(cpfOrCnpj).getPassword().equals(password) || companyService.getCompanyByCNPJ(cpfOrCnpj).getPassword().equals(password);
     }
 
     public Person changePassword(String cpf, String password) {
