@@ -1,5 +1,5 @@
 import React from "react";
-import { Footer, Header, Dropzone } from "@Components";
+import { Footer, Header, Dropzone, Button } from "@Components";
 
 import "./style.scss";
 import {
@@ -35,7 +35,7 @@ const IdentificationInputs = () => {
 
   return (
     <>
-      <FormControl className="form-item">
+      <FormControl className="form-item" style={{ marginTop: 0 }}>
         <InputLabel className="label">Nome</InputLabel>
         <Input value={name} onChange={(e) => setName(e.target.value)} />
       </FormControl>
@@ -191,6 +191,12 @@ export function ReportPage() {
           </label>
         </div>
         {isIdentified && <IdentificationInputs />}
+        <Button
+          className="report-submit-button"
+          style={{ margin: "16px 10px", fontWeight: 500 }}
+        >
+          Cadastrar
+        </Button>
       </form>
     );
   }

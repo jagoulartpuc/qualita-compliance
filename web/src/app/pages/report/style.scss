@@ -52,6 +52,7 @@
         > .form-item {
           width: 100%;
           margin: 10px;
+          margin-bottom: 0;
 
           label {
             color: $color-white;
@@ -79,6 +80,10 @@
 
         .email-chip {
           margin: 2px;
+        }
+
+        .report-submit-button {
+          background-color: $color-green;
         }
       }
 
