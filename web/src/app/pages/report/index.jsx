@@ -242,7 +242,6 @@ export function ReportPage() {
 
   return (
     <div id="report-page">
-      <Header />
       <main className="content">
         <h3 className="title">Nova denúncia</h3>
         <section className="form-section">
@@ -253,7 +252,6 @@ export function ReportPage() {
           </div>
         </section>
       </main>
-      <Footer />
     </div>
   );
 }

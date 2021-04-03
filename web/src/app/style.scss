@@ -1,4 +1,5 @@
 @import "@StyleCommon/fonts.scss";
+@import "@StyleCommon/colors.scss";
 
 h1,
 h2,
@@ -16,4 +17,8 @@ textarea,
 p,
 a {
   font-family: $roboto-font;
+}
+
+body {
+  background-image: linear-gradient($color-light-green, $color-blue);
 }

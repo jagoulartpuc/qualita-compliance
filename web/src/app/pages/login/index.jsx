@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import {
   Footer,
   Header,
@@ -7,6 +8,7 @@ import {
   PasswordInput,
 } from "@Components";
 import { maskUtils } from "@Utils";
+import { useSession } from "@Context";
 
 import "./style.scss";
 import { Link } from "react-router-dom";
@@ -16,9 +18,19 @@ export function LoginPage() {
   const [identifier, setIdentifier] = useState("");
   const [maskedIdentifier, setMaskedIdentifier] = useState("");
   const [password, setPassword] = useState("");
+  const history = useHistory();
+  const { user, isLoggedIn, signIn } = useSession();
 
-  function onSubmit(event) {
+  async function onSubmit(event) {
     event.preventDefault();
+    const response = await signIn({
+      identifier: identifier.replace(/\D/g, ""),
+      password,
+    });
+
+    if (!response.success) {
+      window.alert(response.message);
+    }
   }
 
   function onChangeIdentifier(value) {
@@ -35,7 +47,6 @@ export function LoginPage() {
 
   return (
     <div id="login-page">
-      <Header />
       <section className="presentation">
         <div className="presentation-text-wrapper">
           <p className="presentation-text">
@@ -68,6 +79,11 @@ export function LoginPage() {
               sit amet tristique diam. Etiam vestibulum odio non tellus laoreet,
               nec bibendum tortor dictum
             </p>
+            {user && (
+              <Link to={routes.USER_PAGE} className="report-link">
+                Quero ver os treinamentos
+              </Link>
+            )}
           </div>
           <div className="module-wrapper">
             <h3 className="module-title">Canal de denúncias</h3>
@@ -85,37 +101,38 @@ export function LoginPage() {
             </Link>
           </div>
         </section>
-        <section className="section">
-          <form onSubmit={onSubmit} className="login-form">
-            <LabeledInput
-              value={maskedIdentifier}
-              onChange={({ target }) => onChangeIdentifier(target.value)}
-              maxLength={18}
-              type="text"
-              className="form-item"
-              label="CPF | CNPJ"
-            />
-            <PasswordInput
-              onChange={({ target }) => setPassword(target.value)}
-              className="form-item"
-              label="SENHA"
-            />
-            <a className="form-item forgot-password" href="">
-              Esqueci minha senha
-            </a>
-            <Button disabled={!identifier || !password} className="form-item">
-              Entrar
-            </Button>
-            <p className="talk-to-us-text form-item">
-              Entre em contato conosco{" "}
-              <a className="talk-to-us-link" href="">
-                aqui
+        {!user && (
+          <section className="section">
+            <form onSubmit={onSubmit} className="login-form">
+              <LabeledInput
+                value={maskedIdentifier}
+                onChange={({ target }) => onChangeIdentifier(target.value)}
+                maxLength={18}
+                type="text"
+                className="form-item"
+                label="CPF | CNPJ"
+              />
+              <PasswordInput
+                onChange={({ target }) => setPassword(target.value)}
+                className="form-item"
+                label="SENHA"
+              />
+              <a className="form-item forgot-password" href="">
+                Esqueci minha senha
               </a>
-            </p>
-          </form>
-        </section>
+              <Button disabled={!identifier || !password} className="form-item">
+                Entrar
+              </Button>
+              <p className="talk-to-us-text form-item">
+                Entre em contato conosco{" "}
+                <a className="talk-to-us-link" href="">
+                  aqui
+                </a>
+              </p>
+            </form>
+          </section>
+        )}
       </main>
-      <Footer />
     </div>
   );
 }

@@ -1,0 +1,33 @@
+@import "@StyleCommon/colors.scss";
+@import "@StyleCommon/fonts.scss";
+@import "@StyleCommon/other-patterns.scss";
+@import "@StyleCommon/mixins.scss";
+
+.card-wrapper {
+  margin: 16px;
+  max-width: 500px;
+  flex: 1 500px;
+
+  > .card-container {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: $standard-box-shadow;
+    transition: box-shadow 0.3s ease-in-out;
+
+    > .card-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      color: $color-green;
+    }
+
+    > .card-description {
+      flex: 1;
+    }
+    &:hover {
+      box-shadow: $hovered-box-shadow;
+    }
+  }
+}

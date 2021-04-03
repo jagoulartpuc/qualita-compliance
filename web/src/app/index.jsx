@@ -1,20 +1,29 @@
-import { LoginPage, ReportPage } from '@Pages';
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import { routes } from './routes'
-import './style.scss';
+import { LoginPage, ReportPage, HomePage } from "@Pages";
+import { SessionProvider } from "@Context";
+import { Footer, Header } from "@Components";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { routes } from "./routes";
+import "./style.scss";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        <Header />
         <Switch>
-          <Route path={routes.REPORT_PAGE}>
+          <Route exact path={routes.REPORT_PAGE}>
             <ReportPage />
           </Route>
-          <Route path={routes.HOME_PAGE}>
-            <LoginPage />
-          </Route>
+          <SessionProvider>
+            <Route exact path={routes.HOME_PAGE}>
+              <LoginPage />
+            </Route>
+            <Route exact path={routes.USER_PAGE}>
+              <HomePage />
+            </Route>
+          </SessionProvider>
         </Switch>
+        <Footer />
       </BrowserRouter>
     </div>
   );

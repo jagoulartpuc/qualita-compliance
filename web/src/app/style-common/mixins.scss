@@ -2,11 +2,10 @@
 @import "@StyleCommon/colors.scss";
 
 @mixin page-basic {
-    min-height: 100vh;
+    min-height: 83vh;
     display: flex;
     flex-direction: column;
 
-    background-image: linear-gradient($color-light-green, $color-blue);
     color: $color-white;
     font-weight: $fweight-light;
 }
