@@ -4,6 +4,7 @@ import { Card } from "@Components";
 import {
   faExclamationTriangle,
   faAward,
+  faUserCog,
 } from "@fortawesome/free-solid-svg-icons";
 import "./style.scss";
 
@@ -19,6 +20,12 @@ const moduleData = {
     description: "Clique aqui para ver os treinamentos disponíveis",
     icon: faAward,
     href: "improvements",
+  },
+  ADMIN_FEATURES: {
+    title: "Admin",
+    description: "Clique aqui para gerenciar as ações de administrador",
+    icon: faUserCog,
+    href: "admin",
   },
 };
 
