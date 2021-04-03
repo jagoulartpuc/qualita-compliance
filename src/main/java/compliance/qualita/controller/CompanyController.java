@@ -10,6 +10,7 @@ import javax.mail.MessagingException;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/empresa")
 public class CompanyController {
 

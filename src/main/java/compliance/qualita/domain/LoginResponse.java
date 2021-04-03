@@ -11,5 +11,6 @@ public class LoginResponse {
 
     private Role role;
     private List<Feature> features;
+    private String name;
 
 }
