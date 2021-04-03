@@ -1,6 +1,5 @@
 package compliance.qualita.controller;
 
-import compliance.qualita.domain.LoginResponse;
 import compliance.qualita.domain.Person;
 import compliance.qualita.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.mail.MessagingException;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/funcionario")
 public class PersonController {
 

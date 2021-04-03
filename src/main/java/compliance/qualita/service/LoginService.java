@@ -47,10 +47,13 @@ public class LoginService {
     private LoginResponse createLoginResponse(String cpfOrCnpj) {
         Role role;
         List<Feature> features;
+        String name;
         if (isCnpj(cpfOrCnpj)) {
             role = Role.COMPANY;
             features = getFeaturesFromCompany(cpfOrCnpj);
+            name = companyService.getCompanyByCNPJ(cpfOrCnpj).getName();
         } else {
+            name = personService.getPersonByCPF(cpfOrCnpj).getName();
             if (personService.getPersonByCPF(cpfOrCnpj).isAdmin()) {
                 role = Role.ADMIN;
                 features = Collections.singletonList(Feature.ADMIN_FEATURES);
@@ -59,7 +62,7 @@ public class LoginService {
                 features = getFeaturesFromPerson(cpfOrCnpj);
             }
         }
-        return new LoginResponse(role, features);
+        return new LoginResponse(role, features, name);
     }
 
     private List<Feature> getFeaturesFromPerson(String cpf) {

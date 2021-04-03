@@ -53,9 +53,9 @@ compliance/qualita/QualitaApplication.java
  compliance.qualita.QualitaApplication
 compliance/qualita/service/PersonService.java
  compliance.qualita.service.PersonService
+compliance/qualita/service/LoginService.java
+ compliance.qualita.service.LoginService
 compliance/qualita/controller/PersonController.java
  compliance.qualita.controller.PersonController
 compliance/qualita/controller/LoginController.java
  compliance.qualita.controller.LoginController
-compliance/qualita/service/LoginService.java
- compliance.qualita.service.LoginService
