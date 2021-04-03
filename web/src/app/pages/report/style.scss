@@ -4,7 +4,6 @@
 
 #report-page {
   @include page-basic;
-  height: 100vh;
   > main {
     flex: 1;
     overflow-y: auto;
@@ -16,20 +15,22 @@
     flex: 1;
     padding: 20px;
     > .title {
-      font-size: 48px;
-      font-weight: $fweight-light;
+      font-size: 60px;
+      font-weight: $fweight-regular;
+      text-align: center;
+      padding: 16px 0;
     }
 
     .switch-wrapper {
       margin: 15px 0;
 
       > .switch-label {
-        color: $color-gray !important;
+        color: $color-black !important;
         font-weight: $fweight-light;
 
         &.-active {
           font-weight: $fweight-regular;
-          color: $color-white !important;
+          color: $color-green !important;
         }
       }
 
@@ -40,7 +41,14 @@
 
     > .form-section {
       flex: 1;
+      max-width: 800px;
+      align-self: center;
       display: flex;
+      border-radius: 8px;
+      background: white;
+      box-shadow: $standard-box-shadow;
+      padding: 16px;
+
       > .report-form {
         flex: 1;
         // width: 50%;
@@ -55,15 +63,18 @@
           margin-bottom: 0;
 
           label {
-            color: $color-white;
+            color: $color-green;
           }
 
           .select-option {
-            color: $color-white;
+            color: $color-green;
           }
 
           &.date-picker {
             margin: 0 10px;
+            > div {
+              margin-top: 10px;
+            }
           }
 
           &.half {
@@ -79,70 +90,103 @@
         }
 
         .email-chip {
-          margin: 2px;
+          margin: 8px;
+          background-color: $color-light-green;
+          color: black;
         }
 
         .report-submit-button {
           background-color: $color-green;
         }
-      }
-
-      > .attachments-area {
-        background-color: $color-white;
-        border-radius: $border-radius;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        max-height: 500px;
-        padding: 20px;
-
-        box-shadow: $standard-box-shadow;
-
-        > .attachment-dropzone {
-          // flex: 1;
-          height: 200px;
-
-          color: $color-light-green;
-          background-color: $color-gray;
-        }
-
-        > .attachment-list-wrapper {
+        > .attachments-area {
+          border-radius: $border-radius;
+          flex: 1;
           display: flex;
           flex-direction: column;
-          align-items: center;
-          > .title {
-            color: $color-light-green;
-            margin: 10px 0;
+          max-height: 500px;
+          padding: 20px;
+
+          > .attachment-dropzone {
+            // flex: 1;
+            height: 200px;
+            color: $color-green;
+            background-color: $color-white;
           }
 
-          > .attachment-list {
-            width: 100%;
-            flex: 1;
+          > .attachment-list-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            > .title {
+              color: $color-green;
+              margin: 10px 0;
+            }
 
-            > .list-item {
+            > .attachment-list {
               width: 100%;
+              flex: 1;
 
-              padding: 10px 0;
-              margin: 5px 0;
+              > .list-item {
+                width: 100%;
 
-              color: $color-black;
-              > .attachment-name {
-                display: flex;
-                justify-content: space-between;
+                padding: 10px 0;
+                margin: 5px 0;
 
-                > .remove-attachment-icon {
-                  color: $color-red;
-                  cursor: pointer;
+                color: $color-black;
+                > .attachment-name {
+                  display: flex;
+                  justify-content: space-between;
+
+                  > .remove-attachment-icon {
+                    color: $color-red;
+                    cursor: pointer;
+                  }
                 }
-              }
 
-              > .divider {
-                margin: 10px 0;
+                > .divider {
+                  margin: 10px 0;
 
-                background-color: $color-light-green;
+                  background-color: $color-light-green;
+                }
               }
             }
           }
+        }
+      }
+    }
+
+    > .success-text {
+      text-align: center;
+      font-weight: 400;
+    }
+
+    > .tracking-field-wrapper {
+      display: flex;
+      height: 50px;
+      border-radius: 8px;
+      width: 300px;
+      overflow: hidden;
+      align-self: center;
+      margin: 16px 0;
+      > .tracking-field {
+        flex: 0.75;
+        height: 100%;
+        text-align: center;
+        color: $color-gray;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+      > .copy-button {
+        flex: 0.25;
+        padding: 0 16px;
+        height: 100%;
+        color: $color-black;
+        cursor: pointer;
+        font-weight: bold;
+        background-color: transparent;
+        border: 1px solid black;
+        border-radius: 0 8px 8px 0;
+        > svg {
+          margin-left: 8px;
         }
       }
     }

@@ -1,12 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import {
-  Footer,
-  Header,
-  LabeledInput,
-  Button,
-  PasswordInput,
-} from "@Components";
+import { LabeledInput, Button, PasswordInput } from "@Components";
 import { maskUtils } from "@Utils";
 import { useSession } from "@Context";
 
@@ -24,7 +18,7 @@ export function LoginPage() {
   async function onSubmit(event) {
     event.preventDefault();
     const response = await signIn({
-      identifier: identifier.replace(/\D/g, ""),
+      identifier,
       password,
     });
 
@@ -34,15 +28,11 @@ export function LoginPage() {
   }
 
   function onChangeIdentifier(value) {
-    if (value.length > identifier.length) {
-      identifier.length > 13
-        ? setMaskedIdentifier(maskUtils.cnpjMask(value))
-        : setMaskedIdentifier(maskUtils.cpfMask(value));
-    } else {
-      setMaskedIdentifier(value);
-    }
+    value.length > 11
+      ? setMaskedIdentifier(maskUtils.cnpjMask(value))
+      : setMaskedIdentifier(maskUtils.cpfMask(value));
 
-    setIdentifier(value);
+    setIdentifier(value.replace(/\D/g, ""));
   }
 
   return (
@@ -106,7 +96,9 @@ export function LoginPage() {
             <form onSubmit={onSubmit} className="login-form">
               <LabeledInput
                 value={maskedIdentifier}
-                onChange={({ target }) => onChangeIdentifier(target.value)}
+                onChange={({ target }) =>
+                  onChangeIdentifier(target.value.replace(/\D/g, ""))
+                }
                 maxLength={18}
                 type="text"
                 className="form-item"

@@ -3,6 +3,7 @@ package compliance.qualita.controller;
 import compliance.qualita.domain.Report;
 import compliance.qualita.domain.ReportAnswer;
 import compliance.qualita.service.ReportService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/denuncia")
 public class ReportController {
 
