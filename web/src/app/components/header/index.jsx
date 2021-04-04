@@ -11,14 +11,9 @@ export function Header() {
       <Link to={routes.HOME_PAGE} className="logo-name">
         <img className="logo" src={Logo} alt="Qualitá Compliance Logo" />
         {
-          <div >
-          <h1 className="title">
-            Qualitá Compliance <br />
-          </h1>
-
-          <h2 className="sub-title">
-              Gestão de Excelência <br />
-          </h2>
+          <div>
+            <h1 className="title">Qualitá Compliance</h1>
+            <h2 className="sub-title">Gestão de Excelência</h2>
           </div>
         }
       </Link>

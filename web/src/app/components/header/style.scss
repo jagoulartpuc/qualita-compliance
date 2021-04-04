@@ -48,12 +48,17 @@
       }
     }
 
-    > .sub-title {
-      font-size: 20px;
-      font-weight: bolder;
-      text-align: left;
-
+    > div {
       color: $color-blue;
+      padding-left: 16px;
+      > .title {
+        font-size: 32px;
+      }
+      > .sub-title {
+        font-size: 20px;
+        font-weight: bolder;
+        text-align: left;
+      }
     }
   }
 }
