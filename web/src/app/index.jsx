@@ -9,20 +9,20 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Header />
-        <Switch>
-          <Route exact path={routes.REPORT_PAGE}>
-            <ReportPage />
-          </Route>
-          <SessionProvider>
+        <SessionProvider>
+          <Header />
+          <Switch>
+            <Route exact path={routes.REPORT_PAGE}>
+              <ReportPage />
+            </Route>
             <Route exact path={routes.HOME_PAGE}>
               <LoginPage />
             </Route>
             <Route exact path={routes.USER_PAGE}>
               <HomePage />
             </Route>
-          </SessionProvider>
-        </Switch>
+          </Switch>
+        </SessionProvider>
         <Footer />
       </BrowserRouter>
     </div>

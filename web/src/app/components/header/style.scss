@@ -3,29 +3,19 @@
 @import "@StyleCommon/colors.scss";
 
 #header-component {
-  position: relative;
-  padding: 10px 10px;
-  width: 60%;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: flex-start;
-
-  box-shadow: $standard-box-shadow;
-
-  background-color: $color-white;
-
-  &::after {
-    position: absolute;
-    content: "";
-    top: 0;
-    right: -90px;
-    border-top: 110px solid $color-white;
-    border-right: 90px solid transparent;
-  }
 
   > .logo-name {
     display: flex;
     align-items: center;
+    padding: 10px 30px;
+    position: relative;
+    flex: 0.6;
+    background-color: $color-white;
+    height: 100%;
+    box-shadow: $standard-box-shadow;
 
     > .logo {
       $size: 90px;
@@ -59,6 +49,47 @@
         font-weight: bolder;
         text-align: left;
       }
+    }
+
+    &::after {
+      position: absolute;
+      content: "";
+      top: 0;
+      right: -90px;
+      border-top: 110px solid $color-white;
+      border-right: 90px solid transparent;
+    }
+  }
+
+  > .user-menu {
+    display: flex;
+    flex: 0.3;
+    align-self: center;
+    padding: 10px;
+    > .avatar-img {
+      border-radius: 50%;
+      background-color: #cccc;
+      box-shadow: $standard-box-shadow;
+      padding: 8px;
+    }
+    > div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-left: 16px;
+      color: #333;
+      > .user-name {
+        font-weight: 600;
+        font-size: 24px;
+      }
+
+      > .user-role {
+        font-weight: 400;
+        font-size: 14px;
+      }
+    }
+    > .user-menu-button {
+      margin-left: 12px;
     }
   }
 }

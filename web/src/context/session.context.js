@@ -34,7 +34,7 @@ const SessionProvider = ({ children }) => {
   }
 
   function logout() {
-    setUser({});
+    setUser(null);
     localStorage.clear();
   }
 
