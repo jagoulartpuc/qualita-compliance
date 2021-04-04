@@ -311,7 +311,7 @@ export function ReportPage() {
                   className="report-submit-button"
                   style={{ margin: "16px 10px", fontWeight: 500 }}
                 >
-                  Cadastrar
+                  Enviar
                 </Button>
               </form>
             </section>
