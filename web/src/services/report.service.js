@@ -14,7 +14,7 @@ export function createReport(payload) {
     email: payload.user.email,
     phone: payload.user.phone,
     dates: [payload.date],
-    envolvedPeople: payload.recipentsEmails,
+    envolvedPeople: payload.envolvedPeople,
   };
   return reportInstance.post("denuncia", newPayload);
 }

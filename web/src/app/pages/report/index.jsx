@@ -67,10 +67,10 @@ export function ReportPage() {
   const [category, setCategory] = useState("");
   const [urgency, setUrgency] = useState(false);
   const [date, setDate] = useState(Date());
-  const recipentEmailRef = useRef(null);
+  const envolvedRef = useRef(null);
   const descriptionRef = useRef(null);
   const [attachments, setAttachments] = useState([]);
-  const [recipentsEmails, setRecipientsEmails] = useState([]);
+  const [envolvedPeople, setRecipientsEmails] = useState([]);
   const [trackingId, setTrackingId] = useState("");
   const [isCopied, setIsCopied] = useState(false);
   const nameRef = useRef(null);
@@ -86,14 +86,14 @@ export function ReportPage() {
     setTimeout(() => setIsCopied(false), 1500);
   };
 
-  const addRecipient = () => {
-    const { value } = recipentEmailRef.current;
-    value && setRecipientsEmails([...recipentsEmails, value]);
+  const addEnvolved = () => {
+    const { value } = envolvedRef.current;
+    value && setRecipientsEmails([...envolvedPeople, value]);
   };
 
-  const removeRecipient = (value) => {
-    console.log(recipentsEmails.filter((email) => value !== email));
-    setRecipientsEmails(recipentsEmails.filter((email) => value !== email));
+  const removeEnvolved = (value) => {
+    console.log(envolvedPeople.filter((name) => value !== name));
+    setRecipientsEmails(envolvedPeople.filter((name) => value !== name));
   };
 
   function onUpload(file) {
@@ -115,7 +115,7 @@ export function ReportPage() {
         date,
         description: descriptionRef.current.value,
         attachments,
-        recipentsEmails,
+        envolvedPeople,
         user: isIdentified
           ? {
               name: nameRef.current.value,
@@ -177,7 +177,7 @@ export function ReportPage() {
                   </Select>
                 </FormControl>
                 <FormControl className="form-item third">
-                  <InputLabel className="label">Urgência</InputLabel>
+                  <InputLabel className="label">Urgente</InputLabel>
                   <Select
                     value={urgency}
                     onChange={({ target }) => setUrgency(target.value)}
@@ -219,25 +219,24 @@ export function ReportPage() {
                 </FormControl>
                 <FormControl className="form-item inline">
                   <TextField
-                    label="E-mail do denunciado"
-                    inputRef={recipentEmailRef}
-                    type="email"
+                    label="Pessoas envolvidas"
+                    inputRef={envolvedRef}
                     style={{ flex: 1 }}
                   />
-                  <IconButton onClick={addRecipient}>
+                  <IconButton onClick={addEnvolved}>
                     <FontAwesomeIcon icon={faPlus} />
                   </IconButton>
                 </FormControl>
-                {recipentsEmails.length ? (
+                {envolvedPeople.length ? (
                   <div style={{ width: "100%" }}>
-                    {recipentsEmails.map((email, index) => (
+                    {envolvedPeople.map((name, index) => (
                       <>
                         <Chip
                           className="email-chip"
                           clickable
-                          label={email}
-                          key={email}
-                          onDelete={() => removeRecipient(email)}
+                          label={name}
+                          key={name}
+                          onDelete={() => removeEnvolved(name)}
                         />
                       </>
                     ))}
