@@ -219,7 +219,7 @@ export function ReportPage() {
                 </FormControl>
                 <FormControl className="form-item inline">
                   <TextField
-                    label="Pessoas envolvidas"
+                    label="Pessoas/Empresas envolvidas"
                     inputRef={envolvedRef}
                     style={{ flex: 1 }}
                   />

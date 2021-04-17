@@ -19,14 +19,22 @@ public class Report {
     private String email;
     private String phone;
     @NonNull
+    private String local;
+    @NonNull
     private String category;
+    @NonNull
+    private List<String> dates = new ArrayList<>();
     @NonNull
     private boolean urgent;
     @NonNull
+    private boolean isManagerKnowledge;
+    @NonNull
     private String description;
-    private List<String> envolvedPeople = new ArrayList<>();
-    private List<String> dates = new ArrayList<>();
+    @NonNull
+    private String caseKnowledge;
+    private ReportDetails reportDetails;
     private List<byte[]> attachments = new ArrayList<>();
     private List<ReportAnswer> reportAnswers;
     private ReportAnswer answerToInformer;
+
 }
