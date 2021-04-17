@@ -172,8 +172,27 @@ export function ReportPage() {
                     value={category}
                     onChange={({ target }) => setCategory(target.value)}
                   >
-                    <MenuItem value={1}>Categoria 1</MenuItem>
-                    <MenuItem value={2}>Categoria 2</MenuItem>
+
+                    <MenuItem value={1}>Assédio moral</MenuItem>
+                    <MenuItem value={2}>Assédio sexual</MenuItem>
+                    <MenuItem value={3}>Comportamento disruptivo</MenuItem>
+                    <MenuItem value={4}>Corrupção / Suborno</MenuItem>
+                    <MenuItem value={5}>Destruição ou dano aos ativos</MenuItem>
+                    <MenuItem value={6}>Exercício ilegal da profissão</MenuItem>
+                    <MenuItem value={7}>Favorecimento ou conflito de interesse</MenuItem>
+                    <MenuItem value={8}>Fraude</MenuItem>
+                    <MenuItem value={9}>Fraude em pesquisa</MenuItem>
+                    <MenuItem value={10}>Pagamento ou recebimento impróprio</MenuItem>
+                    <MenuItem value={11}>Procedimento assistencial ou clínico antiético</MenuItem>
+                    <MenuItem value={12}>Procedimento operacional ou administrativo incorreto</MenuItem>
+                    <MenuItem value={13}>Relacionamento íntimo com subordinação direta </MenuItem>
+                    <MenuItem value={14}>Roubo ou furto</MenuItem>
+                    <MenuItem value={15}>Uso ou tráfico de substâncias proíbidas</MenuItem>
+                    <MenuItem value={16}>Vazamento ou uso indevido de informações</MenuItem>
+                    <MenuItem value={17}>Violação de leis anticorrupção</MenuItem>
+                    <MenuItem value={18}>Violação de leis ambientais</MenuItem>
+                    <MenuItem value={19}>Violação de leis trabalhistas</MenuItem>
+
                   </Select>
                 </FormControl>
                 <FormControl className="form-item third">
