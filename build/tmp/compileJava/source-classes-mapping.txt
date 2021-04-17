@@ -53,11 +53,11 @@ compliance/qualita/repository/ReportRepository.java
  compliance.qualita.repository.ReportRepository
 compliance/qualita/domain/LoginResponse.java
  compliance.qualita.domain.LoginResponse
+compliance/qualita/domain/ReportDetails.java
+ compliance.qualita.domain.ReportDetails
 compliance/qualita/controller/ReportController.java
  compliance.qualita.controller.ReportController
 compliance/qualita/domain/Report.java
  compliance.qualita.domain.Report
 compliance/qualita/service/ReportService.java
  compliance.qualita.service.ReportService
-compliance/qualita/domain/ReportDetails.java
- compliance.qualita.domain.ReportDetails

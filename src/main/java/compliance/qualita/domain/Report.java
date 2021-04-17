@@ -19,6 +19,8 @@ public class Report {
     private String email;
     private String phone;
     @NonNull
+    private String companyName;
+    @NonNull
     private String local;
     @NonNull
     private String category;
