@@ -15,6 +15,9 @@ import {
   Chip,
   Switch,
   Card,
+  AccordionDetails,
+  AccordionSummary,
+  Accordion,
 } from "@material-ui/core";
 import {
   KeyboardDatePicker,
@@ -26,7 +29,42 @@ import { useState, useRef } from "react";
 import { maskUtils } from "../../utils/mask-utils";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faPlus, faCopy } from "@fortawesome/free-solid-svg-icons";
+import {
+  faTrash,
+  faPlus,
+  faCopy,
+  faChevronDown,
+} from "@fortawesome/free-solid-svg-icons";
+
+function formatDate(date) {
+  return Intl.DateTimeFormat("pt-br", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  }).format(date);
+}
+
+const categories = [
+  "Assédio moral",
+  "Assédio sexual",
+  "Comportamento disruptivo",
+  "Corrupção / Suborno",
+  "Destruição ou dano aos ativos",
+  "Exercício ilegal da profissão",
+  "Favorecimento ou conflito de interesse",
+  "Fraude",
+  "Fraude em pesquisa",
+  "Pagamento ou recebimento impróprio",
+  "Procedimento assistencial ou clínico antiético",
+  "Procedimento operacional ou administrativo incorreto",
+  "Relacionamento íntimo com subordinação direta",
+  "Roubo ou furto",
+  "Uso ou tráfico de substâncias proíbidas",
+  "Vazamento ou uso indevido de informações",
+  "Violação de leis anticorrupção",
+  "Violação de leis ambientais",
+  "Violação de leis trabalhistas",
+];
 
 const IdentificationInputs = ({ nameRef, cpfRef, phoneRef, emailRef }) => {
   const [cpf, setCpf] = useState("");
@@ -66,17 +104,26 @@ export function ReportPage() {
   const [isIdentified, setIsIdentified] = useState(false);
   const [category, setCategory] = useState("");
   const [urgency, setUrgency] = useState(false);
-  const [date, setDate] = useState(Date());
+  const [isManagerKnowledge, setIsManagerKnowledge] = useState(false);
+  const [newDate, setNewDate] = useState(Date());
+  const [dates, setDates] = useState([]);
   const envolvedRef = useRef(null);
+  const suspectRef = useRef(null);
+  const witnessRef = useRef(null);
   const descriptionRef = useRef(null);
   const [attachments, setAttachments] = useState([]);
-  const [envolvedPeople, setRecipientsEmails] = useState([]);
+  const [envolvedPeople, setEnvolvedPeople] = useState([]);
+  const [suspects, setSuspects] = useState([]);
+  const [witnesses, setWitnesses] = useState([]);
   const [trackingId, setTrackingId] = useState("");
   const [isCopied, setIsCopied] = useState(false);
+  const periodRef = useRef(null);
+  const localRef = useRef(null);
   const nameRef = useRef(null);
   const cpfRef = useRef(null);
   const phoneRef = useRef(null);
   const emailRef = useRef(null);
+  const companyNameRef = useRef(null);
   const trackingIdRef = useRef(null);
 
   const handleCopy = async (e) => {
@@ -86,14 +133,13 @@ export function ReportPage() {
     setTimeout(() => setIsCopied(false), 1500);
   };
 
-  const addEnvolved = () => {
-    const { value } = envolvedRef.current;
-    value && setRecipientsEmails([...envolvedPeople, value]);
+  const addToList = (ref, list, updateFn) => {
+    const { value } = ref.current;
+    value && updateFn([...list, value]);
   };
 
-  const removeEnvolved = (value) => {
-    console.log(envolvedPeople.filter((name) => value !== name));
-    setRecipientsEmails(envolvedPeople.filter((name) => value !== name));
+  const removeFromList = (value, list, updateFn) => {
+    updateFn(list.filter((name) => value !== name));
   };
 
   function onUpload(file) {
@@ -112,10 +158,18 @@ export function ReportPage() {
       const payload = {
         category,
         urgency,
-        date,
+        dates,
         description: descriptionRef.current.value,
         attachments,
-        envolvedPeople,
+        isManagerKnowledge,
+        companyName: companyNameRef.current.value,
+        local: localRef.current.value,
+        reportDetails: {
+          period: periodRef.current.value,
+          envolvedPeople,
+          suspects,
+          witnesses,
+        },
         user: isIdentified
           ? {
               name: nameRef.current.value,
@@ -165,37 +219,19 @@ export function ReportPage() {
             <h3 className="title">Nova denúncia</h3>
             <section className="form-section">
               <form className="report-form" onSubmit={submit}>
-                <FormControl className="form-item third">
+                <FormControl className="form-item half">
                   <InputLabel>Categoria</InputLabel>
                   <Select
                     required
                     value={category}
                     onChange={({ target }) => setCategory(target.value)}
                   >
-
-                    <MenuItem value={1}>Assédio moral</MenuItem>
-                    <MenuItem value={2}>Assédio sexual</MenuItem>
-                    <MenuItem value={3}>Comportamento disruptivo</MenuItem>
-                    <MenuItem value={4}>Corrupção / Suborno</MenuItem>
-                    <MenuItem value={5}>Destruição ou dano aos ativos</MenuItem>
-                    <MenuItem value={6}>Exercício ilegal da profissão</MenuItem>
-                    <MenuItem value={7}>Favorecimento ou conflito de interesse</MenuItem>
-                    <MenuItem value={8}>Fraude</MenuItem>
-                    <MenuItem value={9}>Fraude em pesquisa</MenuItem>
-                    <MenuItem value={10}>Pagamento ou recebimento impróprio</MenuItem>
-                    <MenuItem value={11}>Procedimento assistencial ou clínico antiético</MenuItem>
-                    <MenuItem value={12}>Procedimento operacional ou administrativo incorreto</MenuItem>
-                    <MenuItem value={13}>Relacionamento íntimo com subordinação direta </MenuItem>
-                    <MenuItem value={14}>Roubo ou furto</MenuItem>
-                    <MenuItem value={15}>Uso ou tráfico de substâncias proíbidas</MenuItem>
-                    <MenuItem value={16}>Vazamento ou uso indevido de informações</MenuItem>
-                    <MenuItem value={17}>Violação de leis anticorrupção</MenuItem>
-                    <MenuItem value={18}>Violação de leis ambientais</MenuItem>
-                    <MenuItem value={19}>Violação de leis trabalhistas</MenuItem>
-
+                    {categories.map((category, index) => (
+                      <MenuItem value={category}>{category}</MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
-                <FormControl className="form-item third">
+                <FormControl className="form-item half">
                   <InputLabel className="label">Urgente</InputLabel>
                   <Select
                     value={urgency}
@@ -207,11 +243,34 @@ export function ReportPage() {
                     <MenuItem value={false}>Não</MenuItem>
                   </Select>
                 </FormControl>
-                <FormControl className="form-item date-picker third">
-                  <MuiPickersUtilsProvider
-                    utils={DateFnsUtils}
-                    style={{ marginTop: "10px" }}
+                <FormControl className="form-item">
+                  <TextField label="Local" inputRef={localRef} />
+                </FormControl>
+                <FormControl className="form-item">
+                  <TextField
+                    label="Empresa denunciada"
+                    inputRef={companyNameRef}
+                  />
+                </FormControl>
+                <FormControl className="form-item half">
+                  <InputLabel className="label">
+                    É de conhecimento do gestor
+                  </InputLabel>
+                  <Select
+                    value={isManagerKnowledge}
+                    onChange={({ target }) =>
+                      setIsManagerKnowledge(target.value)
+                    }
                   >
+                    <MenuItem className="select-option" value={true}>
+                      Sim
+                    </MenuItem>
+                    <MenuItem value={false}>Não</MenuItem>
+                  </Select>
+                </FormControl>
+
+                <FormControl className="form-item date-picker half inline">
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDatePicker
                       InputLabelProps={{ className: "label" }}
                       disableToolbar
@@ -220,14 +279,37 @@ export function ReportPage() {
                       margin="normal"
                       id="date-picker-inline"
                       label="Data da ocorrência"
-                      value={date}
-                      onChange={(value) => setDate(value)}
                       KeyboardButtonProps={{
                         "aria-label": "change date",
                       }}
+                      value={newDate || undefined}
+                      onChange={(date) => setNewDate(date)}
                     />
                   </MuiPickersUtilsProvider>
+                  <IconButton
+                    onClick={() => {
+                      setDates([...dates, newDate]);
+                      setNewDate(Date());
+                    }}
+                  >
+                    <FontAwesomeIcon size="sm" icon={faPlus} />
+                  </IconButton>
                 </FormControl>
+                {dates.length ? (
+                  <div style={{ width: "100%" }}>
+                    {dates.map((date, index) => (
+                      <>
+                        <Chip
+                          className="email-chip"
+                          clickable
+                          label={formatDate(new Date(date))}
+                          key={date}
+                          onDelete={() => removeFromList(date, dates, setDates)}
+                        />
+                      </>
+                    ))}
+                  </div>
+                ) : null}
                 <FormControl className="form-item">
                   <TextField
                     label="Descrição do ocorrido"
@@ -236,32 +318,6 @@ export function ReportPage() {
                     rowsMax="6"
                   />
                 </FormControl>
-                <FormControl className="form-item inline">
-                  <TextField
-                    label="Pessoas/Empresas envolvidas"
-                    inputRef={envolvedRef}
-                    style={{ flex: 1 }}
-                  />
-                  <IconButton onClick={addEnvolved}>
-                    <FontAwesomeIcon icon={faPlus} />
-                  </IconButton>
-                </FormControl>
-                {envolvedPeople.length ? (
-                  <div style={{ width: "100%" }}>
-                    {envolvedPeople.map((name, index) => (
-                      <>
-                        <Chip
-                          className="email-chip"
-                          clickable
-                          label={name}
-                          key={name}
-                          onDelete={() => removeEnvolved(name)}
-                        />
-                      </>
-                    ))}
-                  </div>
-                ) : null}
-
                 <div className="attachments-area">
                   <Dropzone
                     className="attachment-dropzone"
@@ -294,6 +350,128 @@ export function ReportPage() {
                     </ul>
                   </div>
                 </div>
+
+                <Accordion className="accordion">
+                  <AccordionSummary
+                    expandIcon={<FontAwesomeIcon icon={faChevronDown} />}
+                  >
+                    <p className="accordion-summary-header">Detalhes</p>
+                    <p className="accordion-summary-secondaryHeader">
+                      Clique aqui para informar detalhes sobre a denúncia
+                    </p>
+                  </AccordionSummary>
+                  <AccordionDetails className="accordion-details">
+                    <FormControl className="form-item">
+                      <TextField
+                        label="Período"
+                        fullWidth
+                        inputRef={periodRef}
+                      />
+                    </FormControl>
+                    <FormControl className="form-item inline">
+                      <TextField
+                        label="Pessoas/Empresas envolvidas"
+                        inputRef={envolvedRef}
+                        style={{ flex: 1 }}
+                      />
+                      <IconButton
+                        onClick={() =>
+                          addToList(
+                            envolvedRef,
+                            envolvedPeople,
+                            setEnvolvedPeople
+                          )
+                        }
+                      >
+                        <FontAwesomeIcon size="sm" icon={faPlus} />
+                      </IconButton>
+                    </FormControl>
+                    {envolvedPeople.length ? (
+                      <div style={{ width: "100%" }}>
+                        {envolvedPeople.map((name, index) => (
+                          <>
+                            <Chip
+                              className="email-chip"
+                              clickable
+                              label={name}
+                              key={name}
+                              onDelete={() =>
+                                removeFromList(
+                                  name,
+                                  envolvedPeople,
+                                  setEnvolvedPeople
+                                )
+                              }
+                            />
+                          </>
+                        ))}
+                      </div>
+                    ) : null}
+                    <FormControl className="form-item inline">
+                      <TextField
+                        label="Suspeitos envolvidos"
+                        inputRef={suspectRef}
+                        style={{ flex: 1 }}
+                      />
+                      <IconButton
+                        onClick={() =>
+                          addToList(suspectRef, suspects, setSuspects)
+                        }
+                      >
+                        <FontAwesomeIcon size="sm" icon={faPlus} />
+                      </IconButton>
+                    </FormControl>
+                    {suspects.length ? (
+                      <div style={{ width: "100%" }}>
+                        {suspects.map((name, index) => (
+                          <>
+                            <Chip
+                              className="email-chip"
+                              clickable
+                              label={name}
+                              key={name}
+                              onDelete={() =>
+                                removeFromList(name, suspects, setSuspects)
+                              }
+                            />
+                          </>
+                        ))}
+                      </div>
+                    ) : null}
+                    <FormControl className="form-item inline">
+                      <TextField
+                        label="Testemunhas envolvidas"
+                        inputRef={witnessRef}
+                        style={{ flex: 1 }}
+                      />
+                      <IconButton
+                        onClick={() =>
+                          addToList(witnessRef, witnesses, setWitnesses)
+                        }
+                      >
+                        <FontAwesomeIcon size="sm" icon={faPlus} />
+                      </IconButton>
+                    </FormControl>
+                    {witnesses.length ? (
+                      <div style={{ width: "100%" }}>
+                        {witnesses.map((name, index) => (
+                          <>
+                            <Chip
+                              className="email-chip"
+                              clickable
+                              label={name}
+                              key={name}
+                              onDelete={() =>
+                                removeFromList(name, witnesses, setWitnesses)
+                              }
+                            />
+                          </>
+                        ))}
+                      </div>
+                    ) : null}
+                  </AccordionDetails>
+                </Accordion>
+
                 <div className="switch-wrapper form-item">
                   <label
                     className={
@@ -315,7 +493,6 @@ export function ReportPage() {
                     Com identificação
                   </label>
                 </div>
-
                 {isIdentified && (
                   <IdentificationInputs
                     nameRef={nameRef}
@@ -324,7 +501,6 @@ export function ReportPage() {
                     emailRef={emailRef}
                   />
                 )}
-
                 <Button
                   className="report-submit-button"
                   style={{ margin: "16px 10px", fontWeight: 500 }}

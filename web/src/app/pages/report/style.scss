@@ -57,7 +57,7 @@
         align-content: flex-start;
         flex-wrap: wrap;
 
-        > .form-item {
+        .form-item {
           width: 100%;
           margin: 10px;
           margin-bottom: 0;
@@ -74,6 +74,7 @@
             margin: 0 10px;
             > div {
               margin-top: 10px;
+              flex: 1;
             }
           }
 
@@ -108,9 +109,11 @@
 
           > .attachment-dropzone {
             // flex: 1;
-            height: 200px;
+            height: 80px;
             color: $color-green;
             background-color: $color-white;
+            align-self: center;
+            width: 80%;
           }
 
           > .attachment-list-wrapper {
@@ -148,6 +151,36 @@
 
                   background-color: $color-light-green;
                 }
+              }
+            }
+          }
+        }
+
+        > .accordion {
+          width: 100%;
+          box-shadow: none;
+          &::before {
+            display: none;
+          }
+          & .accordion-summary-header {
+            font-size: 1rem;
+            flex-basis: 33.33%;
+            flex-shrink: 0;
+            font-weight: 500;
+          }
+          & .accordion-summary-secondaryHeader {
+            font-size: 1rem;
+            flex-shrink: 0;
+            font-weight: 400;
+            color: #777;
+          }
+          & .accordion-details {
+            display: flex;
+            flex-direction: column;
+            & > .form-item {
+              flex-direction: row;
+              &:not(:first-child) {
+                margin-top: 1rem;
               }
             }
           }

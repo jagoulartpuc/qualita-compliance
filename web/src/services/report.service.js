@@ -7,14 +7,18 @@ const reportInstance = axios.create({
 export function createReport(payload) {
   const newPayload = {
     category: payload.category,
-    urgent: payload.urgent,
+    companyName: payload.companyName,
+    urgent: payload.urgency,
     description: payload.description,
     author: payload.user.name,
     cpf: payload.user.cpf,
     email: payload.user.email,
     phone: payload.user.phone,
-    dates: [payload.date],
-    envolvedPeople: payload.envolvedPeople,
+    dates: payload.dates,
+    reportDetails: payload.reportDetails,
+    local: payload.local,
+    isManagerKnowledge: payload.isManagerKnowledge,
+    caseKnowledge: String(payload.isManagerKnowledge),
   };
   return reportInstance.post("denuncia", newPayload);
 }
