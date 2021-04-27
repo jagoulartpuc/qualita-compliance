@@ -1,0 +1,19 @@
+@import "@StyleCommon/colors.scss";
+@import "@StyleCommon/fonts.scss";
+@import "@StyleCommon/other-patterns.scss";
+@import "@StyleCommon/mixins.scss";
+
+#company-reports-page {
+  @include page-basic;
+  display: flex;
+  > .card-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  > .page-title {
+    margin: 24px 8px;
+    align-self: center;
+    text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4);
+    font-size: 36px;
+  }
+}

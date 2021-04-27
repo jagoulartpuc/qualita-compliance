@@ -14,7 +14,6 @@ export function LoginPage() {
   const [password, setPassword] = useState("");
   const history = useHistory();
   const { user, isLoggedIn, signIn } = useSession();
-
   async function onSubmit(event) {
     event.preventDefault();
     const response = await signIn({
@@ -40,17 +39,11 @@ export function LoginPage() {
       <section className="presentation">
         <div className="presentation-text-wrapper">
           <p className="presentation-text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-            ultricies neque sed diam efficitur, sit amet semper eros pulvinar.{" "}
-            <br />
-            <br />
-            Suspendisse non lacus sed ante sagittis congue pulvinar a neque.
-            Suspendisse tristique lectus ac arcu euismod tempor. Maecenas varius
-            mi non orci lobortis dapibus. Curabitur varius turpis ac tempus
-            cursus. Ut efficitur ultricies blandit. Maecenas rhoncus urna
-            luctus, hendrerit tortor sit amet, pellentesque metus. Sed sit amet
-            tristique diam. Etiam vestibulum odio non tellus laoreet, nec
-            bibendum tortor dictum.
+            A Qualità Compliance é uma plataforma para implantação e gerenciamento de Canal de Denúncias, totalmente virtual e disponível 24h por dia. Agrega, ainda, treinamentos, capacitações, seminários e mecanismos para implementação e operação de sistema de Compliance ou anticorrupção.
+
+            O atendimento é feito por advogados especializados, o que garante o sigilo e o auto grau técnico no tratamento das denúncias.
+
+            Tem como missão precípua prevenir Ilícitos, mitigar riscos, gerando indicadores para uma boa governança corporativa, o que propicia economia de até 5% do faturamento e a preservação da boa reputação dos gestores.
           </p>
         </div>
       </section>
@@ -85,10 +78,16 @@ export function LoginPage() {
               varius mi non orci lobortis dapibus. Curabitur varius turpis ac
               tempus cursus.{" "}
             </p>
-
+            {user.role !== 'COMPANY' && (
             <Link to={routes.REPORT_PAGE} className="report-link">
               Quero fazer uma denúncia
             </Link>
+            )}
+            {user.role === 'COMPANY' && (
+            <Link to={routes.COMPANY_REPORTS_PAGE} className="report-link">
+              Visualizar denúncias da empresa
+            </Link>
+             )}
           </div>
         </section>
         {!user && (
@@ -115,12 +114,6 @@ export function LoginPage() {
               <Button disabled={!identifier || !password} className="form-item">
                 Entrar
               </Button>
-              <p className="talk-to-us-text form-item">
-                Entre em contato conosco{" "}
-                <a className="talk-to-us-link" href="">
-                  aqui
-                </a>
-              </p>
             </form>
           </section>
         )}
