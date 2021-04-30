@@ -56,7 +56,7 @@
           margin: 10px 0 20px 0;
           font-weight: 400;
         }
-        > .report-link {
+        .module-button {
           background-color: $color-green;
           padding: 12px 24px;
           border-radius: $border-radius;
@@ -65,6 +65,22 @@
           font-weight: 400;
           text-decoration: none;
           text-transform: uppercase;
+          &.outlined {
+            border: 2px solid $color-green;
+            background-color: transparent;
+            font-weight: 500;
+          }
+        }
+        > .module-buttons-wrapper {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          max-width: 600px;
+          @media screen and (max-width: 900px) {
+            align-items: flex-start;
+            flex-direction: column;
+            min-height: 100px;
+          }
         }
       }
       > .login-form {

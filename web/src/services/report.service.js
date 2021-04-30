@@ -1,7 +1,9 @@
 import axios from "axios";
 
+const reportBaseUrl = `${process.env.REACT_APP_API_BASE_URL}/denuncia`;
+
 const reportInstance = axios.create({
-  baseURL: process.env.REACT_APP_API_BASE_URL,
+  baseURL: reportBaseUrl,
 });
 
 export function createReport(payload) {
@@ -20,5 +22,9 @@ export function createReport(payload) {
     isManagerKnowledge: payload.isManagerKnowledge,
     caseKnowledge: String(payload.isManagerKnowledge),
   };
-  return reportInstance.post("denuncia", newPayload);
+  return reportInstance.post("", newPayload);
+}
+
+export function getReport(id) {
+  return reportInstance.get(id);
 }

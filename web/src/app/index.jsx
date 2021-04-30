@@ -1,4 +1,4 @@
-import { LoginPage, ReportPage, HomePage } from "@Pages";
+import { LoginPage, ReportPage, HomePage, ReportDetailsPage } from "@Pages";
 import { SessionProvider } from "@Context";
 import { Footer, Header } from "@Components";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
@@ -12,9 +12,12 @@ function App() {
         <SessionProvider>
           <Header />
           <Switch>
-            <Route exact path={routes.REPORT_PAGE}>
-              <ReportPage />
-            </Route>
+            <Route exact path={routes.REPORT_PAGE} component={ReportPage} />
+            <Route
+              exact
+              path={`${routes.REPORT_PAGE}/:id`}
+              component={ReportDetailsPage}
+            />
             <Route exact path={routes.HOME_PAGE}>
               <LoginPage />
             </Route>

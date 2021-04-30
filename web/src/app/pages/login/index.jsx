@@ -70,8 +70,8 @@ export function LoginPage() {
               nec bibendum tortor dictum
             </p>
             {user && (
-              <Link to={routes.USER_PAGE} className="report-link">
-                Quero ver os treinamentos
+              <Link to={routes.USER_PAGE} className="module-button">
+                Ver treinamentos
               </Link>
             )}
           </div>
@@ -85,10 +85,14 @@ export function LoginPage() {
               varius mi non orci lobortis dapibus. Curabitur varius turpis ac
               tempus cursus.{" "}
             </p>
-
-            <Link to={routes.REPORT_PAGE} className="report-link">
-              Quero fazer uma denúncia
-            </Link>
+            <div className="module-buttons-wrapper">
+              <button className="module-button outlined">
+                Quero consultar uma denúncia
+              </button>
+              <Link to={routes.REPORT_PAGE} className="module-button">
+                Quero fazer uma denúncia
+              </Link>
+            </div>
           </div>
         </section>
         {!user && (

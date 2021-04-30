@@ -1,2 +1,2 @@
 export { login } from "./session.service";
-export { createReport } from "./report.service";
+export { createReport, getReport } from "./report.service";
