@@ -45,6 +45,7 @@ export function Header() {
           </div>
         }
       </Link>
+      <Link to="files/visitsCard.pdf" target="_blank" className="visits-card">Entre em contato</Link>
       {user && (
         <section className="user-menu">
           <img

@@ -6,8 +6,8 @@ compliance/qualita/repository/CompanyRepository.java
  compliance.qualita.repository.CompanyRepository
 compliance/qualita/domain/Role.java
  compliance.qualita.domain.Role
-compliance/qualita/QualitaApplication.java
- compliance.qualita.QualitaApplication
+compliance/qualita/service/ReportService.java
+ compliance.qualita.service.ReportService
 compliance/qualita/service/TrainingModuleService.java
  compliance.qualita.service.TrainingModuleService
 compliance/qualita/util/AttachmentsUploader.java
@@ -24,9 +24,8 @@ compliance/qualita/domain/Person.java
  compliance.qualita.domain.Person
 compliance/qualita/domain/Feature.java
  compliance.qualita.domain.Feature
-compliance/qualita/util/EmailSender.java
- compliance.qualita.util.EmailSender
- compliance.qualita.util.EmailSender$1
+compliance/qualita/controller/ReportController.java
+ compliance.qualita.controller.ReportController
 compliance/qualita/service/PersonService.java
  compliance.qualita.service.PersonService
 compliance/qualita/controller/CompanyController.java
@@ -45,8 +44,8 @@ compliance/qualita/service/CompanyService.java
  compliance.qualita.service.CompanyService
 compliance/qualita/domain/Company.java
  compliance.qualita.domain.Company
-compliance/qualita/repository/TrainingModuleRepository.java
- compliance.qualita.repository.TrainingModuleRepository
+compliance/qualita/domain/Report.java
+ compliance.qualita.domain.Report
 compliance/qualita/repository/PersonRepository.java
  compliance.qualita.repository.PersonRepository
 compliance/qualita/repository/ReportRepository.java
@@ -55,9 +54,10 @@ compliance/qualita/domain/LoginResponse.java
  compliance.qualita.domain.LoginResponse
 compliance/qualita/domain/ReportDetails.java
  compliance.qualita.domain.ReportDetails
-compliance/qualita/controller/ReportController.java
- compliance.qualita.controller.ReportController
-compliance/qualita/domain/Report.java
- compliance.qualita.domain.Report
-compliance/qualita/service/ReportService.java
- compliance.qualita.service.ReportService
+compliance/qualita/QualitaApplication.java
+ compliance.qualita.QualitaApplication
+compliance/qualita/repository/TrainingModuleRepository.java
+ compliance.qualita.repository.TrainingModuleRepository
+compliance/qualita/util/EmailSender.java
+ compliance.qualita.util.EmailSender
+ compliance.qualita.util.EmailSender$1
