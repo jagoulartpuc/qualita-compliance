@@ -45,7 +45,7 @@ export function LoginPage() {
             mecanismos para implementação e operação de sistema de Compliance ou
             anticorrupção. O atendimento é feito por advogados especializados, o
             que garante o sigilo e o auto grau técnico no tratamento das
-            denúncias. Tem como missão precípua prevenir Ilícitos, mitigar
+            denúncias. Tem como missão precípua prevenir ilícitos, mitigar
             riscos, gerando indicadores para uma boa governança corporativa, o
             que propicia economia de até 5% do faturamento e a preservação da
             boa reputação dos gestores.
@@ -83,16 +83,16 @@ export function LoginPage() {
               varius mi non orci lobortis dapibus. Curabitur varius turpis ac
               tempus cursus.{" "}
             </p>
-            {user.role !== "COMPANY" && (
+            {/*{user.role !== "COMPANY" && (*/}
               <Link to={routes.REPORT_PAGE} className="report-link">
                 Quero fazer uma denúncia
               </Link>
-            )}
-            {user.role === "COMPANY" && (
+            {/*)}*/}
+            {/*{user.role === "COMPANY" && (*/}
               <Link to={routes.COMPANY_REPORTS_PAGE} className="report-link">
                 Visualizar denúncias da empresa
               </Link>
-            )}
+            {/*)}*/}
           </div>
         </section>
         {!user && (
