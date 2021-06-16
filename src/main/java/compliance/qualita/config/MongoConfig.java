@@ -13,7 +13,7 @@ class MongoConfig {
 
     @Bean
     public MongoClient mongo() {
-        ConnectionString connectionString = new ConnectionString("mongodb://localhost:27017/qualita");
+        ConnectionString connectionString = new ConnectionString("mongodb+srv://admin:admin@cluster0.mmz1f.mongodb.net/qualita?retryWrites=true&w=majority");
         MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString)
                 .build();
