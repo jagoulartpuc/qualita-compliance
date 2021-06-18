@@ -5,7 +5,6 @@ import compliance.qualita.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
 
 @RestController
 @CrossOrigin
@@ -18,7 +17,7 @@ public class PersonController {
     @PostMapping
     public Person postPerson(
             @RequestBody Person person
-    ) throws MessagingException {
+    ) throws Exception {
         return personService.addPerson(person);
     }
 
@@ -30,9 +29,9 @@ public class PersonController {
         return personService.changePassword(cpf, password);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{cpf}")
     public boolean deletePerson(
-            @RequestParam String cpf
+            @PathVariable String cpf
     ) {
         return personService.deletePerson(cpf);
     }

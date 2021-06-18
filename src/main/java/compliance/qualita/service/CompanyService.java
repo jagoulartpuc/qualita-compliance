@@ -1,16 +1,15 @@
 package compliance.qualita.service;
 
 import br.com.caelum.stella.validation.CNPJValidator;
-import br.com.caelum.stella.validation.InvalidStateException;
 import compliance.qualita.domain.Company;
 import compliance.qualita.domain.TrainingModule;
 import compliance.qualita.repository.CompanyRepository;
 import compliance.qualita.util.EmailSender;
 import compliance.qualita.util.PasswordGenerator;
+import compliance.qualita.util.TemplateBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
 import java.util.List;
 
 @Service
@@ -28,17 +27,20 @@ public class CompanyService {
     @Autowired
     private TrainingModuleService moduleService;
 
-    public Company addCompany(Company company) throws MessagingException {
+    @Autowired
+    private TemplateBuilder templateBuilder;
+
+    public Company addCompany(Company company) throws Exception {
         CNPJValidator validator = new CNPJValidator();
         try {
             validator.assertValid(company.getCnpj());
             String password = passwordGenerator.generatePassword();
             emailSender.sendEmail("Qualitá Compliance: Registro e recebimento de senha",
-                    "Bem vindos ao Qualitá Compliance, equipe da " + company.getName() + "! Sua senha é: " + password + ".", company.getEmail());
+                    templateBuilder.buildCompanyWelcomeTemplate(company.getName(), password), company.getEmail());
             company.setPassword(password);
             return companyRepository.insert(company);
-        } catch (InvalidStateException e) {
-            throw new InvalidStateException(e.getInvalidMessages());
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
         }
     }
 
@@ -66,4 +68,5 @@ public class CompanyService {
         moduleService.editTrainingModule(module);
         return module;
     }
+
 }

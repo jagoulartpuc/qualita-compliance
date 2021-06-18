@@ -6,7 +6,6 @@ import compliance.qualita.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
 import java.util.List;
 
 @RestController
@@ -20,7 +19,7 @@ public class CompanyController {
     @PostMapping
     public Company postCompany(
             @RequestBody Company company
-    ) throws MessagingException {
+    ) throws Exception {
         return companyService.addCompany(company);
     }
 
@@ -29,9 +28,9 @@ public class CompanyController {
         return companyService.getCompanies();
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{cnpj}")
     public boolean deleteCompany(
-            @RequestParam String cnpj
+            @PathVariable String cnpj
     ) {
         return companyService.deleteCompany(cnpj);
     }
