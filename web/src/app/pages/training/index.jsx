@@ -67,11 +67,11 @@ const modules = [
     }
 ];
 
-export default function Home() {
+export function TrainingModulesPage() {
     const {user} = useSession();
     return (
         <main id="profile-page">
-            <h2 className="page-title">Selecione um dos módulos abaixo: </h2>
+            <h2 className="page-title">Selecione um dos módulos abaixo </h2>
             <div className="card-list">
                 <Card key={0} {...modules[0]} />
                 <Card key={1} {...modules[1]} />

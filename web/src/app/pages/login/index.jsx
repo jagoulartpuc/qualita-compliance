@@ -68,7 +68,7 @@ export function LoginPage() {
               nec bibendum tortor dictum
             </p>
             {user && (
-              <Link to={routes.USER_PAGE} className="module-button">
+              <Link to={routes.TRAINING_MODULES_PAGE} className="module-button">
                 Ver treinamentos
               </Link>
             )}
