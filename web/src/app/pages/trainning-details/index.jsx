@@ -5,24 +5,21 @@ import "./style.scss";
 
 function TrainningItem({ label, value }) {
   return (
-    <p className="trainning-details-item">
-      <strong>{label}: </strong>
-      {value}
-    </p>
+    <p><strong>{label}</strong> {value}</p>
   );
 }
 
-export default function TrainingDetails({ match }) {
+export default function TrainningModuleDetailPage({ match }) {
   const [trainning, setTrainning] = useState(null);
   const [loading, setLoading] = useState(false);
   const { id } = match.params;
+
   const history = useHistory();
   useEffect(() => {
     const fetchTrainning = async () => {
       try {
         setLoading(true);
         const { data: trainningResponse } = await getTrainning(id);
-        console.log(trainningResponse);
         setTrainning(trainningResponse);
         setLoading(false);
       } catch (error) {
@@ -32,19 +29,45 @@ export default function TrainingDetails({ match }) {
 
     fetchTrainning();
   }, []);
+  const YoutubeEmbed = ({ videoLink }) => (
+    <div className="video-responsive">
+      <iframe
+        width="853"
+        height="480"
+        src={videoLink}
+        frameBorder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+        title="Embedded youtube"
+      />
+    </div>
+  );
+
+  const parseYouTubeUrlToEmbedded = () => trainning?.videoLink?.replace('watch?v=', 'embed/');
 
   return loading || !trainning ? (
     <h1>Carregando...</h1>
   ) : (
-    <main id="trainning-details-page">
-      <h2>Detalhes do treinamento</h2>
-      <section>
-        <TrainningItem label="Denunciante" value={trainning?.author} />
-        <TrainningItem label="Denunciado" value={trainning?.companyName} />
-        <TrainningItem label="Local" value={trainning?.local} />
-        <TrainningItem label="Categoria" value={trainning?.category} />
-        <TrainningItem label="Descrição do ocorrido" value={trainning?.description} />
-      </section>
+    <main>
+      <div className='trainnning-content'>
+        <h2>Detalhes do treinamento</h2>
+        <section>
+          <TrainningItem value={trainning?.title} />
+        </section>
+        <br />
+        <section>
+          <YoutubeEmbed videoLink={parseYouTubeUrlToEmbedded()} />
+        </section>
+        <br />
+        <section>
+          <TrainningItem label='Descrição:' value={trainning?.description} />
+        </section>
+        <br />
+        <section>
+          <TrainningItem label='Comentários:' value={`${trainning?.comments}`} />
+        </section>
+        <br />
+      </div>
     </main>
   );
 }
