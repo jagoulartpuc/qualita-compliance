@@ -1,7 +1,7 @@
 import {
   LoginPage,
   ReportPage,
-  HomePage,
+  TrainingModulesPage,
   CompanyReportsPage,
   ReportDetailsPage,
 } from "@Pages";
@@ -27,8 +27,8 @@ function App() {
             <Route exact path={routes.HOME_PAGE}>
               <LoginPage />
             </Route>
-            <Route exact path={routes.USER_PAGE}>
-              <HomePage />
+            <Route exact path={routes.TRAINING_MODULES_PAGE}>
+              <TrainingModulesPage />
             </Route>
             <Route exact path={routes.COMPANY_REPORTS_PAGE}>
               <CompanyReportsPage />
