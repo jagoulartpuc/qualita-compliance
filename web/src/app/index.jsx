@@ -4,6 +4,7 @@ import {
   TrainingModulesPage,
   CompanyReportsPage,
   ReportDetailsPage,
+  TrainningModuleDetailPage,
 } from "@Pages";
 import { SessionProvider } from "@Context";
 import { Footer, Header } from "@Components";
@@ -30,6 +31,11 @@ function App() {
             <Route exact path={routes.TRAINING_MODULES_PAGE}>
               <TrainingModulesPage />
             </Route>
+            <Route
+              exact
+              path={`${routes.TRAINING_MODULES_PAGE}/:id`}
+              component={TrainningModuleDetailPage}
+            />
             <Route exact path={routes.COMPANY_REPORTS_PAGE}>
               <CompanyReportsPage />
             </Route>
