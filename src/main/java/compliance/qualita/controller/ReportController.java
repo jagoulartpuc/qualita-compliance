@@ -29,15 +29,6 @@ public class ReportController {
         return reportService.addReport(report);
     }
 
-    @PostMapping("/com-anexo")
-    public Report postReportWithAttachments(
-            @RequestPart("files") List<MultipartFile> files,
-            @RequestBody Report report
-    ) throws IOException, MessagingException {
-
-        return reportService.addReportWithAttachment(report, files);
-    }
-
     @PutMapping("/encaminhamento")
     public List<Report> shareReportWithEnvolved(
             @RequestParam String cnpj,

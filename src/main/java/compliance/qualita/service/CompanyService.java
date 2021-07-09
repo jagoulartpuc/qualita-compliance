@@ -64,7 +64,7 @@ public class CompanyService {
     public TrainingModule validateTrainingModule(String trainingModuleId, String companyCnpj) {
         TrainingModule module = moduleService.getTrainingModuleById(trainingModuleId);
         Company company = getCompanyByCNPJ(companyCnpj);
-        module.setValidation(true);
+//        module.setValidation(true);
         moduleService.editTrainingModule(module);
         return module;
     }

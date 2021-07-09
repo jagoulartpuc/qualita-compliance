@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { Footer, Header, Dropzone, Button } from "@Components";
 import { createReport } from "@Services";
-
+import { fileUtils } from '@Utils';
 import "./style.scss";
 import {
   Select,
@@ -160,7 +160,7 @@ export function ReportPage() {
         urgency,
         dates,
         description: descriptionRef.current.value,
-        attachments,
+        attachmentsAsBase64: await Promise.all(attachments.map(file => fileUtils.toBase64(file))),
         isManagerKnowledge,
         companyName: companyNameRef.current.value,
         local: localRef.current.value,
@@ -172,17 +172,18 @@ export function ReportPage() {
         },
         user: isIdentified
           ? {
-              name: nameRef.current.value,
-              cpf: cpfRef.current.value.replace(/\D/g, ""),
-              phone: phoneRef.current.value.replace(/\D/g, ""),
-              email: emailRef.current.value,
-            }
+            name: nameRef.current.value,
+            cpf: cpfRef.current.value.replace(/\D/g, ""),
+            phone: phoneRef.current.value.replace(/\D/g, ""),
+            email: emailRef.current.value,
+          }
           : undefined,
       };
 
       const { data: response } = await createReport(payload);
       setTrackingId(response.trackingId);
     } catch (error) {
+      console.error(error);
       console.log(error.response);
     }
   }

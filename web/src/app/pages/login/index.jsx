@@ -83,6 +83,7 @@ export function LoginPage() {
               varius mi non orci lobortis dapibus. Curabitur varius turpis ac
               tempus cursus.{" "}
             </p>
+            
             {/*{user.role !== "COMPANY" && (*/}
               <Link to={routes.REPORT_PAGE} className="report-link">
                 Quero fazer uma denúncia

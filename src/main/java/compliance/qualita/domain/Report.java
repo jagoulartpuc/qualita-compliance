@@ -1,7 +1,11 @@
 package compliance.qualita.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.lang.NonNull;
 
@@ -10,6 +14,7 @@ import java.util.List;
 
 @Data
 @Document(collection = "report")
+
 public class Report {
 
     @Id
@@ -35,7 +40,10 @@ public class Report {
     @NonNull
     private String caseKnowledge;
     private ReportDetails reportDetails;
-    private List<byte[]> attachments = new ArrayList<>();
+    @Transient
+    private List<String> attachmentsAsBase64 = new ArrayList<>();
+    @JsonIgnore
+    private List<Binary> attachments = new ArrayList<>();
     private List<ReportAnswer> reportAnswers;
     private ReportAnswer answerToInformer;
 

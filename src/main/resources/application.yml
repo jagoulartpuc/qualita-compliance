@@ -3,10 +3,9 @@ server:
 
 spring:
   data:
-  mongodb:
-    database: qualita
-    port: 27017
-    host: mongodb+srv://admin:admin@cluster0.mmz1f.mongodb.net/qualita?retryWrites=true&w=majority
+    mongodb:
+      database: qualita
+      uri: mongodb+srv://admin:admin@cluster0.mmz1f.mongodb.net/qualita?retryWrites=true&w=majority
 
 admin:
   email: advogadosgorla@gmail.com

@@ -6,18 +6,24 @@ import compliance.qualita.domain.ReportAnswer;
 import compliance.qualita.repository.ReportRepository;
 import compliance.qualita.util.AttachmentsUploader;
 import compliance.qualita.util.EmailSender;
+import org.bson.BsonBinarySubType;
+import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ReportService {
@@ -38,15 +44,18 @@ public class ReportService {
     private String adminEmail;
 
     public Report addReport(Report report) throws MessagingException {
-        String trackingId = reportRepository.insert(report).getTrackingId();
-        emailSender.sendEmail("Denúncia recebida", "Uma nova denúncia foi recebida. Protocolo: " + trackingId, adminEmail);
-        return report;
-    }
+        if(!CollectionUtils.isEmpty(report.getAttachmentsAsBase64())){
+           final var attachmentsAsBytes = report.getAttachmentsAsBase64()
+                    .parallelStream()
+                    .map(attach64 -> new Binary(BsonBinarySubType.BINARY,Base64.getDecoder().decode(attach64)))
+                    .collect(Collectors.toList());
 
-    public Report addReportWithAttachment(Report report, List<MultipartFile> files) throws IOException, MessagingException {
-        report.setAttachments(attachmentsUploader.uploadFiles(files));
+            report.setAttachments(attachmentsAsBytes);
+        }
+
         String trackingId = reportRepository.insert(report).getTrackingId();
         emailSender.sendEmail("Denúncia recebida", "Uma nova denúncia foi recebida. Protocolo: " + trackingId, adminEmail);
+
         return report;
     }
 
@@ -61,7 +70,7 @@ public class ReportService {
 
     public List<Report> shareReportWithEnvolvedWithAttachments(String companyCNPJ, String trackingId, String moreDestinations, List<MultipartFile> files) throws IOException, MessagingException {
         Report report = getReportByTrackingId(trackingId);
-        report.setAttachments(attachmentsUploader.uploadFiles(files));
+//        report.setAttachments(attachmentsUploader.uploadFiles(files));
         Company company = companyService.getCompanyByCNPJ(companyCNPJ);
         company.getReports().add(report);
         companyService.editCompany(company);
@@ -78,7 +87,7 @@ public class ReportService {
 
     public Report answerCompanyReportWithAttachments(String trackingId, ReportAnswer answer, List<MultipartFile> files) throws IOException {
         Report report = getReportByTrackingId(trackingId);
-        report.setAttachments(attachmentsUploader.uploadFiles(files));
+//        report.setAttachments(attachmentsUploader.uploadFiles(files));
         report.getReportAnswers().add(answer);
         return reportRepository.save(report);
     }
@@ -91,7 +100,7 @@ public class ReportService {
 
     public Report answerInformerReportWithAttachments(String trackingId, ReportAnswer answer, List<MultipartFile> files) throws IOException {
         Report report = getReportByTrackingId(trackingId);
-        report.setAttachments(attachmentsUploader.uploadFiles(files));
+//        report.setAttachments(attachmentsUploader.uploadFiles(files));
         report.setAnswerToInformer(answer);
         return reportRepository.save(report);
     }
