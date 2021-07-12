@@ -1,6 +1,7 @@
 package compliance.qualita.service;
 
 import compliance.qualita.domain.ModuleComment;
+import compliance.qualita.domain.Person;
 import compliance.qualita.domain.TrainingModule;
 import compliance.qualita.repository.ModuleCommentRepository;
 import compliance.qualita.repository.TrainingModuleRepository;
@@ -27,6 +28,9 @@ public class TrainingModuleService {
 
     @Autowired
     private ModuleCommentRepository commentRepository;
+
+    @Autowired
+    private PersonService personService;
 
     public TrainingModule addTrainingModule(TrainingModule trainingModule) {
         if (!CollectionUtils.isEmpty(trainingModule.getAttachmentsAsBase64())) {
@@ -69,5 +73,9 @@ public class TrainingModuleService {
         TrainingModule trainingModule = getTrainingModuleById(trainingModuleId);
         trainingModule.getComments().get(commentId).add(commentAnswer);
         return editTrainingModule(trainingModule);
+    }
+
+    public boolean isValidatedFromPersonCompany(String moduleId, String cpf) {
+        return getTrainingModuleById(moduleId).getValidations().contains(personService.getPersonByCPF(cpf).getCompanyCnpj());
     }
 }

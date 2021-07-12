@@ -67,6 +67,14 @@ public class TrainingModuleController {
         return moduleService.answerCommentModule(trainingModuleId, commentAnswer, commentId);
     }
 
+    @GetMapping("/esta-validado")
+    public boolean isValidatedFromPersonCompany(
+            @RequestParam String moduleId,
+            @RequestParam String cpf
+    ) {
+        return moduleService.isValidatedFromPersonCompany(moduleId, cpf);
+    }
+
     @DeleteMapping
     public boolean deleteTrainingModule(
             @RequestParam String id
