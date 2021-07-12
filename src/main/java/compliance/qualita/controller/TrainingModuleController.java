@@ -1,5 +1,6 @@
 package compliance.qualita.controller;
 
+import compliance.qualita.domain.Attachment;
 import compliance.qualita.domain.ModuleComment;
 import compliance.qualita.domain.TrainingModule;
 import compliance.qualita.service.TrainingModuleService;
@@ -45,7 +46,7 @@ public class TrainingModuleController {
     @PutMapping("/anexo")
     public TrainingModule putAttachmentsToTrainingModule(
             @RequestParam String trainingModuleId,
-            @RequestParam List<String> attachments
+            @RequestParam List<Attachment> attachments
     ) {
         return moduleService.putAttachmentToTrainingModule(trainingModuleId, attachments);
     }

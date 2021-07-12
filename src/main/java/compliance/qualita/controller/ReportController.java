@@ -1,5 +1,6 @@
 package compliance.qualita.controller;
 
+import compliance.qualita.domain.Attachment;
 import compliance.qualita.domain.Report;
 import compliance.qualita.domain.ReportAnswer;
 import compliance.qualita.service.ReportService;
@@ -32,7 +33,7 @@ public class ReportController {
             @RequestParam String cnpj,
             @RequestParam String trackingId,
             @RequestParam String moreDestinations,
-            @RequestParam List<String> attachments
+            @RequestParam List<Attachment> attachments
     ) throws MessagingException {
         return reportService.shareReportWithEnvolved(cnpj, trackingId, moreDestinations, attachments);
     }
@@ -40,7 +41,7 @@ public class ReportController {
     @PutMapping("/resposta-empresa")
     public Report answerCompanyReport(
             @RequestParam String trackingId,
-            @RequestParam List<String> attachments
+            @RequestParam List<Attachment> attachments
             ) throws MessagingException {
         return reportService.answerCompanyReport(trackingId, attachments);
     }

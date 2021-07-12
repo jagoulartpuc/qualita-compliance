@@ -1,5 +1,6 @@
 package compliance.qualita.service;
 
+import compliance.qualita.domain.Attachment;
 import compliance.qualita.domain.Company;
 import compliance.qualita.domain.Report;
 import compliance.qualita.domain.ReportAnswer;
@@ -37,8 +38,8 @@ public class ReportService {
     private String adminEmail;
 
     public Report addReport(Report report) throws MessagingException {
-        if (!CollectionUtils.isEmpty(report.getAttachmentsAsBase64())) {
-            report.setAttachments(attachmentsConverter.fromBase64(report.getAttachmentsAsBase64()));
+        if (!CollectionUtils.isEmpty(report.getAttachments())) {
+            attachmentsConverter.fromBase64(report.getAttachments());
         }
         String trackingId = reportRepository.insert(report).getTrackingId();
         emailSender.sendEmail("Denúncia recebida", "Uma nova denúncia foi recebida. Protocolo: " + trackingId, adminEmail);
@@ -46,7 +47,7 @@ public class ReportService {
         return report;
     }
 
-    public List<Report> shareReportWithEnvolved(String companyCNPJ, String trackingId, String moreDestinations, List<String> attachments) throws MessagingException {
+    public List<Report> shareReportWithEnvolved(String companyCNPJ, String trackingId, String moreDestinations, List<Attachment> attachments) throws MessagingException {
         Company company = companyService.getCompanyByCNPJ(companyCNPJ);
         if (attachments != null) {
             Report report = getReportByTrackingId(trackingId);
@@ -59,7 +60,7 @@ public class ReportService {
         return company.getReports();
     }
 
-    public Report answerCompanyReport(String trackingId, List<String> attachments) throws MessagingException {
+    public Report answerCompanyReport(String trackingId, List<Attachment> attachments) throws MessagingException {
         Report report = getReportByTrackingId(trackingId);
         if (attachments != null) {
             report.getAttachments().addAll(attachmentsConverter.fromBase64(attachments));
@@ -70,8 +71,8 @@ public class ReportService {
 
     public Report answerInformerReport(String trackingId, ReportAnswer answer) {
         Report report = getReportByTrackingId(trackingId);
-        if (answer.getAttachmentsAsBase64() != null) {
-            answer.setAttachments(attachmentsConverter.fromBase64(report.getAttachmentsAsBase64()));
+        if (answer.getAttachments() != null) {
+            attachmentsConverter.fromBase64(answer.getAttachments());
         }
         report.setAnswerToInformer(answer);
         return reportRepository.save(report);

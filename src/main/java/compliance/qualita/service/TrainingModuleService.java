@@ -1,7 +1,7 @@
 package compliance.qualita.service;
 
+import compliance.qualita.domain.Attachment;
 import compliance.qualita.domain.ModuleComment;
-import compliance.qualita.domain.Person;
 import compliance.qualita.domain.TrainingModule;
 import compliance.qualita.repository.ModuleCommentRepository;
 import compliance.qualita.repository.TrainingModuleRepository;
@@ -9,10 +9,7 @@ import compliance.qualita.util.AttachmentsConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -33,8 +30,8 @@ public class TrainingModuleService {
     private PersonService personService;
 
     public TrainingModule addTrainingModule(TrainingModule trainingModule) {
-        if (!CollectionUtils.isEmpty(trainingModule.getAttachmentsAsBase64())) {
-            trainingModule.setAttachments(attachmentsConverter.fromBase64(trainingModule.getAttachmentsAsBase64()));
+        if (!CollectionUtils.isEmpty(trainingModule.getAttachments())) {
+            attachmentsConverter.fromBase64(trainingModule.getAttachments());
         }
         return moduleRepository.insert(trainingModule);
     }
@@ -43,7 +40,7 @@ public class TrainingModuleService {
         return moduleRepository.save(trainingModule);
     }
 
-    public TrainingModule putAttachmentToTrainingModule(String trainingModuleId, List<String> attachments) {
+    public TrainingModule putAttachmentToTrainingModule(String trainingModuleId, List<Attachment> attachments) {
         TrainingModule trainingModule = getTrainingModuleById(trainingModuleId);
         trainingModule.getAttachments().addAll(attachmentsConverter.fromBase64(attachments));
         return moduleRepository.save(trainingModule);

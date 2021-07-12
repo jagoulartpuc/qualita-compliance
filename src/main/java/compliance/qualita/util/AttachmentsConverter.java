@@ -1,5 +1,6 @@
 package compliance.qualita.util;
 
+import compliance.qualita.domain.Attachment;
 import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
 import org.springframework.stereotype.Component;
@@ -11,17 +12,17 @@ import java.util.stream.Collectors;
 @Component
 public class AttachmentsConverter {
 
-    public List<Binary> fromBase64(List<String> attachmentsAsBase64) {
-        return attachmentsAsBase64
+    public List<Attachment> fromBase64(List<Attachment> attachments) {
+        return attachments
                 .parallelStream()
-                .map(attach64 -> new Binary(BsonBinarySubType.BINARY, Base64.getDecoder().decode(attach64)))
+                .peek(attach -> attach.setBinaryAdress(new Binary(BsonBinarySubType.BINARY, Base64.getDecoder().decode(attach.getBase64adress()))))
                 .collect(Collectors.toList());
     }
 
-    public List<String> fromBinary(List<Binary> attachmentsAsBinary) {
-        return attachmentsAsBinary
+    public List<Attachment> fromBinary(List<Attachment> attachments) {
+        return attachments
                 .parallelStream()
-                .map(attachBinary -> new String(Base64.getEncoder().encode(attachBinary.getData())))
+                .peek(attach -> attach.setBase64adress(new String(Base64.getEncoder().encode(attach.getBinaryAdress().getData()))))
                 .collect(Collectors.toList());
     }
 }
