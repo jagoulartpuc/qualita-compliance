@@ -13,7 +13,19 @@ main {
     }
     .trainnning-content{
         max-width: 80%;
-        margin: 0 auto;
+        margin: 100px auto;
+        width: 100%;
+        .video-responsive{
+          > iframe{
+            width: 100%;
+          }
+        }
+        #trainning-description div{
+          p:not(:first-child){
+            margin-top: 15px;
+            margin-left: 35px;
+          }
+        }
         > section {
             max-height: 500px;
             background-color: $color-white;
@@ -22,8 +34,28 @@ main {
             margin: 0 auto;
             padding: 2rem;
             color: $color-black;
+            
+            .comment{
+              margin: 20px 20px;
+              font-size:13px;
+              > p {
+                color: dimgray
+              }
+              .comment-reply{
+                margin: 15px 25px;
+                > p{
+                  color: gray
+                }
+              }
+            }
            
           }
+    }
+
+    #trainning-title{
+      text-align: center;
+      font-weight: bold;
+      font-size: 16pt;
     }
     
   }

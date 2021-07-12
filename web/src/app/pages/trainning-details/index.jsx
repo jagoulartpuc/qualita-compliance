@@ -5,7 +5,11 @@ import "./style.scss";
 
 function TrainningItem({ label, value }) {
   return (
-    <p><strong>{label}</strong> {value}</p>
+    <div>
+      {label ? (<p><strong>{label}</strong></p>) : ''}
+
+      <p>{value}</p>
+    </div>
   );
 }
 
@@ -32,7 +36,6 @@ export default function TrainningModuleDetailPage({ match }) {
   const YoutubeEmbed = ({ videoLink }) => (
     <div className="video-responsive">
       <iframe
-        width="853"
         height="480"
         src={videoLink}
         frameBorder="0"
@@ -44,14 +47,35 @@ export default function TrainningModuleDetailPage({ match }) {
   );
 
   const parseYouTubeUrlToEmbedded = () => trainning?.videoLink?.replace('watch?v=', 'embed/');
+  const getComments = () => {
+    return Object.keys(trainning?.comments).map(key => {
+      const commentBase = trainning?.comments[key].find(comment => comment.id === key);
+
+      const subComments = trainning?.comments[key].map(comment => {
+        if (comment.id !== key) {
+          return (
+            <div className='comment-reply'>
+              <p><strong>{comment.name}:</strong> {comment.comment}</p>
+            </div>
+          );
+        }
+      });
+
+      return (
+        <div className='comment'>
+          <p><strong>{commentBase.name}:</strong> {commentBase.comment}</p>
+          {subComments}
+        </div>
+      );
+    });
+  };
 
   return loading || !trainning ? (
     <h1>Carregando...</h1>
   ) : (
     <main>
       <div className='trainnning-content'>
-        <h2>Detalhes do treinamento</h2>
-        <section>
+        <section id='trainning-title'>
           <TrainningItem value={trainning?.title} />
         </section>
         <br />
@@ -59,12 +83,12 @@ export default function TrainningModuleDetailPage({ match }) {
           <YoutubeEmbed videoLink={parseYouTubeUrlToEmbedded()} />
         </section>
         <br />
-        <section>
+        <section id='trainning-description'>
           <TrainningItem label='Descrição:' value={trainning?.description} />
         </section>
         <br />
         <section>
-          <TrainningItem label='Comentários:' value={`${trainning?.comments}`} />
+          <TrainningItem label='Comentários:' value={getComments()} />
         </section>
         <br />
       </div>
