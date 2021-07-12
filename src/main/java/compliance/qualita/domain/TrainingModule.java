@@ -21,7 +21,7 @@ public class TrainingModule {
     private String description;
     @NonNull
     private String videoLink;
-    private List<byte[]> attachments = new ArrayList<>();
+    private List<Attachment> attachments = new ArrayList<>();
     private Map<String, List<ModuleComment>> comments = new HashMap<>();
     private List<String> validations = new ArrayList<>();
 }

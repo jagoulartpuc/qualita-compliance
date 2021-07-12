@@ -1,13 +1,12 @@
 package compliance.qualita.controller;
 
+import compliance.qualita.domain.Attachment;
 import compliance.qualita.domain.ModuleComment;
 import compliance.qualita.domain.TrainingModule;
 import compliance.qualita.service.TrainingModuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -23,14 +22,6 @@ public class TrainingModuleController {
             @RequestBody TrainingModule trainingModule
     ) {
         return moduleService.addTrainingModule(trainingModule);
-    }
-
-    @PostMapping("/com-anexo")
-    public TrainingModule postTrainingModuleWithAttachments(
-            @RequestBody TrainingModule trainingModule,
-            @RequestPart("files") List<MultipartFile> files
-    ) throws IOException {
-        return moduleService.addTrainingModuleWithAttachments(trainingModule, files);
     }
 
     @GetMapping
@@ -53,11 +44,11 @@ public class TrainingModuleController {
     }
 
     @PutMapping("/anexo")
-    public TrainingModule putAttachmentToTrainingModule(
+    public TrainingModule putAttachmentsToTrainingModule(
             @RequestParam String trainingModuleId,
-            @RequestPart("file") MultipartFile file
-    ) throws IOException {
-        return moduleService.putAttachmentToTrainingModule(trainingModuleId, file);
+            @RequestParam List<Attachment> attachments
+    ) {
+        return moduleService.putAttachmentToTrainingModule(trainingModuleId, attachments);
     }
 
     @PutMapping("/comentario")
@@ -75,6 +66,14 @@ public class TrainingModuleController {
             @RequestParam String commentId
     ) {
         return moduleService.answerCommentModule(trainingModuleId, commentAnswer, commentId);
+    }
+
+    @GetMapping("/esta-validado")
+    public boolean isValidatedFromPersonCompany(
+            @RequestParam String moduleId,
+            @RequestParam String cpf
+    ) {
+        return moduleService.isValidatedFromPersonCompany(moduleId, cpf);
     }
 
     @DeleteMapping
