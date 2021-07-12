@@ -8,10 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -33,36 +31,18 @@ public class ReportController {
     public List<Report> shareReportWithEnvolved(
             @RequestParam String cnpj,
             @RequestParam String trackingId,
-            @RequestParam String moreDestinations
-    ) throws MessagingException {
-        return reportService.shareReportWithEnvolved(cnpj, trackingId, moreDestinations);
-    }
-
-    @PutMapping("/encaminhamento/com-anexo")
-    public List<Report> shareReportWithEnvolvedWithAttachments(
-            @RequestParam String cnpj,
-            @RequestParam String trackingId,
             @RequestParam String moreDestinations,
-            @RequestPart("files") List<MultipartFile> files
-    ) throws IOException, MessagingException {
-        return reportService.shareReportWithEnvolvedWithAttachments(cnpj, trackingId, moreDestinations, files);
+            @RequestParam List<String> attachments
+    ) throws MessagingException {
+        return reportService.shareReportWithEnvolved(cnpj, trackingId, moreDestinations, attachments);
     }
 
     @PutMapping("/resposta-empresa")
     public Report answerCompanyReport(
             @RequestParam String trackingId,
-            @RequestBody ReportAnswer answer
-            ) {
-        return reportService.answerCompanyReport(trackingId, answer);
-    }
-
-    @PutMapping("/resposta-empresa/com-anexo")
-    public Report answerCompanyReportWithAttachments(
-            @RequestParam String trackingId,
-            @RequestBody ReportAnswer answer,
-            @RequestPart("files") List<MultipartFile> files
-    ) throws IOException {
-        return reportService.answerCompanyReportWithAttachments(trackingId, answer, files);
+            @RequestParam List<String> attachments
+            ) throws MessagingException {
+        return reportService.answerCompanyReport(trackingId, attachments);
     }
 
     @PutMapping("/resposta-informante")
@@ -71,15 +51,6 @@ public class ReportController {
             @RequestBody ReportAnswer answer
     ) {
         return reportService.answerInformerReport(trackingId, answer);
-    }
-
-    @PutMapping("/resposta-informante/com-anexo")
-    public Report answerInformerReportWithAttachments(
-            @RequestParam String trackingId,
-            @RequestBody ReportAnswer answer,
-            @RequestPart("files") List<MultipartFile> files
-    ) throws IOException {
-        return reportService.answerInformerReportWithAttachments(trackingId, answer, files);
     }
 
     @GetMapping

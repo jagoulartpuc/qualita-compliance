@@ -1,8 +1,11 @@
 package compliance.qualita.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NonNull;
+import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
@@ -21,7 +24,10 @@ public class TrainingModule {
     private String description;
     @NonNull
     private String videoLink;
-    private List<byte[]> attachments = new ArrayList<>();
+    @Transient
+    private List<String> attachmentsAsBase64 = new ArrayList<>();
+    @JsonIgnore
+    private List<Binary> attachments = new ArrayList<>();
     private Map<String, List<ModuleComment>> comments = new HashMap<>();
     private List<String> validations = new ArrayList<>();
 }

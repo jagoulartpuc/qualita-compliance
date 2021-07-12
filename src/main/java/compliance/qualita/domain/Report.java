@@ -1,7 +1,6 @@
 package compliance.qualita.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
@@ -44,7 +43,8 @@ public class Report {
     private List<String> attachmentsAsBase64 = new ArrayList<>();
     @JsonIgnore
     private List<Binary> attachments = new ArrayList<>();
-    private List<ReportAnswer> reportAnswers;
+    private List<ReportAnswer> reportAnswers = new ArrayList<>();
+    private ReportStatus status;
     private ReportAnswer answerToInformer;
 
 }

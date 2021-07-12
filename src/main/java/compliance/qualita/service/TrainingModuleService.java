@@ -4,12 +4,14 @@ import compliance.qualita.domain.ModuleComment;
 import compliance.qualita.domain.TrainingModule;
 import compliance.qualita.repository.ModuleCommentRepository;
 import compliance.qualita.repository.TrainingModuleRepository;
-import compliance.qualita.util.AttachmentsUploader;
+import compliance.qualita.util.AttachmentsConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -21,17 +23,15 @@ public class TrainingModuleService {
     private TrainingModuleRepository moduleRepository;
 
     @Autowired
-    private AttachmentsUploader attachmentsUploader;
+    private AttachmentsConverter attachmentsConverter;
 
     @Autowired
     private ModuleCommentRepository commentRepository;
 
     public TrainingModule addTrainingModule(TrainingModule trainingModule) {
-        return moduleRepository.insert(trainingModule);
-    }
-
-    public TrainingModule addTrainingModuleWithAttachments(TrainingModule trainingModule, List<MultipartFile> files) throws IOException {
-        trainingModule.setAttachments(attachmentsUploader.uploadFiles(files));
+        if (!CollectionUtils.isEmpty(trainingModule.getAttachmentsAsBase64())) {
+            trainingModule.setAttachments(attachmentsConverter.fromBase64(trainingModule.getAttachmentsAsBase64()));
+        }
         return moduleRepository.insert(trainingModule);
     }
 
@@ -39,9 +39,9 @@ public class TrainingModuleService {
         return moduleRepository.save(trainingModule);
     }
 
-    public TrainingModule putAttachmentToTrainingModule(String trainingModuleId, MultipartFile file) throws IOException {
+    public TrainingModule putAttachmentToTrainingModule(String trainingModuleId, List<String> attachments) {
         TrainingModule trainingModule = getTrainingModuleById(trainingModuleId);
-        trainingModule.getAttachments().add(attachmentsUploader.uploadFile(file));
+        trainingModule.getAttachments().addAll(attachmentsConverter.fromBase64(attachments));
         return moduleRepository.save(trainingModule);
     }
 

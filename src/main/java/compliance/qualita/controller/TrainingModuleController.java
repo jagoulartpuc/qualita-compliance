@@ -5,9 +5,7 @@ import compliance.qualita.domain.TrainingModule;
 import compliance.qualita.service.TrainingModuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -23,14 +21,6 @@ public class TrainingModuleController {
             @RequestBody TrainingModule trainingModule
     ) {
         return moduleService.addTrainingModule(trainingModule);
-    }
-
-    @PostMapping("/com-anexo")
-    public TrainingModule postTrainingModuleWithAttachments(
-            @RequestBody TrainingModule trainingModule,
-            @RequestPart("files") List<MultipartFile> files
-    ) throws IOException {
-        return moduleService.addTrainingModuleWithAttachments(trainingModule, files);
     }
 
     @GetMapping
@@ -53,11 +43,11 @@ public class TrainingModuleController {
     }
 
     @PutMapping("/anexo")
-    public TrainingModule putAttachmentToTrainingModule(
+    public TrainingModule putAttachmentsToTrainingModule(
             @RequestParam String trainingModuleId,
-            @RequestPart("file") MultipartFile file
-    ) throws IOException {
-        return moduleService.putAttachmentToTrainingModule(trainingModuleId, file);
+            @RequestParam List<String> attachments
+    ) {
+        return moduleService.putAttachmentToTrainingModule(trainingModuleId, attachments);
     }
 
     @PutMapping("/comentario")

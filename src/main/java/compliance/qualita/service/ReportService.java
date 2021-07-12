@@ -4,10 +4,8 @@ import compliance.qualita.domain.Company;
 import compliance.qualita.domain.Report;
 import compliance.qualita.domain.ReportAnswer;
 import compliance.qualita.repository.ReportRepository;
-import compliance.qualita.util.AttachmentsUploader;
+import compliance.qualita.util.AttachmentsConverter;
 import compliance.qualita.util.EmailSender;
-import org.bson.BsonBinarySubType;
-import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -15,15 +13,10 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ReportService {
@@ -38,69 +31,48 @@ public class ReportService {
     private EmailSender emailSender;
 
     @Autowired
-    private AttachmentsUploader attachmentsUploader;
+    private AttachmentsConverter attachmentsConverter;
 
     @Value("${admin.email}")
     private String adminEmail;
 
     public Report addReport(Report report) throws MessagingException {
-        if(!CollectionUtils.isEmpty(report.getAttachmentsAsBase64())){
-           final var attachmentsAsBytes = report.getAttachmentsAsBase64()
-                    .parallelStream()
-                    .map(attach64 -> new Binary(BsonBinarySubType.BINARY,Base64.getDecoder().decode(attach64)))
-                    .collect(Collectors.toList());
-
-            report.setAttachments(attachmentsAsBytes);
+        if (!CollectionUtils.isEmpty(report.getAttachmentsAsBase64())) {
+            report.setAttachments(attachmentsConverter.fromBase64(report.getAttachmentsAsBase64()));
         }
-
         String trackingId = reportRepository.insert(report).getTrackingId();
         emailSender.sendEmail("Denúncia recebida", "Uma nova denúncia foi recebida. Protocolo: " + trackingId, adminEmail);
 
         return report;
     }
 
-    public List<Report> shareReportWithEnvolved(String companyCNPJ, String trackingId, String moreDestinations) throws MessagingException {
+    public List<Report> shareReportWithEnvolved(String companyCNPJ, String trackingId, String moreDestinations, List<String> attachments) throws MessagingException {
         Company company = companyService.getCompanyByCNPJ(companyCNPJ);
-        company.getReports().add(getReportByTrackingId(trackingId));
+        if (attachments != null) {
+            Report report = getReportByTrackingId(trackingId);
+            report.getAttachments().addAll(attachmentsConverter.fromBase64(attachments));
+            company.getReports().add(report);
+        }
         companyService.editCompany(company);
         emailSender.sendEmail("Denúncia encaminhada", "Uma nova denúncia foi encaminhada através do Qualitá Compliance. Protocolo: " + trackingId,
                 company.getEmail() + moreDestinations);
         return company.getReports();
     }
 
-    public List<Report> shareReportWithEnvolvedWithAttachments(String companyCNPJ, String trackingId, String moreDestinations, List<MultipartFile> files) throws IOException, MessagingException {
+    public Report answerCompanyReport(String trackingId, List<String> attachments) throws MessagingException {
         Report report = getReportByTrackingId(trackingId);
-//        report.setAttachments(attachmentsUploader.uploadFiles(files));
-        Company company = companyService.getCompanyByCNPJ(companyCNPJ);
-        company.getReports().add(report);
-        companyService.editCompany(company);
-        emailSender.sendEmail("Denúncia encaminhada", "Uma nova denúncia foi encaminhada através do Qualitá Compliance. Protocolo: " + trackingId,
-                company.getEmail() + moreDestinations);
-        return company.getReports();
-    }
-
-    public Report answerCompanyReport(String trackingId, ReportAnswer answer) {
-        Report report = getReportByTrackingId(trackingId);
-        report.getReportAnswers().add(answer);
-        return reportRepository.save(report);
-    }
-
-    public Report answerCompanyReportWithAttachments(String trackingId, ReportAnswer answer, List<MultipartFile> files) throws IOException {
-        Report report = getReportByTrackingId(trackingId);
-//        report.setAttachments(attachmentsUploader.uploadFiles(files));
-        report.getReportAnswers().add(answer);
+        if (attachments != null) {
+            report.getAttachments().addAll(attachmentsConverter.fromBase64(attachments));
+        }
+        emailSender.sendEmail("Resposta de denúncia", "A denúncia com o número de protocolo de: " + trackingId + " foi respondia.", adminEmail);
         return reportRepository.save(report);
     }
 
     public Report answerInformerReport(String trackingId, ReportAnswer answer) {
         Report report = getReportByTrackingId(trackingId);
-        report.setAnswerToInformer(answer);
-        return reportRepository.save(report);
-    }
-
-    public Report answerInformerReportWithAttachments(String trackingId, ReportAnswer answer, List<MultipartFile> files) throws IOException {
-        Report report = getReportByTrackingId(trackingId);
-//        report.setAttachments(attachmentsUploader.uploadFiles(files));
+        if (answer.getAttachmentsAsBase64() != null) {
+            answer.setAttachments(attachmentsConverter.fromBase64(report.getAttachmentsAsBase64()));
+        }
         report.setAnswerToInformer(answer);
         return reportRepository.save(report);
     }
@@ -113,7 +85,7 @@ public class ReportService {
         List<Report> filteredReports = new ArrayList<>();
         List<Report> reports = reportRepository.findAll();
 
-        for (Report report: reports) {
+        for (Report report : reports) {
             if (urgent != null && category != null && !report.getDates().isEmpty() && date != null) {
                 if (report.isUrgent() && report.getCategory().equals(category) && report.getDates().get(0).equals(date)) {
                     filteredReports.add(report);
