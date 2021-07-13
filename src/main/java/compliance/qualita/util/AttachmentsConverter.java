@@ -15,14 +15,14 @@ public class AttachmentsConverter {
     public List<Attachment> fromBase64(List<Attachment> attachments) {
         return attachments
                 .parallelStream()
-                .peek(attach -> attach.setBinaryAdress(new Binary(BsonBinarySubType.BINARY, Base64.getDecoder().decode(attach.getBase64adress()))))
+                .peek(attach -> attach.setBinaryAdress(new Binary(BsonBinarySubType.BINARY, Base64.getDecoder().decode(attach.getBase64Adress()))))
                 .collect(Collectors.toList());
     }
 
     public List<Attachment> fromBinary(List<Attachment> attachments) {
         return attachments
                 .parallelStream()
-                .peek(attach -> attach.setBase64adress(new String(Base64.getEncoder().encode(attach.getBinaryAdress().getData()))))
+                .peek(attach -> attach.setBase64Adress(new String(Base64.getEncoder().encode(attach.getBinaryAdress().getData()))))
                 .collect(Collectors.toList());
     }
 }
