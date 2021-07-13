@@ -70,28 +70,47 @@ export default function TrainningModuleDetailPage({ match }) {
     });
   };
 
+  const getAttachments = () => {
+    return trainning?.attachments.map(attach => {
+      const contentForDownload = `data:application/pdf;base64,${attach.base64adress}`;
+
+      return (<div>
+        <span>{attach.name}</span>
+        <a download={attach.name} href={contentForDownload}>Download</a>
+      </div>);
+    });
+  }
+
   return loading || !trainning ? (
     <h1>Carregando...</h1>
   ) : (
-    <main>
-      <div className='trainnning-content'>
-        <section id='trainning-title'>
-          <TrainningItem value={trainning?.title} />
-        </section>
-        <br />
-        <section>
-          <YoutubeEmbed videoLink={parseYouTubeUrlToEmbedded()} />
-        </section>
-        <br />
-        <section id='trainning-description'>
-          <TrainningItem label='Descrição:' value={trainning?.description} />
-        </section>
-        <br />
-        <section>
-          <TrainningItem label='Comentários:' value={getComments()} />
-        </section>
-        <br />
-      </div>
-    </main>
+    <section className='trainning-details'>
+      <main className=''>
+        <div className='trainnning-content'>
+          <section id='trainning-title'>
+            <TrainningItem value={trainning?.title} />
+          </section>
+          <br />
+          <section>
+            <YoutubeEmbed videoLink={parseYouTubeUrlToEmbedded()} />
+          </section>
+
+          <br />
+          <section id='trainning-description'>
+            <TrainningItem label='Descrição:' value={trainning?.description} />
+          </section>
+          <br />
+          <section>
+            <TrainningItem label='Comentários:' value={getComments()} />
+          </section>
+          <br />
+        </div>
+
+      </main>
+      <aside id='trainning-material'>
+        <h3><strong>Materiais do treinamento</strong></h3>
+        {getAttachments()}
+      </aside>
+    </section>
   );
 }

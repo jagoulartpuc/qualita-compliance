@@ -2,18 +2,41 @@
 @import "@StyleCommon/fonts.scss";
 @import "@StyleCommon/other-patterns.scss";
 
-main {
+.trainning-details {
     @include page-basic;
     width: 80%;
-    margin: 0 auto;
+    margin: 100px auto;
+    display: flex;
+    flex-direction: row;
     > h2 {
       text-align: center;
       font-size: 2.4rem;
       margin-top: 1.4rem;
     }
+    > main{
+      margin:auto;   
+      width: 100%;   
+    }
+    > aside{
+      margin:105px 20px;
+      background-color: #FFFFFF;
+      border-radius: 8px;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      padding: 2rem;
+      color: black;
+      height: 485px;
+      text-align: center;
+    }
+    #box1{
+      background-color:green;width:100px;height:100px;
+    }
+    #box2{
+      background-color:red;width:100px;height:100px;
+    }
+    #box3{
+      background-color:black;width:100px;height:100px;
+    }
     .trainnning-content{
-        max-width: 80%;
-        margin: 100px auto;
         width: 100%;
         .video-responsive{
           > iframe{
@@ -26,6 +49,7 @@ main {
             margin-left: 35px;
           }
         }
+       
         > section {
             max-height: 500px;
             background-color: $color-white;
@@ -50,6 +74,9 @@ main {
             }
            
           }
+        
+    }
+    #trainning-material{
     }
 
     #trainning-title{
