@@ -36,6 +36,18 @@
     #box3{
       background-color:black;width:100px;height:100px;
     }
+    .attachment{
+      margin: 20px;
+      .attachment-icon{
+        width: 100px;
+        height: 100px;
+      }
+    }
+    #trainning-material{
+      > h3{
+        color:#0078FD;
+      }
+    }
     .trainnning-content{
         width: 100%;
         .video-responsive{
@@ -48,6 +60,9 @@
             margin-top: 15px;
             margin-left: 35px;
           }
+        }
+        #trainning-comments, #trainning-title{
+          color:#0078FD
         }
        
         > section {

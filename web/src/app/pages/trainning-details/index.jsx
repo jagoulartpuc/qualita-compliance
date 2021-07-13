@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { getTrainning } from "@Services";
 import "./style.scss";
+import GenericPdfImage from '@Images/generic-pdf.png';
+import GenericImage from '@Images/generic-image.png';
 
 function TrainningItem({ label, value }) {
   return (
@@ -72,11 +74,14 @@ export default function TrainningModuleDetailPage({ match }) {
 
   const getAttachments = () => {
     return trainning?.attachments.map(attach => {
-      const contentForDownload = `data:application/pdf;base64,${attach.base64adress}`;
+      const contentForDownload = `data:${attach.mimeType};base64,${attach.base64Adress}`;
 
-      return (<div>
+      return (<div className='attachment'>
         <span>{attach.name}</span>
-        <a download={attach.name} href={contentForDownload}>Download</a>
+        <br />
+        <a download={attach.name} href={contentForDownload}>
+          <img className='attachment-icon' src={attach.mimeType === 'application/pdf' ? GenericPdfImage : GenericImage} />
+        </a>
       </div>);
     });
   }
@@ -97,10 +102,10 @@ export default function TrainningModuleDetailPage({ match }) {
 
           <br />
           <section id='trainning-description'>
-            <TrainningItem label='Descrição:' value={trainning?.description} />
+            <TrainningItem value={trainning?.description} />
           </section>
           <br />
-          <section>
+          <section id='trainning-comments'>
             <TrainningItem label='Comentários:' value={getComments()} />
           </section>
           <br />
