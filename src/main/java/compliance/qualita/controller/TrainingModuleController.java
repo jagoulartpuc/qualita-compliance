@@ -46,7 +46,7 @@ public class TrainingModuleController {
     @PutMapping("/anexo")
     public TrainingModule putAttachmentsToTrainingModule(
             @RequestParam String trainingModuleId,
-            @RequestParam List<Attachment> attachments
+            @RequestBody List<Attachment> attachments
     ) {
         return moduleService.putAttachmentToTrainingModule(trainingModuleId, attachments);
     }

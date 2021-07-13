@@ -51,7 +51,9 @@ public class TrainingModuleService {
     }
 
     public TrainingModule getTrainingModuleById(String id) {
-        return moduleRepository.findById(id).orElseThrow();
+        TrainingModule trainingModule = moduleRepository.findById(id).orElseThrow();
+        attachmentsConverter.fromBinary(trainingModule.getAttachments());
+        return trainingModule;
     }
 
     public boolean deleteTrainingModule(String id) {
