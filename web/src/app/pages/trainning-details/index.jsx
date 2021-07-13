@@ -1,11 +1,11 @@
 import { getTrainning, repplyComment, addNewComment } from "@Services";
 import "./style.scss";
-import GenericPdfImage from '@Images/generic-pdf.png';
-import GenericImage from '@Images/generic-image.png';
+import GenericPdfImage from '@Images/generic-pdf.jpeg';
+import GenericImage from '@Images/generic-image.jpeg';
+import AnonymousUser from '@Images/anonymous-person.jpeg';
 import { Component } from "react";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faUserCircle } from "@fortawesome/free-solid-svg-icons";
 
 function TrainningItem({ value }) {
   return (
@@ -81,7 +81,10 @@ export default class TrainningModuleDetailPage extends Component {
         if (comment.id !== key) {
           return (
             <div className='comment-reply'>
-              <p><strong>{comment.name}:</strong> {comment.comment}</p>
+              <p>
+                <img className='comment-user-icon' src={AnonymousUser} />
+                <strong>{comment.name}:</strong> {comment.comment}
+              </p>
             </div>
           );
         }
@@ -89,7 +92,11 @@ export default class TrainningModuleDetailPage extends Component {
 
       return (
         <div className='comment'>
-          <p><strong>{commentBase.name}:</strong> {commentBase.comment}</p>
+
+          <p>
+            <img className='comment-user-icon' src={AnonymousUser} />
+            <strong>{commentBase.name}:</strong> {commentBase.comment}
+          </p>
           <p><a onClick={(e) => {
             this.state.activeReply = key;
             this.setState(this.state);
