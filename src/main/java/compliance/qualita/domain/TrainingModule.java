@@ -2,7 +2,6 @@ package compliance.qualita.domain;
 
 import lombok.Data;
 import lombok.NonNull;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
@@ -14,7 +13,6 @@ import java.util.Map;
 @Document(collection = "module")
 public class TrainingModule {
 
-    @Id
     private String id;
     @NonNull
     private String title;

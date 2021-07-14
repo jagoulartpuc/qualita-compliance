@@ -1,12 +1,10 @@
 package compliance.qualita.service;
 
-import compliance.qualita.domain.Attachment;
-import compliance.qualita.domain.Company;
-import compliance.qualita.domain.Report;
-import compliance.qualita.domain.ReportAnswer;
+import compliance.qualita.domain.*;
 import compliance.qualita.repository.ReportRepository;
 import compliance.qualita.util.AttachmentsConverter;
 import compliance.qualita.util.EmailSender;
+import compliance.qualita.util.TemplateBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -16,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.mail.MessagingException;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,38 +33,41 @@ public class ReportService {
     @Autowired
     private AttachmentsConverter attachmentsConverter;
 
+    @Autowired
+    private TemplateBuilder templateBuilder;
+
     @Value("${admin.email}")
     private String adminEmail;
 
-    public Report addReport(Report report) throws MessagingException {
+    public Report addReport(Report report) throws MessagingException, FileNotFoundException {
         if (!CollectionUtils.isEmpty(report.getAttachments())) {
             attachmentsConverter.fromBase64(report.getAttachments());
         }
         String trackingId = reportRepository.insert(report).getTrackingId();
-        emailSender.sendEmail("Denúncia recebida", "Uma nova denúncia foi recebida. Protocolo: " + trackingId, adminEmail);
-
+        emailSender.sendEmail("Denúncia recebida", templateBuilder.buildReportReceived(trackingId), adminEmail);
+        report.setStatus(ReportStatus.RECEIVED);
         return report;
     }
 
-    public List<Report> shareReportWithEnvolved(String companyCNPJ, String trackingId, String moreDestinations, List<Attachment> attachments) throws MessagingException {
+    public List<Report> shareReportWithEnvolved(String companyCNPJ, String trackingId, String moreDestinations, List<Attachment> attachments) throws MessagingException, FileNotFoundException {
         Company company = companyService.getCompanyByCNPJ(companyCNPJ);
+        Report report = getReportByTrackingId(trackingId);
+        report.setStatus(ReportStatus.ON_ANALISYS);
         if (attachments != null) {
-            Report report = getReportByTrackingId(trackingId);
             report.getAttachments().addAll(attachmentsConverter.fromBase64(attachments));
             company.getReports().add(report);
         }
         companyService.editCompany(company);
-        emailSender.sendEmail("Denúncia encaminhada", "Uma nova denúncia foi encaminhada através do Qualitá Compliance. Protocolo: " + trackingId,
-                company.getEmail() + moreDestinations);
+        emailSender.sendEmail("Denúncia encaminhada", templateBuilder.buildReportShared(trackingId), company.getEmail() + moreDestinations);
         return company.getReports();
     }
 
-    public Report answerCompanyReport(String trackingId, List<Attachment> attachments) throws MessagingException {
+    public Report answerCompanyReport(String trackingId, List<Attachment> attachments) throws MessagingException, FileNotFoundException {
         Report report = getReportByTrackingId(trackingId);
         if (attachments != null) {
             report.getAttachments().addAll(attachmentsConverter.fromBase64(attachments));
         }
-        emailSender.sendEmail("Resposta de denúncia", "A denúncia com o número de protocolo de: " + trackingId + " foi respondia.", adminEmail);
+        emailSender.sendEmail("Resposta de denúncia", templateBuilder.buildReportAnswered(trackingId), adminEmail);
         return reportRepository.save(report);
     }
 
@@ -75,6 +77,7 @@ public class ReportService {
             attachmentsConverter.fromBase64(answer.getAttachments());
         }
         report.setAnswerToInformer(answer);
+        report.setStatus(ReportStatus.FINISHED);
         return reportRepository.save(report);
     }
 

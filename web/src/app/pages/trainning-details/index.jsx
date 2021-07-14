@@ -55,7 +55,6 @@ export default class TrainningModuleDetailPage extends Component {
             loading: false,
             activeReply: ''
         }
-
     }
 
     componentDidMount() {

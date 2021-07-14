@@ -33,4 +33,34 @@ public class TemplateBuilder {
                 .replace("COMPANY_NAME", name)
                 .replace("COMPANY_PASSWORD", password);
     }
+
+    public String buildReportReceived(String trackingId) throws FileNotFoundException {
+        Locale locale = new Locale("pt", "BR");
+        Scanner scanner = new Scanner(new File(ROOT_PATH + "reportReceived.html"), "ISO-8859-1");
+        scanner.useLocale(locale);
+
+        return scanner.useDelimiter("\\A")
+                .next()
+                .replace("TRACKING_ID", trackingId);
+    }
+
+    public String buildReportShared(String trackingId) throws FileNotFoundException {
+        Locale locale = new Locale("pt", "BR");
+        Scanner scanner = new Scanner(new File(ROOT_PATH + "reportShared.html"), "ISO-8859-1");
+        scanner.useLocale(locale);
+
+        return scanner.useDelimiter("\\A")
+                .next()
+                .replace("TRACKING_ID", trackingId);
+    }
+
+    public String buildReportAnswered(String trackingId) throws FileNotFoundException {
+        Locale locale = new Locale("pt", "BR");
+        Scanner scanner = new Scanner(new File(ROOT_PATH + "reportAnswered.html"), "ISO-8859-1");
+        scanner.useLocale(locale);
+
+        return scanner.useDelimiter("\\A")
+                .next()
+                .replace("TRACKING_ID", trackingId);
+    }
 }

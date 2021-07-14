@@ -9,7 +9,7 @@ const modules = [
         title: "Módulo 1",
         description: "Conceitos/objetivos",
         icon: faAward,
-        href: "reports",
+        href: "treinamentos/60e8a4b33bae1e7d13137182",
     },
     {
         title: "Módulo 2",

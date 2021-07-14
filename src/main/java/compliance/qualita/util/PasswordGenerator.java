@@ -9,13 +9,12 @@ public class PasswordGenerator {
 
     public String generatePassword() {
         Random random = new Random();
-        int leftLimit = 97; // letter 'a'
-        int rightLimit = 122; // letter 'z'
-        int targetStringLength = random.nextInt(12 - 8) + 8;
-
-        return random.ints(leftLimit, rightLimit + 1)
-                .limit(targetStringLength)
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString();
+        String numbers = "0123456789";
+        StringBuilder password = new StringBuilder();
+        for (int i = 0; i < 7; i++) {
+            int randomDigit = random.nextInt(numbers.length());
+            password.append(randomDigit);
+        }
+        return password.toString();
     }
 }
