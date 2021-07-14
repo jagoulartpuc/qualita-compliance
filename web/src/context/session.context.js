@@ -47,4 +47,4 @@ const SessionProvider = ({ children }) => {
 
 const useSession = () => useContext(SessionContext);
 
-export { SessionProvider, useSession };
+export { SessionProvider, useSession, LOCAL_STORAGE_USER_IDENTIFICATION };

@@ -6,6 +6,7 @@ import AnonymousUser from '@Images/anonymous-person.jpeg';
 import { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faUserCircle } from "@fortawesome/free-solid-svg-icons";
+import { LOCAL_STORAGE_USER_IDENTIFICATION, SessionProvider, useSession } from "../../../context/session.context";
 
 function TrainningItem({ value }) {
   return (
@@ -114,9 +115,10 @@ export default class TrainningModuleDetailPage extends Component {
   }
 
   sendComment = (content, type) => {
+    const loggedUser = JSON.parse(localStorage.getItem(LOCAL_STORAGE_USER_IDENTIFICATION));
     const commentObject = {
       comment: content,
-      name: 'Anônimo'
+      name: loggedUser?.name ?? 'Anônimo'
     };
 
     const promise = type === 'comment' ?
