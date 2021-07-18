@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.mail.MessagingException;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +39,7 @@ public class ReportService {
     @Value("${admin.email}")
     private String adminEmail;
 
-    public Report addReport(Report report) throws MessagingException, FileNotFoundException {
+    public Report addReport(Report report) throws MessagingException, IOException {
         if (!CollectionUtils.isEmpty(report.getAttachments())) {
             attachmentsConverter.fromBase64(report.getAttachments());
         }
@@ -49,7 +49,7 @@ public class ReportService {
         return report;
     }
 
-    public List<Report> shareReportWithEnvolved(String companyCNPJ, String trackingId, String moreDestinations, List<Attachment> attachments) throws MessagingException, FileNotFoundException {
+    public List<Report> shareReportWithEnvolved(String companyCNPJ, String trackingId, String moreDestinations, List<Attachment> attachments) throws MessagingException, IOException {
         Company company = companyService.getCompanyByCNPJ(companyCNPJ);
         Report report = getReportByTrackingId(trackingId);
         report.setStatus(ReportStatus.ON_ANALISYS);
@@ -62,7 +62,7 @@ public class ReportService {
         return company.getReports();
     }
 
-    public Report answerCompanyReport(String trackingId, List<Attachment> attachments) throws MessagingException, FileNotFoundException {
+    public Report answerCompanyReport(String trackingId, List<Attachment> attachments) throws MessagingException, IOException {
         Report report = getReportByTrackingId(trackingId);
         if (attachments != null) {
             report.getAttachments().addAll(attachmentsConverter.fromBase64(attachments));

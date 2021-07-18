@@ -11,7 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -25,7 +25,7 @@ public class ReportController {
     @PostMapping
     public Report postReport(
             @RequestBody Report report
-    ) throws MessagingException, FileNotFoundException {
+    ) throws MessagingException, IOException {
         return reportService.addReport(report);
     }
 
@@ -35,7 +35,7 @@ public class ReportController {
             @RequestParam String trackingId,
             @RequestParam(required = false) String moreDestinations,
             @RequestBody List<Attachment> attachments
-    ) throws MessagingException, FileNotFoundException {
+    ) throws MessagingException, IOException {
         return reportService.shareReportWithEnvolved(cnpj, trackingId, moreDestinations, attachments);
     }
 
@@ -43,7 +43,7 @@ public class ReportController {
     public Report answerCompanyReport(
             @RequestParam String trackingId,
             @RequestBody List<Attachment> attachments
-            ) throws MessagingException, FileNotFoundException {
+            ) throws MessagingException, IOException {
         return reportService.answerCompanyReport(trackingId, attachments);
     }
 
