@@ -10,8 +10,8 @@ export function getTrainning(id) {
   return trainningInstance.get(id);
 }
 
-export function getAllTrainnings() {
-  return trainningInstance.get('');
+export function getAllTrainnings(personCpf) {
+  return trainningInstance.get(`${personCpf ? '?cpf='+personCpf : ''}`);
 }
 
 export function repplyComment(trainningModuleId, commentId, comment) {
@@ -20,8 +20,4 @@ export function repplyComment(trainningModuleId, commentId, comment) {
 
 export function addNewComment(trainningModuleId, comment) {
   return trainningInstance.put(`/comentario?trainingModuleId=${trainningModuleId}`, comment);
-}
-
-export function isValidated(trainningModuleId, personCpf) {
-  return trainningInstance.get(`/esta-validado?moduleId=${trainningModuleId}&cpf=${personCpf}`);
 }

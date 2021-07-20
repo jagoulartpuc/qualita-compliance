@@ -85,7 +85,9 @@ public class TrainingModuleService {
     private List<TrainingModule> getTrainingModulesByCpf(String cpf) {
         return moduleRepository.findAll()
                 .stream()
-                .peek(mod -> mod.setValidated(mod.getValidations().contains(personService.getPersonByCPF(cpf).getCompanyCnpj())))
+                .peek(mod -> {
+                    mod.setValidated(mod.getValidations().contains(personService.getPersonByCPF(cpf).getCompanyCnpj()));
+                })
                 .collect(toList());
 
     }

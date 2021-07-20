@@ -11,14 +11,15 @@ export function Card({
   icon,
   inputActionValue,
   action,
-  additionalLabel
+  additionalLabel,
+  checked
 }) {
   return (
     <div className="card-wrapper">
       <MaterialCard className="card-container">
         {action ? (
           <div className='card-action'>
-            <input id={inputActionValue}  type='checkbox' onChange={action} value={inputActionValue} />
+            <input id={inputActionValue}  type='checkbox' onChange={action} value={inputActionValue} checked={checked} />
             <label for={inputActionValue}><strong>{additionalLabel}</strong></label>
           </div>
         ) : <label  className='only-label'><strong>{additionalLabel}</strong></label>}
