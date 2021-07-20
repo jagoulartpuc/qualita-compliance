@@ -11,7 +11,7 @@ import java.util.Scanner;
 @Component
 public class TemplateBuilder {
 
-    private final String ROOT_PATH = "C:\\Users\\a\\Desktop\\projetos\\qualita-compliance\\src\\main\\resources\\templates\\";
+    private final String ROOT_PATH = "src/main/resources/templates/";
 
     public String buildPersonWelcomeTemplate(String name, String password) throws IOException {
         Locale locale = new Locale("pt", "BR");

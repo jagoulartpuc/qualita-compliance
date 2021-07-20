@@ -48,6 +48,7 @@ public class ReportService {
         Runnable runnable = () ->{
             try{
                 emailSender.sendEmail("Denúncia recebida", templateBuilder.buildReportReceived(trackingId), adminEmail);
+                System.out.println("E-mail has been sent");
             }catch (Exception e){
                 e.printStackTrace();
                 System.out.println("Thread has been finished:");
