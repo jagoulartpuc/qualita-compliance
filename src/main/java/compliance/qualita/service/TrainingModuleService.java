@@ -1,6 +1,7 @@
 package compliance.qualita.service;
 
 import compliance.qualita.domain.Attachment;
+import compliance.qualita.domain.Company;
 import compliance.qualita.domain.ModuleComment;
 import compliance.qualita.domain.TrainingModule;
 import compliance.qualita.repository.ModuleCommentRepository;
@@ -13,6 +14,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.List;
 
 import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class TrainingModuleService {
@@ -28,6 +30,9 @@ public class TrainingModuleService {
 
     @Autowired
     private PersonService personService;
+
+    @Autowired
+    private CompanyService companyService;
 
     public TrainingModule addTrainingModule(TrainingModule trainingModule) {
         if (!CollectionUtils.isEmpty(trainingModule.getAttachments())) {
@@ -74,7 +79,11 @@ public class TrainingModuleService {
         return editTrainingModule(trainingModule);
     }
 
-    public boolean isValidatedFromPersonCompany(String moduleId, String cpf) {
-        return getTrainingModuleById(moduleId).getValidations().contains(personService.getPersonByCPF(cpf).getCompanyCnpj());
+    public List<TrainingModule> getTrainingModulesByCpf(String cpf) {
+        return getTrainingModules()
+                .stream()
+                .peek(mod -> mod.setValidated(mod.getValidations().contains(personService.getPersonByCPF(cpf).getCompanyCnpj())))
+                .collect(toList());
+
     }
 }
