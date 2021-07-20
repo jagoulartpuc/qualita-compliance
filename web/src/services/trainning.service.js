@@ -21,3 +21,7 @@ export function repplyComment(trainningModuleId, commentId, comment) {
 export function addNewComment(trainningModuleId, comment) {
   return trainningInstance.put(`/comentario?trainingModuleId=${trainningModuleId}`, comment);
 }
+
+export function isValidated(trainningModuleId, personCpf) {
+  return trainningInstance.get(`/esta-validado?moduleId=${trainningModuleId}&cpf=${personCpf}`);
+}

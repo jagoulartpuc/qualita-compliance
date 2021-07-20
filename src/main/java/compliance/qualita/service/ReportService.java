@@ -39,12 +39,22 @@ public class ReportService {
     @Value("${admin.email}")
     private String adminEmail;
 
-    public Report addReport(Report report) throws MessagingException, IOException {
+    public Report addReport(Report report)  {
         if (!CollectionUtils.isEmpty(report.getAttachments())) {
             attachmentsConverter.fromBase64(report.getAttachments());
         }
         String trackingId = reportRepository.insert(report).getTrackingId();
-        emailSender.sendEmail("Denúncia recebida", templateBuilder.buildReportReceived(trackingId), adminEmail);
+
+        Runnable runnable = () ->{
+            try{
+                //mailSender.sendEmail("Denúncia recebida", templateBuilder.buildReportReceived(trackingId), adminEmail);
+            }catch (Exception e){
+                e.printStackTrace();
+                System.out.println("Thread has been finished:");
+            }
+        };
+
+        new Thread(runnable).start();
         report.setStatus(ReportStatus.RECEIVED);
         return report;
     }

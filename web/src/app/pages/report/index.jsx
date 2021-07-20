@@ -1,40 +1,24 @@
-import React, { useMemo } from "react";
-import { Footer, Header, Dropzone, Button } from "@Components";
-import { createReport } from "@Services";
-import { fileUtils } from '@Utils';
-import "./style.scss";
+import { Button, Dropzone } from "@Components";
+import DateFnsUtils from "@date-io/date-fns";
 import {
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Input,
-  Divider,
-  TextField,
-  IconButton,
-  Chip,
-  Switch,
-  Card,
-  AccordionDetails,
-  AccordionSummary,
-  Accordion,
+  faChevronDown, faCopy, faPlus, faTrash
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  Accordion, AccordionDetails,
+  AccordionSummary, Chip, Divider, FormControl, IconButton, Input, InputLabel, MenuItem, Select, Switch, TextField
 } from "@material-ui/core";
 import {
   KeyboardDatePicker,
-  MuiPickersUtilsProvider,
+  MuiPickersUtilsProvider
 } from "@material-ui/pickers";
-
-import DateFnsUtils from "@date-io/date-fns";
-import { useState, useRef } from "react";
+import { createReport } from "@Services";
+import { fileUtils } from '@Utils';
+import React, { useRef, useState } from "react";
 import { maskUtils } from "../../utils/mask-utils";
+import "./style.scss";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faTrash,
-  faPlus,
-  faCopy,
-  faChevronDown,
-} from "@fortawesome/free-solid-svg-icons";
+
 
 function formatDate(date) {
   return Intl.DateTimeFormat("pt-br", {
@@ -152,15 +136,22 @@ export function ReportPage() {
     setAttachments([...attachments]);
   }
 
+  async function getAttachments() {
+    return (await Promise.all(attachments.map(file => fileUtils.toBase64(file)))).map(file => {
+      return { base64Adress: file }
+    });
+  }
+
   async function submit(e) {
     e.preventDefault();
+
     try {
       const payload = {
         category,
         urgency,
         dates,
         description: descriptionRef.current.value,
-        attachmentsAsBase64: await Promise.all(attachments.map(file => fileUtils.toBase64(file))),
+        attachments: await getAttachments(),
         isManagerKnowledge,
         companyName: companyNameRef.current.value,
         local: localRef.current.value,
@@ -179,7 +170,6 @@ export function ReportPage() {
           }
           : undefined,
       };
-
       const { data: response } = await createReport(payload);
       setTrackingId(response.trackingId);
     } catch (error) {

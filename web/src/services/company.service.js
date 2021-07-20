@@ -9,3 +9,7 @@ const companyInstance = axios.create({
 export function getCompanyReports(cnpj) {
     return companyInstance.get(cnpj + "/denuncias");
 }
+
+export function validateModule(moduleId, cnpj) {
+    return companyInstance.put(`validacao?moduleId=${moduleId}&cnpj=${cnpj}`);
+}

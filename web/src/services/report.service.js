@@ -19,7 +19,7 @@ export function createReport(payload) {
     dates: payload.dates,
     reportDetails: payload.reportDetails,
     local: payload.local,
-    attachmentsAsBase64: payload.attachmentsAsBase64,
+    attachments: payload.attachments,
     isManagerKnowledge: payload.isManagerKnowledge,
     caseKnowledge: String(payload.isManagerKnowledge),
   };

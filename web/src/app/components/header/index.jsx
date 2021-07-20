@@ -68,6 +68,7 @@ export function Header() {
             onClose={handleClose}
           >
             <MenuItem onClick={handleLogout}>Sair </MenuItem>
+            {user?.role === 'ADMIN' ? <MenuItem onClick={() => { }}>Painel de controle </MenuItem> : null}
           </Menu>
         </section>
       )}

@@ -9,16 +9,28 @@ export function Card({
   href = "#",
   description,
   icon,
+  inputActionValue,
+  action,
+  additionalLabel
 }) {
   return (
-    <Link className="card-wrapper" to={href}>
+    <div className="card-wrapper">
       <MaterialCard className="card-container">
-        <section className="card-title">
-          <h3 >{title}</h3>
-          {icon && <FontAwesomeIcon className="card-icon" icon={icon} size="2x" />}
-        </section>
+        {action ? (
+          <div className='card-action'>
+            <input id={inputActionValue}  type='checkbox' onChange={action} value={inputActionValue} />
+            <label for={inputActionValue}><strong>{additionalLabel}</strong></label>
+          </div>
+        ) : <label  className='only-label'><strong>{additionalLabel}</strong></label>}
+        <Link to={href}>
+          <section className="card-title">
+            <h3 >{title}</h3>
+            {icon && <FontAwesomeIcon className="card-icon" icon={icon} size="2x" />}
+          </section>
+        </Link>
+
         <p className="card-description">{description}</p>
       </MaterialCard>
-    </Link>
+    </div>
   );
 }
