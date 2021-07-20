@@ -51,7 +51,10 @@ public class TrainingModuleService {
         return moduleRepository.save(trainingModule);
     }
 
-    public List<TrainingModule> getTrainingModules() {
+    public List<TrainingModule> getTrainingModules(String cpf) {
+        if (cpf != null) {
+            return getTrainingModulesByCpf(cpf);
+        }
         return moduleRepository.findAll();
     }
 
@@ -79,8 +82,8 @@ public class TrainingModuleService {
         return editTrainingModule(trainingModule);
     }
 
-    public List<TrainingModule> getTrainingModulesByCpf(String cpf) {
-        return getTrainingModules()
+    private List<TrainingModule> getTrainingModulesByCpf(String cpf) {
+        return moduleRepository.findAll()
                 .stream()
                 .peek(mod -> mod.setValidated(mod.getValidations().contains(personService.getPersonByCPF(cpf).getCompanyCnpj())))
                 .collect(toList());

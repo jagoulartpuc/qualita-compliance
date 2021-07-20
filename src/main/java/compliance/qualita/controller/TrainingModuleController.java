@@ -25,15 +25,10 @@ public class TrainingModuleController {
     }
 
     @GetMapping
-    public List<TrainingModule> getAllTrainingModules() {
-        return moduleService.getTrainingModules();
-    }
-
-    @GetMapping("/{cpf}")
-    public List<TrainingModule> getAllTrainingModulesByCpf(
-            @PathVariable String cpf
+    public List<TrainingModule> getAllTrainingModules(
+            @RequestParam(required = false) String cpf
     ) {
-        return moduleService.getTrainingModulesByCpf(cpf);
+        return moduleService.getTrainingModules(cpf);
     }
 
     @GetMapping("/{id}")
