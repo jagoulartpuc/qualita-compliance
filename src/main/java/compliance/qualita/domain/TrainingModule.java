@@ -22,4 +22,5 @@ public class TrainingModule {
     private List<Attachment> attachments = new ArrayList<>();
     private Map<String, List<ModuleComment>> comments = new HashMap<>();
     private List<String> validations = new ArrayList<>();
+    private boolean validated = false;
 }

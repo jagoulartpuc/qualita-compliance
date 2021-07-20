@@ -29,6 +29,13 @@ public class TrainingModuleController {
         return moduleService.getTrainingModules();
     }
 
+    @GetMapping("/{cpf}")
+    public List<TrainingModule> getAllTrainingModulesByCpf(
+            @PathVariable String cpf
+    ) {
+        return moduleService.getTrainingModulesByCpf(cpf);
+    }
+
     @GetMapping("/{id}")
     public TrainingModule getTrainingModuleById(
             @PathVariable String id
@@ -66,14 +73,6 @@ public class TrainingModuleController {
             @RequestParam String commentId
     ) {
         return moduleService.answerCommentModule(trainingModuleId, commentAnswer, commentId);
-    }
-
-    @GetMapping("/esta-validado")
-    public boolean isValidatedFromPersonCompany(
-            @RequestParam String moduleId,
-            @RequestParam String cpf
-    ) {
-        return moduleService.isValidatedFromPersonCompany(moduleId, cpf);
     }
 
     @DeleteMapping
