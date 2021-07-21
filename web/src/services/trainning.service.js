@@ -10,8 +10,9 @@ export function getTrainning(id) {
   return trainningInstance.get(id);
 }
 
-export function getAllTrainnings(personCpf) {
-  return trainningInstance.get(`${personCpf ? '?cpf='+personCpf : ''}`);
+export function getAllTrainnings(user) {
+  const filter = `${user.cpf ? '?cpf='+user.cpf  : '?cnpj='+user.cnpj}`;
+  return trainningInstance.get(filter);
 }
 
 export function repplyComment(trainningModuleId, commentId, comment) {

@@ -1,1 +1,1 @@
-export { useSession, SessionProvider } from "./session.context";
+export { useSession, SessionProvider, LOCAL_STORAGE_USER_IDENTIFICATION } from "./session.context";

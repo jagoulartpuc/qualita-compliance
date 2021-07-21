@@ -1,5 +1,5 @@
 import React from "react";
-import { useSession } from "@Context";
+import { LOCAL_STORAGE_USER_IDENTIFICATION       } from "@Context";
 import { Card } from "@Components";
 import {
     faExclamationTriangle,
@@ -20,7 +20,7 @@ const modules = [
 ];
 
 export function CompanyReportsPage() {
-    const { user } = useSession();
+    const user = JSON.parse(localStorage.getItem(LOCAL_STORAGE_USER_IDENTIFICATION));
     const [companyReports, setCompanyReports] = useState([]);
     const [loading, setLoading] = useState(false);
     const history = useHistory();
@@ -29,16 +29,15 @@ export function CompanyReportsPage() {
         (async () => {
             try {
                 setLoading(true);
-                getCompanyReports(user.identifier).then(({ data: responseData }) => {
-                    setCompanyReports(responseData);
-                    setLoading(false);
-                });
+                const { data: responseData } = await getCompanyReports(user.identifier);
+
+                setCompanyReports(responseData);
+                setLoading(false);
             } catch (error) {
                 history.replace("/");
             }
         })();
     }, []);
-
 
 
     return loading ?
