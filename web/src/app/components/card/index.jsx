@@ -28,9 +28,10 @@ export function Card({
             <h3 >{title}</h3>
             {icon && <FontAwesomeIcon className="card-icon" icon={icon} size="2x" />}
           </section>
+        <p className="card-description">{description}</p>
+
         </Link>
 
-        <p className="card-description">{description}</p>
       </MaterialCard>
     </div>
   );

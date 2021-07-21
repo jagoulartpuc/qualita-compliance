@@ -1,10 +1,14 @@
 import React from "react";
-import {useSession} from "@Context";
-import {Card} from "@Components";
+import { useSession } from "@Context";
+import { Card } from "@Components";
 import {
     faExclamationTriangle,
 } from "@fortawesome/free-solid-svg-icons";
 import "./style.scss";
+import { useEffect } from "react";
+import { getCompanyReports } from '@Services';
+import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const modules = [
     {
@@ -16,13 +20,44 @@ const modules = [
 ];
 
 export function CompanyReportsPage() {
-    const {user} = useSession();
-    return (
-        <main id="company-reports-page">
-            <h2 className="page-title">Selecione uma das denúncias abaixo</h2>
-            <div className="card-list">
-                <Card key={0} {...modules[0]} />
-            </div>
-        </main>
-    );
+    const { user } = useSession();
+    const [companyReports, setCompanyReports] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const history = useHistory();
+
+    useEffect(() => {
+        (async () => {
+            try {
+                setLoading(true);
+                getCompanyReports(user.identifier).then(({ data: responseData }) => {
+                    setCompanyReports(responseData);
+                    setLoading(false);
+                });
+            } catch (error) {
+                history.replace("/");
+            }
+        })();
+    }, []);
+
+
+
+    return loading ?
+        <h1>Carregando</h1>
+        : (
+            <main id="company-reports-page">
+                <h2 className="page-title">Selecione uma das denúncias abaixo</h2>
+                <div className="card-list">
+                    {companyReports.map(comp => {
+                        const description = (
+                            <div className='report-details'>
+                                <span>Protocolo: {comp.trackingId}</span><br />
+                                <strong>Ver detalhes</strong>
+                            </div>
+                        );
+
+                        return <Card key={comp.trackingId} title={comp.category} description={description} icon={faExclamationTriangle} href={`reports/${comp.trackingId}`} />;
+                    })}
+                </div>
+            </main>
+        );
 }
