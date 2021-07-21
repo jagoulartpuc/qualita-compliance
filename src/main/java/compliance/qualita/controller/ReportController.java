@@ -25,7 +25,7 @@ public class ReportController {
     @PostMapping
     public Report postReport(
             @RequestBody Report report
-    ) throws MessagingException, IOException {
+    ) {
         return reportService.addReport(report);
     }
 

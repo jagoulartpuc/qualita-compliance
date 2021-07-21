@@ -5,6 +5,8 @@ import compliance.qualita.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @CrossOrigin
@@ -19,6 +21,12 @@ public class PersonController {
             @RequestBody Person person
     ) throws Exception {
         return personService.addPerson(person);
+    }
+
+    @GetMapping
+    public List<Person> getPersons(
+    ) {
+        return personService.getAllPersons();
     }
 
     @PutMapping("/mudar-senha")

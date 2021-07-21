@@ -26,9 +26,11 @@ public class TrainingModuleController {
 
     @GetMapping
     public List<TrainingModule> getAllTrainingModules(
-            @RequestParam(required = false) String cpf
+            @RequestParam(required = false) String cpf,
+            @RequestParam(required = false) String cnpj
+
     ) {
-        return moduleService.getTrainingModules(cpf);
+        return moduleService.getTrainingModules(cpf, cnpj);
     }
 
     @GetMapping("/{id}")
