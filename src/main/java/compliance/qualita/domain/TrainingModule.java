@@ -4,10 +4,7 @@ import lombok.Data;
 import lombok.NonNull;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Data
 @Document(collection = "module")
@@ -21,6 +18,6 @@ public class TrainingModule {
     private String videoLink;
     private List<Attachment> attachments = new ArrayList<>();
     private Map<String, List<ModuleComment>> comments = new HashMap<>();
-    private List<String> validations = new ArrayList<>();
+    private Set<String> validations = new HashSet<>();
     private boolean validated = false;
 }
