@@ -8,12 +8,13 @@ export function Card({
   title = "Título do módulo",
   href = "#",
   description,
-  icon,
+  icons,
   actionElement,
   additionalLabel,
 }) {
   return (
     <div className="card-wrapper">
+      
       <MaterialCard className="card-container">
         {actionElement ? (
           <div className='card-action'>
@@ -23,10 +24,9 @@ export function Card({
         <Link to={href}>
           <section className="card-title">
             <h3 >{title}</h3>
-            {icon && <FontAwesomeIcon className="card-icon" icon={icon} size="2x" />}
+            {icons}
           </section>
         <p className="card-description">{description}</p>
-
         </Link>
 
       </MaterialCard>

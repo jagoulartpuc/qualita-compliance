@@ -48,14 +48,12 @@ export function TrainingModulesPage() {
     }, []);
 
     const actionElement = (module) => {
-        return user?.role === 'COMPANY' ? (
-            module.validated ? (<img src={ConfirmationImage} className='confirmated-module' />) : (
-                <span onClick={validateTrainnningModule} className='validate-module'>
-                    <strong id={module.id} >Validar Módulo</strong>
-                </span>
-            )
+        return user?.role === 'COMPANY' && !module.validated ? (
+            <span onClick={validateTrainnningModule} className='validate-module'>
+                <strong id={module.id} >Validar Módulo</strong>
+            </span>
         ) : (
-            <FontAwesomeIcon icon={faAward} />
+           null
         );
     };
 
@@ -65,12 +63,25 @@ export function TrainingModulesPage() {
             <div className="card-list">
                 {modules.map((mod, index) => {
                     let actionHtmlElement = <img src={ConfirmationImage} className='confirmated-module' />;
+                    let icons;
+
+                    if (mod.validated) {
+                        icons = (
+                            <div className='card-icons'>
+                                <FontAwesomeIcon className="card-icon" icon={faAward} size="2x" />
+                                <br />
+                                <img src={ConfirmationImage} className='confirmated-module' />
+                            </div>
+                        );
+                    } else {
+                        icons = <FontAwesomeIcon className="card-icon" icon={faAward} size="2x" />;
+                    }
 
                     if (user?.role === 'COMPANY' || user?.role === 'ADMIN') {
                         actionHtmlElement = actionElement(mod);
                     }
 
-                    return <Card key={index} title={mod.title} description={mod.description} href={`/treinamentos/${mod.id}`} icon={faAward} actionElement={actionHtmlElement} />
+                    return <Card key={index} title={mod.title} description={mod.description} href={`/treinamentos/${mod.id}`} icons={icons} actionElement={actionHtmlElement} />
 
                 })}
             </div>

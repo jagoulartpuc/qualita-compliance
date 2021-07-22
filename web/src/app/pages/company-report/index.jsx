@@ -9,15 +9,7 @@ import { useEffect } from "react";
 import { getCompanyReports } from '@Services';
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-
-const modules = [
-    {
-        title: "Denúncia 1",
-        description: "Clique aqui para ver os detalhes sobre a denúncia 1",
-        icon: faExclamationTriangle,
-        href: "reports",
-    }
-];
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export function CompanyReportsPage() {
     const user = JSON.parse(localStorage.getItem(LOCAL_STORAGE_USER_IDENTIFICATION));
@@ -54,7 +46,8 @@ export function CompanyReportsPage() {
                             </div>
                         );
 
-                        return <Card key={comp.trackingId} title={comp.category} description={description} icon={faExclamationTriangle} href={`reports/${comp.trackingId}`} />;
+                        const icons =  <FontAwesomeIcon className="card-icon" icon={faExclamationTriangle} size="2x" /> 
+                        return <Card key={comp.trackingId} title={comp.category} description={description} icons={icons} href={`reports/${comp.trackingId}`} />;
                     })}
                 </div>
             </main>
