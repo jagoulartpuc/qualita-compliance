@@ -9,24 +9,19 @@ export function Card({
   href = "#",
   description,
   icons,
-  actionElement,
   additionalLabel,
 }) {
   return (
     <div className="card-wrapper">
-      
+
       <MaterialCard className="card-container">
-        {actionElement ? (
-          <div className='card-action'>
-            {actionElement}
-          </div>
-        ) : <label  className='only-label'><strong>{additionalLabel}</strong></label>}
+        <label className='only-label'><strong>{additionalLabel}</strong></label>
         <Link to={href}>
           <section className="card-title">
             <h3 >{title}</h3>
             {icons}
           </section>
-        <p className="card-description">{description}</p>
+          <p className="card-description">{description}</p>
         </Link>
 
       </MaterialCard>

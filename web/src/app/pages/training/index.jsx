@@ -47,23 +47,14 @@ export function TrainingModulesPage() {
         })();
     }, []);
 
-    const actionElement = (module) => {
-        return user?.role === 'COMPANY' && !module.validated ? (
-            <span onClick={validateTrainnningModule} className='validate-module'>
-                <strong id={module.id} >Validar Módulo</strong>
-            </span>
-        ) : (
-           null
-        );
-    };
 
     return loading ? <h1>Carregando...</h1> : (
         <main id="profile-page">
             <h2 className="page-title">Selecione um dos módulos abaixo </h2>
             <div className="card-list">
                 {modules.map((mod, index) => {
-                    let actionHtmlElement = <img src={ConfirmationImage} className='confirmated-module' />;
                     let icons;
+                    let descriptionHtml;
 
                     if (mod.validated) {
                         icons = (
@@ -73,15 +64,24 @@ export function TrainingModulesPage() {
                                 <img src={ConfirmationImage} className='confirmated-module' />
                             </div>
                         );
+
+                        descriptionHtml = <span>{mod.description}</span>;
                     } else {
-                        icons = <FontAwesomeIcon className="card-icon" icon={faAward} size="2x" />;
+                        icons = <FontAwesomeIcon className="card-icon" icon={faAward} size="2x" />
+
+                        descriptionHtml = user?.role === 'COMPANY' ? (
+                            <span>
+                                <span>{mod.description}</span>
+                                <span onClick={validateTrainnningModule} className='validate-module'>
+                                    <strong id={module.id} >Validar Módulo</strong>
+                                </span>
+                            </span>
+                        ) : (
+                            <FontAwesomeIcon className="card-icon" icon={faAward} size="2x" />
+                        )
                     }
 
-                    if (user?.role === 'COMPANY' || user?.role === 'ADMIN') {
-                        actionHtmlElement = actionElement(mod);
-                    }
-
-                    return <Card key={index} title={mod.title} description={mod.description} href={`/treinamentos/${mod.id}`} icons={icons} actionElement={actionHtmlElement} />
+                    return <Card key={index} title={mod.title} description={descriptionHtml } href={`/treinamentos/${mod.id}`} icons={icons} />
 
                 })}
             </div>
