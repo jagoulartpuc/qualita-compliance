@@ -22,7 +22,6 @@ public class Person {
     private String password;
     @NonNull
     private String email;
-    @NonNull
     private String companyCnpj;
     private String phone;
     @NonNull
