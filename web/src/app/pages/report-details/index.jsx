@@ -52,28 +52,10 @@ export default function ReportDetails({ match }) {
     <main id="report-details-page">
       <h2>Detalhes da denúncia</h2>
       <section>
-        <ReportItem label="Denunciante" value={report?.author} />
-        <ReportItem label="Denunciado" value={report?.companyName} />
-        <ReportItem label="Local" value={report?.local} />
+        <ReportItem label="Nº de protocolo" value={report?.trackingId} />
         <ReportItem label="Categoria" value={report?.category} />
         <ReportItem label="Descrição do ocorrido" value={report?.description} />
-        <ReportItem
-          label="Datas da ocorrência"
-          value={listToString(formatDates(report?.dates))}
-        />
-        <ReportItem label="Período" value={report?.reportDetails.period} />
-        <ReportItem
-          label="Pessoas envolvidas"
-          value={listToString(report?.reportDetails.envolvedPeople)}
-        />
-        <ReportItem
-          label="Suspeitos"
-          value={listToString(report?.reportDetails.suspects)}
-        />
-        <ReportItem
-          label="Testemunhas"
-          value={listToString(report?.reportDetails.witnesses)}
-        />
+        <ReportItem label="Status" value={report?.status} />
       </section>
     </main>
   );

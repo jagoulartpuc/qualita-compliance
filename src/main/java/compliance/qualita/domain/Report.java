@@ -37,7 +37,7 @@ public class Report {
     private ReportDetails reportDetails;
     private List<Attachment> attachments;
     private List<ReportAnswer> reportAnswers = new ArrayList<>();
-    private ReportStatus status;
+    private String status;
     private ReportAnswer answerToInformer;
 
 }

@@ -56,14 +56,14 @@ public class ReportService {
         };
 
         new Thread(runnable).start();
-        report.setStatus(ReportStatus.RECEIVED);
+        report.setStatus("RECEBIDA");
         return report;
     }
 
     public List<Report> shareReportWithEnvolved(String companyCNPJ, String trackingId, String moreDestinations, List<Attachment> attachments) throws MessagingException, IOException {
         Company company = companyService.getCompanyByCNPJ(companyCNPJ);
         Report report = getReportByTrackingId(trackingId);
-        report.setStatus(ReportStatus.ON_ANALISYS);
+        report.setStatus("EM ANALISE");
         if (attachments != null) {
             report.getAttachments().addAll(attachmentsConverter.fromBase64(attachments));
             company.getReports().add(report);
@@ -88,7 +88,7 @@ public class ReportService {
             attachmentsConverter.fromBase64(answer.getAttachments());
         }
         report.setAnswerToInformer(answer);
-        report.setStatus(ReportStatus.FINISHED);
+        report.setStatus("FINALIZADA");
         return reportRepository.save(report);
     }
 
