@@ -60,12 +60,17 @@ export function TrainingModulesPage() {
                         icons = (
                             <div className='card-icons'>
                                 <FontAwesomeIcon className="card-icon" icon={faAward} size="2x" />
-                                <br />
-                                <img src={ConfirmationImage} className='confirmated-module' />
                             </div>
                         );
 
-                        descriptionHtml = <span>{mod.description}</span>;
+                        descriptionHtml = (
+                            <span>
+                                <span className='card-description'>{mod.description}</span>
+                                <span>
+                                    <img src={ConfirmationImage} className='confirmated-module' />
+                                </span>
+                            </span>
+                        );
                     } else {
                         icons = <FontAwesomeIcon className="card-icon" icon={faAward} size="2x" />
 
@@ -81,7 +86,7 @@ export function TrainingModulesPage() {
                         )
                     }
 
-                    return <Card key={index} title={mod.title} description={descriptionHtml } href={`/treinamentos/${mod.id}`} icons={icons} />
+                    return <Card key={index} title={mod.title} description={descriptionHtml} href={`/treinamentos/${mod.id}`} icons={icons} />
 
                 })}
             </div>

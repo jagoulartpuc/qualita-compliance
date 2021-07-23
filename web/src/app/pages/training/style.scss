@@ -25,12 +25,17 @@
     .validate-module{
       cursor: pointer;
       float: right;
+      margin-top: 12px;
     }
 
     .confirmated-module{
       width: 30px;
       height: 30px;
-      margin-top:10px
+      float: right;
+    }
+
+    .card-description{
+vertical-align: sub;
     }
 
    .card-icons{
