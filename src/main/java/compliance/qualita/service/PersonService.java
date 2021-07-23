@@ -9,6 +9,8 @@ import compliance.qualita.util.TemplateBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PersonService {
 
@@ -58,5 +60,9 @@ public class PersonService {
         Person person = getPersonByCPF(cpf);
         person.setPassword(password);
         return personRepository.save(person);
+    }
+
+    public List<Person> getAllPersons() {
+        return personRepository.findAll();
     }
 }

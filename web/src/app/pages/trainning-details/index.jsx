@@ -1,21 +1,20 @@
-import {getTrainning, repplyComment, addNewComment} from "@Services";
-import "./style.scss";
-import GenericPdfImage from '@Images/generic-pdf.jpeg';
-import GenericImage from '@Images/generic-image.jpeg';
+import { faArrowLeft, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AnonymousUser from '@Images/anonymous-person.jpeg';
-import {Component} from "react";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft, faUserCircle} from "@fortawesome/free-solid-svg-icons";
-import {LOCAL_STORAGE_USER_IDENTIFICATION, SessionProvider, useSession} from "../../../context/session.context";
-import {colors} from "@material-ui/core";
-
-function TrainningItem({value}) {
+import GenericImage from '@Images/generic-image.jpeg';
+import GenericPdfImage from '@Images/generic-pdf.jpeg';
+import { addNewComment, getTrainning, repplyComment } from "@Services";
+import { Component } from "react";
+import { LOCAL_STORAGE_USER_IDENTIFICATION } from "../../../context/session.context";
+import "./style.scss";
+import { Link } from "react-router-dom";
+function TrainningItem({ value }) {
     return (
         <p>{value}</p>
     );
 }
 
-function NewComment({type, sendCommentFunction, cancelCommentFunction}) {
+function NewComment({ type, sendCommentFunction, cancelCommentFunction }) {
     const getCommentContent = (e) => {
         const id = type === 'subcomment' ? `comment-${type}` : 'comment';
         const commentContent = document.getElementById(id).value;
@@ -25,24 +24,24 @@ function NewComment({type, sendCommentFunction, cancelCommentFunction}) {
 
     return (
         <div className='new-comment'>
-            <textarea id={`comment${type === 'subcomment' ? '-' + type : ''}`}/>
+            <textarea id={`comment${type === 'subcomment' ? '-' + type : ''}`} />
             <a onClick={getCommentContent}>Enviar</a>
             {type === 'subcomment' ? <a onClick={cancelCommentFunction}>Cancelar</a> : null}
         </div>
     );
 }
 
-function YoutubeEmbed({videoLink}) {
+function YoutubeEmbed({ videoLink }) {
     return (<div className="video-responsive">
-            <iframe
-                height="480"
-                src={videoLink}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                title="Embedded youtube"
-            />
-        </div>
+        <iframe
+            height="480"
+            src={videoLink}
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            title="Embedded youtube"
+        />
+    </div>
     );
 }
 
@@ -63,11 +62,11 @@ export default class TrainningModuleDetailPage extends Component {
 
     fetchTrainning = async () => {
         try {
-            this.setState({loading: true});
+            this.setState({ loading: true });
             const id = this.props.match.params.id;
-            const {data: trainningResponse} = await getTrainning(id);
-            this.setState({loading: false});
-            this.setState({trainning: trainningResponse});
+            const { data: trainningResponse } = await getTrainning(id);
+            this.setState({ loading: false });
+            this.setState({ trainning: trainningResponse });
         } catch (error) {
             this.props.history.replace("/");
         }
@@ -83,7 +82,7 @@ export default class TrainningModuleDetailPage extends Component {
                     return (
                         <div className='comment-reply'>
                             <p>
-                                <img className='comment-user-icon' src={AnonymousUser}/>
+                                <img className='comment-user-icon' src={AnonymousUser} />
                                 <strong>{comment.name}:</strong> {comment.comment}
                             </p>
                         </div>
@@ -94,7 +93,7 @@ export default class TrainningModuleDetailPage extends Component {
             return (
                 <div className='comment'>
                     <p>
-                        <img className='comment-user-icon' src={AnonymousUser}/>
+                        <img className='comment-user-icon' src={AnonymousUser} />
                         <strong>{commentBase.name}:</strong> {commentBase.comment}
                     </p>
                     <p><a onClick={(e) => {
@@ -103,7 +102,7 @@ export default class TrainningModuleDetailPage extends Component {
                     }}>Responder</a></p>
                     {this.state.activeReply === key ?
                         <NewComment type='subcomment' sendCommentFunction={this.sendComment}
-                                    cancelCommentFunction={this.cancelComment}/> : null}
+                            cancelCommentFunction={this.cancelComment} /> : null}
                     {subComments}
                 </div>
             );
@@ -112,11 +111,11 @@ export default class TrainningModuleDetailPage extends Component {
     };
 
     cancelComment = () => {
-        this.setState({activeReply: null});
+        this.setState({ activeReply: null });
     }
 
     sendComment = (content, type) => {
-        const loggedUser = JSON.parse(localStorage.getItem(LOCAL_STORAGE_USER_IDENTIFICATION));
+        const loggedUser = this.getLoggedUserFromStorage();
         const commentObject = {
             comment: content,
             name: loggedUser?.name ?? 'Anônimo'
@@ -127,12 +126,16 @@ export default class TrainningModuleDetailPage extends Component {
             repplyComment(this.props.match.params.id, this.state.activeReply, commentObject);
 
         promise.then(() => {
-            getTrainning(this.props.match.params.id).then(({data: trainningResponse}) => {
-                this.setState({trainning: trainningResponse});
-                this.setState({activeReply: null});
+            getTrainning(this.props.match.params.id).then(({ data: trainningResponse }) => {
+                this.setState({ trainning: trainningResponse });
+                this.setState({ activeReply: null });
                 document.getElementById('comment').value = '';
             }).catch((err) => console.log(err));
         });
+    }
+
+    getLoggedUserFromStorage() {
+        return JSON.parse(localStorage.getItem(LOCAL_STORAGE_USER_IDENTIFICATION));
     }
 
     getAttachments = () => {
@@ -142,9 +145,9 @@ export default class TrainningModuleDetailPage extends Component {
             return (
                 <div className='attachment'>
                     <span>{attach.name}</span>
-                    <br/>
+                    <br />
                     <a download={attach.name} href={contentForDownload}>
-                        <img className='attachment-icon' src={attach.mimeType === 'application/pdf' ? GenericPdfImage : GenericImage}/>
+                        <img className='attachment-icon' src={attach.mimeType === 'application/pdf' ? GenericPdfImage : GenericImage} />
                     </a>
                 </div>
             );
@@ -159,29 +162,32 @@ export default class TrainningModuleDetailPage extends Component {
                 <main>
                     <div className='goback'>
                         <a onClick={() => this.props.history.replace("/treinamentos")}>
-                            <FontAwesomeIcon icon={faArrowLeft}/>
+                            <FontAwesomeIcon icon={faArrowLeft} />
                             <span>Voltar</span>
                         </a>
                     </div>
                     <div className='trainnning-content'>
                         <section id='trainning-title'>
-                            <TrainningItem value={this.state.trainning?.title}/>
+                            <TrainningItem value={this.state.trainning?.title} />
                         </section>
-                        <br/>
+                        <br />
                         <section>
-                            <YoutubeEmbed videoLink={this.parseYouTubeUrlToEmbedded()}/>
+                            <YoutubeEmbed videoLink={this.parseYouTubeUrlToEmbedded()} />
                         </section>
-                        <br/>
+                        <br />
                         <section id='trainning-comments'>
                             <p><strong>Comentários</strong></p>
                             {this.getComments()}
-                            <NewComment type='comment' sendCommentFunction={this.sendComment}/>
+                            <NewComment type='comment' sendCommentFunction={this.sendComment} />
                         </section>
-                        <br/>
+                        <br />
                     </div>
 
                 </main>
                 <aside id='trainning-material'>
+                   {this.getLoggedUserFromStorage()?.role === 'ADMIN' ? <Link title='Incluir material'>
+                        <FontAwesomeIcon className="add-material" icon={faPlusCircle} size="2x" />
+                    </Link> : null}
                     <h3><strong>Materiais do treinamento</strong></h3>
                     {this.getAttachments()}
                 </aside>

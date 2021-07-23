@@ -15,12 +15,23 @@
     box-shadow: $standard-box-shadow;
     transition: box-shadow 0.3s ease-in-out;
 
-    > .card-title {
+    .card-title {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 16px;
       color: $color-green;
+    }
+    .card-action{
+      direction: rtl;
+      margin-bottom: 10px;
+      label{
+         margin-right: 10px;
+      }
+    }
+
+    .only-label{
+      color:#00A64E;
     }
 
     > .card-description {

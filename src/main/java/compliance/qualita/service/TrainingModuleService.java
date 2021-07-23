@@ -51,11 +51,22 @@ public class TrainingModuleService {
         return moduleRepository.save(trainingModule);
     }
 
-    public List<TrainingModule> getTrainingModules(String cpf) {
-        if (cpf != null) {
+    public List<TrainingModule> getTrainingModules(String cpf, String cnpj) {
+        if (cpf != null && cnpj == null) {
             return getTrainingModulesByCpf(cpf);
         }
+
+        if (cnpj != null && cpf == null) {
+            return getTrainingModulesByCnpj(cnpj);
+        }
         return moduleRepository.findAll();
+    }
+
+    private List<TrainingModule> getTrainingModulesByCnpj(String cnpj) {
+        return moduleRepository.findAll()
+                .stream()
+                .peek(mod -> mod.setValidated(mod.getValidations().contains(cnpj)))
+                .collect(toList());
     }
 
     public TrainingModule getTrainingModuleById(String id) {

@@ -8,17 +8,23 @@ export function Card({
   title = "Título do módulo",
   href = "#",
   description,
-  icon,
+  icons,
+  additionalLabel,
 }) {
   return (
-    <Link className="card-wrapper" to={href}>
+    <div className="card-wrapper">
+
       <MaterialCard className="card-container">
-        <section className="card-title">
-          <h3 >{title}</h3>
-          {icon && <FontAwesomeIcon className="card-icon" icon={icon} size="2x" />}
-        </section>
-        <p className="card-description">{description}</p>
+        <label className='only-label'><strong>{additionalLabel}</strong></label>
+        <Link to={href}>
+          <section className="card-title">
+            <h3 >{title}</h3>
+            {icons}
+          </section>
+          <p className="card-description">{description}</p>
+        </Link>
+
       </MaterialCard>
-    </Link>
+    </div>
   );
 }
