@@ -135,6 +135,7 @@ public class ReportService {
     }
 
     public Report getReportByTrackingId(String trackingId) {
+
         Report report = reportRepository.findById(trackingId).orElseThrow();
         attachmentsConverter.fromBinary(report.getAttachments());
         return report;
