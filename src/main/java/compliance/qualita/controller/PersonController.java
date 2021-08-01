@@ -20,6 +20,7 @@ public class PersonController {
     public Person postPerson(
             @RequestBody Person person
     ) throws Exception {
+        System.out.println("PERSON: " + person);
         return personService.addPerson(person);
     }
 

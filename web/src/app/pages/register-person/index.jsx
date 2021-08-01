@@ -1,23 +1,12 @@
-import { Button, Dropzone } from "@Components";
-import DateFnsUtils from "@date-io/date-fns";
+import { Button } from "@Components";
+
 import {
-  faChevronDown, faCopy, faPlus, faTrash
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  Accordion, AccordionDetails,
-  AccordionSummary, Chip, Divider, FormControl, IconButton, Input, InputLabel, MenuItem, Select, Switch, TextField
+   FormControl , Input, InputLabel,  Switch,
 } from "@material-ui/core";
-import {
-  KeyboardDatePicker,
-  MuiPickersUtilsProvider
-} from "@material-ui/pickers";
-import { createReport } from "@Services";
-import { fileUtils } from '@Utils';
 import React, { useRef, useState } from "react";
 import { maskUtils } from "../../utils/mask-utils";
 import "./style.scss";
-import { registerCompany } from '../../../services/index'
+import {createPerson} from '../../../services/index'
 
 
 export function RegisterPerson() {
@@ -28,14 +17,12 @@ export function RegisterPerson() {
   const [schooling, setSchooling] = useState("");
   const [profession, setProfession] = useState("");
   const [occupation, setOccupation] = useState("");
-  const [password, setPassword] = useState("");
   const [birthday, setBirthday] = useState("");
   const [companyCnpj, setCompanyCnpj] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
 
   async function submit(e) {
     e.preventDefault();
-
     try {
       let data = {
         name: name,
@@ -45,12 +32,11 @@ export function RegisterPerson() {
         schooling: schooling,
         profession: profession,
         occupation: occupation,
-        password: password,
         birthday: birthday,
         companyCnpj: companyCnpj,
         isAdmin: isAdmin
       }
-      registerCompany(data);
+      await createPerson(data);
 
     } catch (error) {
     }
@@ -109,22 +95,14 @@ export function RegisterPerson() {
               />
             </FormControl>
             <FormControl className="form-item half">
-              <InputLabel className="label">Senha</InputLabel>
-              <Input
-                type='password'
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </FormControl>
-            <FormControl className="form-item half">
-              <InputLabel className="label">Aniversário</InputLabel>
+              <InputLabel className="label">Data de Nascimento</InputLabel>
               <Input
                 value={birthday}
                 onChange={(e) => setBirthday(e.target.value)}
               />
             </FormControl>
             <FormControl className="form-item">
-              <InputLabel className="label">CNPJ EMPRESA</InputLabel>
+              <InputLabel className="label">CNPJ da Empresa</InputLabel>
               <Input
                 value={maskUtils.cnpjMask(companyCnpj)}
                 onChange={(e) => setCompanyCnpj(e.target.value)}

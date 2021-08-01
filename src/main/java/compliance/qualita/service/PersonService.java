@@ -30,6 +30,7 @@ public class PersonService {
     private TemplateBuilder templateBuilder;
 
     public Person addPerson(Person person) throws Exception {
+        System.out.println("PERSON: " + person);
         CPFValidator validator = new CPFValidator();
         try {
             validator.assertValid(person.getCpf());

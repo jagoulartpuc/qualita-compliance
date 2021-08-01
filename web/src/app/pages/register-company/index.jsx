@@ -1,29 +1,17 @@
 import { Button, Dropzone } from "@Components";
-import DateFnsUtils from "@date-io/date-fns";
 import {
-  faChevronDown, faCopy, faPlus, faTrash
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  Accordion, AccordionDetails,
-  AccordionSummary, Chip, Divider, FormControl, IconButton, Input, InputLabel, MenuItem, Select, Switch, TextField
+ FormControl, Input, InputLabel
 } from "@material-ui/core";
-import {
-  KeyboardDatePicker,
-  MuiPickersUtilsProvider
-} from "@material-ui/pickers";
-import { createReport } from "@Services";
-import { fileUtils } from '@Utils';
-import React, { useRef, useState } from "react";
+
+import React, { useState } from "react";
 import { maskUtils } from "../../utils/mask-utils";
 import "./style.scss";
-import { registerCompany } from '../../../services/index'
+import { createCompany } from '../../../services/index'
 
 
 export function RegisterCompany() {
   const [name, setName] = useState("");
   const [cnpj, setCnpj] = useState("");
-  const [password, setPassword] = useState("");
   const [adress, setAdress] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -44,13 +32,11 @@ export function RegisterCompany() {
         site: site,
         owner: owner,
         business: business,
-        password: password,
       }
 
-      registerCompany(data);
+      await createCompany(data);
 
-    } catch (error) {
-    }
+    } catch (error) {}
   }
 
   return (
@@ -103,14 +89,6 @@ export function RegisterCompany() {
               <Input
                 value={business}
                 onChange={(e) => setBusiness(e.target.value)}
-              />
-            </FormControl>
-            <FormControl className="form-item half">
-              <InputLabel className="label">Senha</InputLabel>
-              <Input
-                type='password'
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
               />
             </FormControl>
             <FormControl className="form-item half">

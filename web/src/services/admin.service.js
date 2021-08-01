@@ -1,23 +1,17 @@
 import axios from "axios";
 
-const companyInstance = axios.create({
+const adminInstance = axios.create({
     baseURL: process.env.REACT_APP_API_BASE_URL,
 });
 
-export function registerPerson(data) {
-    return companyInstance.post('/funcionario',
-        {
-            person: data
-        });
+export function createPerson(data) {
+    return adminInstance.post('/funcionario', data);
 }
 
-export function registerCompany(data) {
-    return companyInstance.post('/empresa',
-        {
-            company: data
-        });
+export function createCompany(data) {
+    return adminInstance.post('/empresa', data);
 }
 
 export function validateModule(moduleId, cnpj) {
-    return companyInstance.put(`validacao?moduleId=${moduleId}&cnpj=${cnpj}`);
+    return adminInstance.put(`validacao?moduleId=${moduleId}&cnpj=${cnpj}`);
 }
