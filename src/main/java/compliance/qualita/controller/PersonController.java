@@ -20,7 +20,6 @@ public class PersonController {
     public Person postPerson(
             @RequestBody Person person
     ) throws Exception {
-        System.out.println("PERSON: " + person);
         return personService.addPerson(person);
     }
 
@@ -28,6 +27,20 @@ public class PersonController {
     public List<Person> getPersons(
     ) {
         return personService.getAllPersons();
+    }
+
+    @GetMapping("/{cpf}")
+    public Person getPersonByCPF(
+            @PathVariable String cpf
+    ) {
+        return personService.getPersonByCPF(cpf);
+    }
+
+    @PutMapping
+    public Person editPerson(
+            @RequestBody Person person
+    ) {
+        return personService.editPerson(person);
     }
 
     @PutMapping("/mudar-senha")

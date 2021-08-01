@@ -30,7 +30,6 @@ public class PersonService {
     private TemplateBuilder templateBuilder;
 
     public Person addPerson(Person person) throws Exception {
-        System.out.println("PERSON: " + person);
         CPFValidator validator = new CPFValidator();
         try {
             validator.assertValid(person.getCpf());
@@ -65,5 +64,9 @@ public class PersonService {
 
     public List<Person> getAllPersons() {
         return personRepository.findAll();
+    }
+
+    public Person editPerson(Person person) {
+        return personRepository.save(person);
     }
 }
