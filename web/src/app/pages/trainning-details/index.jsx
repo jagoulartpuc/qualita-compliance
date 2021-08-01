@@ -185,7 +185,7 @@ export default class TrainningModuleDetailPage extends Component {
 
                 </main>
                 <aside id='trainning-material'>
-                   {this.getLoggedUserFromStorage()?.role === 'ADMIN' ? <Link title='Incluir material'>
+                    {this.getLoggedUserFromStorage()?.role === 'ADMIN' ? <Link title='Incluir material'>
                         <FontAwesomeIcon className="add-material" icon={faPlusCircle} size="2x" />
                     </Link> : null}
                     <h3><strong>Materiais do treinamento</strong></h3>
