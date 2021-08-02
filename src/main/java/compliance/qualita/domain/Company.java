@@ -33,7 +33,6 @@ public class Company {
     @JsonIgnoreProperties
     private List<Person> persons = new ArrayList<>();
     private List<Report> reports = new ArrayList<>();
-    @NonNull
     private List<Feature> features;
 
 }

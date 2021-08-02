@@ -68,4 +68,9 @@ public class CompanyService {
         return module;
     }
 
+    public Company changePassword(String cnpj, String password) {
+        Company company = getCompanyByCNPJ(cnpj);
+        company.setPassword(password);
+        return companyRepository.save(company);
+    }
 }

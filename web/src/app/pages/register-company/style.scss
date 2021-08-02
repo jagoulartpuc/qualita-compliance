@@ -1,0 +1,24 @@
+@import "@StyleCommon/mixins.scss";
+@import "@StyleCommon/fonts.scss";
+@import "@StyleCommon/other-patterns.scss";
+
+
+	a {
+		color: black;
+		width: auto;
+		display: flex;
+		justify-content: center !important;
+		align-content: center;
+		align-items: center;
+		list-style-type: none;
+		text-decoration: none;
+		padding-top: 10px;
+		padding-right: 30px;
+		padding-bottom: 10px;
+
+		svg,
+		path {
+			color: black;
+			padding-right: 5px;
+		}
+	}

@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { } from "react-router-dom";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
@@ -20,6 +21,7 @@ function getRole(value) {
 
 export function Header() {
   const [anchorEl, setAnchorEl] = useState(null);
+  const history = useHistory();
   const { user, logout } = useSession();
   const handleClick = (event) => {
     event.preventDefault();
@@ -68,7 +70,7 @@ export function Header() {
             onClose={handleClose}
           >
             <MenuItem onClick={handleLogout}>Sair </MenuItem>
-            {user?.role === 'ADMIN' ? <MenuItem onClick={() => { }}>Painel de controle </MenuItem> : null}
+            {user?.role === 'ADMIN' ? <MenuItem onClick={() => { history.replace('/painel-de-controle') }}>Painel de controle </MenuItem> : null}
           </Menu>
         </section>
       )}

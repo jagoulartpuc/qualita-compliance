@@ -11,6 +11,11 @@ import { Footer, Header } from "@Components";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { routes } from "./routes";
 import "./style.scss";
+import { ControlPanel } from "./pages/control-panel";
+import { ConsultCompany } from "./pages/consult-company";
+import { ConsultPerson } from "./pages/consult-person";
+import { RegisterCompany } from "./pages/register-company";
+import { RegisterPerson } from "./pages/register-person";
 
 function App() {
   return (
@@ -30,6 +35,21 @@ function App() {
             </Route>
             <Route exact path={routes.TRAINING_MODULES_PAGE}>
               <TrainingModulesPage />
+            </Route>
+            <Route exact path={routes.CONTROL_PANEL}>
+              <ControlPanel />
+            </Route>
+            <Route exact path={routes.REGISTER_COMPANY}>
+              <RegisterCompany />
+            </Route>
+            <Route exact path={routes.REGISTER_PERSON}>
+              <RegisterPerson />
+            </Route>
+            <Route exact path={routes.CONSULT_COMPANY}>
+              <ConsultCompany />
+            </Route>
+            <Route exact path={routes.CONSULT_PERSON}>
+              <ConsultPerson />
             </Route>
             <Route
               exact
