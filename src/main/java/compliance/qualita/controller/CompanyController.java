@@ -43,21 +43,6 @@ public class CompanyController {
         return companyService.getCompanyByCNPJ(cnpj).getReports();
     }
 
-    @PutMapping
-    public Company editCompany(
-            @RequestBody Company company
-    ) {
-        return companyService.editCompany(company);
-    }
-
-    @PutMapping("/mudar-senha")
-    public Company changePassword(
-            @RequestParam String cnpj,
-            @RequestParam String password
-    ) {
-        return companyService.changePassword(cnpj, password);
-    }
-
     @DeleteMapping("/{cnpj}")
     public boolean deleteCompany(
             @PathVariable String cnpj

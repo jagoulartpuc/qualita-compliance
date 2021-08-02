@@ -65,8 +65,4 @@ public class PersonService {
     public List<Person> getAllPersons() {
         return personRepository.findAll();
     }
-
-    public Person editPerson(Person person) {
-        return personRepository.save(person);
-    }
 }

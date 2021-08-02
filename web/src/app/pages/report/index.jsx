@@ -18,6 +18,8 @@ import React, { useRef, useState } from "react";
 import { maskUtils } from "../../utils/mask-utils";
 import "./style.scss";
 
+
+
 function formatDate(date) {
   return Intl.DateTimeFormat("pt-br", {
     day: "numeric",
