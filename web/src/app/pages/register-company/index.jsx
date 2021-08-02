@@ -1,23 +1,28 @@
-import { Button, Dropzone } from "@Components";
-import {
- FormControl, Input, InputLabel
-} from "@material-ui/core";
-
-import React, { useState } from "react";
+import { Button } from "@Components";
+import { Chip, FormControl, IconButton, Input, InputLabel } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
 import { maskUtils } from "../../utils/mask-utils";
 import "./style.scss";
-import { createCompany } from '../../../services/index'
+import { createCompany, readCompanyByCnpj, updateCompany } from '../../../services/index'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 
 export function RegisterCompany() {
   const [name, setName] = useState("");
   const [cnpj, setCnpj] = useState("");
   const [adress, setAdress] = useState("");
-  const [phone, setPhone] = useState("");
+  const [phones, setPhones] = useState([]);
+  const [phone, setNewPhone] = useState("");
   const [email, setEmail] = useState("");
   const [owner, setOwner] = useState("");
   const [business, setBusiness] = useState("");
   const [site, setSite] = useState("");
+  const [isNew, setIsNew] = useState(true)
+
+  const removeFromList = (value, list, updateFn) => {
+    updateFn(list.filter((name) => value !== name));
+  };
 
   async function submit(e) {
     e.preventDefault();
@@ -26,7 +31,7 @@ export function RegisterCompany() {
       let data = {
         name: name,
         cnpj: cnpj,
-        phone: phone,
+        phone: phones,
         email: email,
         adress: adress,
         site: site,
@@ -34,10 +39,36 @@ export function RegisterCompany() {
         business: business,
       }
 
-      await createCompany(data);
+      if (!!isNew)
+        await createCompany(data);
+      else
+        await updateCompany(data)
 
-    } catch (error) {}
+    } catch (error) { }
   }
+
+  useEffect(async () => {
+    var arr = (window.location.pathname).split("/");
+    var val = (arr[arr.length - 1]);
+    console.log(arr.length)
+    if (arr.length === 3) {
+      await readCompanyByCnpj(val).then((data) => {
+        console.log(data.data)
+        setName(data.data.name)
+        setCnpj(data.data.cnpj)
+        setAdress(data.data.adress);
+        setPhones(data.data.phones);
+        setEmail(data.data.email);
+        setOwner(data.data.owner);
+        setBusiness(data.data.business);
+        setSite(data.data.site);
+        setIsNew(false);
+      })
+    } else {
+      setIsNew(true);
+    }
+
+  }, [])
 
   return (
     <div id="report-page">
@@ -62,9 +93,32 @@ export function RegisterCompany() {
               <InputLabel className="label">Telefone</InputLabel>
               <Input
                 value={maskUtils.phoneMask(phone)}
-                onChange={(e) => setPhone(e.target.value)}
+                onChange={(e) => setNewPhone(e.target.value)}
               />
+              <IconButton
+                onClick={() => {
+                  setPhones([...phones, phone]);
+                  setNewPhone('');
+                }}
+              >
+                <FontAwesomeIcon size="sm" icon={faPlus} />
+              </IconButton>
             </FormControl>
+            {phones.length ? (
+              <div style={{ width: "100%" }}>
+                {phones.map((phone, index) => (
+                  <>
+                    <Chip
+                      className="email-chip"
+                      clickable
+                      label={phone}
+                      key={index}
+                      onDelete={() => removeFromList(phone, phones, setPhones)}
+                    />
+                  </>
+                ))}
+              </div>
+            ) : null}
             <FormControl className="form-item ">
               <InputLabel className="label">E-mail</InputLabel>
               <Input type="email" value={email}

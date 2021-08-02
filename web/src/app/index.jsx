@@ -42,7 +42,13 @@ function App() {
             <Route exact path={routes.REGISTER_COMPANY}>
               <RegisterCompany />
             </Route>
+            <Route exact path={`${routes.REGISTER_COMPANY}/:cnpj`}>
+              <RegisterCompany />
+            </Route>
             <Route exact path={routes.REGISTER_PERSON}>
+              <RegisterPerson />
+            </Route>
+            <Route exact path={`${routes.REGISTER_PERSON}/:cpf`}>
               <RegisterPerson />
             </Route>
             <Route exact path={routes.CONSULT_COMPANY}>

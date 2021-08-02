@@ -1,12 +1,9 @@
 import { Button } from "@Components";
-
-import {
-   FormControl , Input, InputLabel,  Switch,
-} from "@material-ui/core";
-import React, { useRef, useState } from "react";
+import { FormControl, Input, InputLabel, Switch } from "@material-ui/core";
+import React, { useEffect, useState } from 'react';
 import { maskUtils } from "../../utils/mask-utils";
 import "./style.scss";
-import {createPerson} from '../../../services/index'
+import { createPerson, readPersonByCpf, updatePerson } from '../../../services/index'
 
 
 export function RegisterPerson() {
@@ -20,6 +17,7 @@ export function RegisterPerson() {
   const [birthday, setBirthday] = useState("");
   const [companyCnpj, setCompanyCnpj] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isNew, setIsNew] = useState(true)
 
   async function submit(e) {
     e.preventDefault();
@@ -36,11 +34,40 @@ export function RegisterPerson() {
         companyCnpj: companyCnpj,
         isAdmin: isAdmin
       }
-      await createPerson(data);
+
+      if (!!isNew)
+        await createPerson(data);
+      else
+        await updatePerson(data)
 
     } catch (error) {
     }
   }
+
+  useEffect(async () => {
+    var arr = (window.location.pathname).split("/");
+    var val = (arr[arr.length - 1]);
+    console.log(arr.length)
+    if (arr.length === 3) {
+      await readPersonByCpf(val).then((data) => {
+        console.log(data)
+        setName(data.data.name)
+        setCpf(data.data.cpf)
+        setSchooling(data.data.schooling);
+        setPhone(data.data.phone);
+        setEmail(data.data.email);
+        setProfession(data.data.profession);
+        setOccupation(data.data.occupation);
+        setBirthday(data.data.birthday);
+        setCompanyCnpj(data.data.companyCnpj);
+        setIsAdmin(data.data.isAdmin);
+        setIsNew(false);
+      })
+    } else {
+      setIsNew(true);
+    }
+
+  }, [])
 
   return (
     <div id="report-page">
