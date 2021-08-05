@@ -1,9 +1,7 @@
-import { Button } from "@Components";
 import React, { useEffect, useState } from 'react';
-import { maskUtils } from "../../utils/mask-utils";
 import "./style.scss";
-import Row from './Row';
 import { readCompany } from '../../../services/index'
+import CustomTable from "./Table";
 
 export function ConsultCompany() {
 
@@ -23,9 +21,12 @@ export function ConsultCompany() {
           <div className='directory'>
             {!!companies &&
               companies.length > 0 &&
-              companies.map((company) => {
-                return <Row {...childProps} company={company} key={company.cnpj} />;
-              })}
+              (
+                  <div style={{ maxHeight: 600, maxWidth: 800 }}>
+                    <CustomTable {...childProps} />
+                  </div>
+              )
+            }
             {/*no person found*/}
             {(!companies) ||
               (companies.length === 0 && (

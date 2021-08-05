@@ -1,28 +1,30 @@
 import React, { useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import { Button } from "@Components";
 import './style.scss';
 
 export function ControlPanel() {
 
   return (
-    <div id="report-page">
+    <div id="control-panel-page">
       <main className="content">
         <h3 className="title">Painel de Controle</h3>
         <section className="form-section">
-          <div>
-            <Link to='/consultar-pessoas'>
+          <div className="links">
+            <Link to='/consultar-pessoas' className="module-button">
               Consultar Pessoas
             </Link>
-            <Link to='/consultar-empresas'>
+            <Link to='/consultar-empresas' className="module-button">
               Consultar Empresas
             </Link></div>
-          <div>
-            <Link to='/cadastrar-pessoas'>
+          <div className="links">
+            <Link to='/cadastrar-pessoas' className="module-button">
               Cadastrar Pessoas
             </Link>
-            <Link to='/cadastrar-empresas'>
+            <Link to='/cadastrar-empresas' className="module-button">
               Cadastrar Empresas
-            </Link></div>
+            </Link>
+          </div>
         </section>
       </main>
     </div >

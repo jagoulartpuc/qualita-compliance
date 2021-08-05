@@ -2,23 +2,96 @@
 @import "@StyleCommon/fonts.scss";
 @import "@StyleCommon/other-patterns.scss";
 
-
-	a {
-		color: black;
-		width: auto;
+#control-panel-page {
+	@include page-basic;
+	> main {
+		flex: 1;
+		overflow-y: auto;
 		display: flex;
-		justify-content: center;
-		align-content: center;
-		align-items: center;
-		list-style-type: none;
-		text-decoration: none;
-		padding-top: 10px;
-		padding-right: 30px;
-		padding-bottom: 10px;
+		flex-direction: column;
+	}
 
-		svg,
-		path {
-			color: black;
-			padding-right: 5px;
+	> .content {
+		flex: 1;
+		padding: 20px;
+		> .title {
+			font-size: 60px;
+			font-weight: $fweight-regular;
+			text-align: center;
+			padding: 16px 0;
+		}
+
+		.switch-wrapper {
+			margin: 15px 0;
+
+			> .switch-label {
+				color: $color-black !important;
+				font-weight: $fweight-light;
+
+				&.-active {
+					font-weight: $fweight-regular;
+					color: $color-green !important;
+				}
+			}
+
+			> .switch {
+				width: 100px;
+			}
+		}
+
+		> .form-section {
+			flex: 1;
+			max-width: 800px;
+			align-self: center;
+			display: flex;
+			border-radius: 8px;
+			background: white;
+			box-shadow: $standard-box-shadow;
+			padding: 16px;
+
+			.links {
+				display: flex;
+				justify-content: space-evenly;
+				flex-direction: column;
+				padding: 5px;
+			}
+
+			.module-button {
+				background-color: $color-green;
+				width: 200px;
+				display: inline;
+				padding: 12px 24px;
+				border-radius: $border-radius;
+				box-shadow: $standard-box-shadow;
+				color: $color-white;
+				font-weight: 400;
+				text-decoration: none;
+				text-transform: uppercase;
+				&.outlined {
+					border: 2px solid $color-green;
+					background-color: transparent;
+					font-weight: 500;
+				}
+			}
+
+			a {
+				color: black;
+				display: flex;
+				justify-content: center;
+				align-content: center;
+				align-items: center;
+				list-style-type: none;
+				text-decoration: none;
+				padding-top: 10px;
+				padding-right: 30px;
+				padding-bottom: 10px;
+
+				svg,
+				path {
+					color: black;
+					padding-right: 5px;
+				}
+			}
 		}
 	}
+}

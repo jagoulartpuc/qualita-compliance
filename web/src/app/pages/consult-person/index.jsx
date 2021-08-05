@@ -1,10 +1,7 @@
-import { Button } from "@Components";
-import { FormControl, Input, InputLabel } from "@material-ui/core";
 import React, { useEffect, useState } from 'react';
-import { maskUtils } from "../../utils/mask-utils";
 import "./style.scss";
-import Row from './Row';
-import { readPerson } from '../../../services/index'
+import CustomTable from "./Table";
+import {readPerson} from '../../../services/index'
 
 export function ConsultPerson() {
 
@@ -17,16 +14,19 @@ export function ConsultPerson() {
 
   const childProps = { people, setPeople }
   return (
-    <div id="report-page">
+    <div id="consult-person-page">
       <main className="content">
         <h3 className="title">Consultar Pessoas</h3>
         <section className="form-section">
           <div className='directory'>
             {!!people &&
               people.length > 0 &&
-              people.map((person) => {
-                return <Row {...childProps} person={person} key={person.cpf} />;
-              })}
+              (
+                <div style={{ maxHeight: 600, maxWidth: 800 }}>
+                  <CustomTable {...childProps} />
+                </div>
+              )
+            }
             {/*no person found*/}
             {(!people) ||
               (people.length === 0 && (

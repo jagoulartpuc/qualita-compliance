@@ -7,8 +7,56 @@ $white: #fff;
 $background-color: #30bced;
 $main-color: #0582ca;
 
+#consult-person-page {
+	@include page-basic;
+	> main {
+		flex: 1;
+		overflow-y: auto;
+		display: flex;
+		flex-direction: column;
+	}
 
-.directory {
+	> .content {
+		flex: 1;
+		padding: 20px;
+		> .title {
+			font-size: 60px;
+			font-weight: $fweight-regular;
+			text-align: center;
+			padding: 16px 0;
+		}
+
+		.switch-wrapper {
+			margin: 15px 0;
+
+			> .switch-label {
+				color: $color-black !important;
+				font-weight: $fweight-light;
+
+				&.-active {
+					font-weight: $fweight-regular;
+					color: $color-green !important;
+				}
+			}
+
+			> .switch {
+				width: 100px;
+			}
+		}
+
+		> .form-section {
+			flex: 1;
+			max-width: 800px;
+			align-self: center;
+			display: flex;
+			border-radius: 8px;
+			background: white;
+			box-shadow: $standard-box-shadow;
+			padding: 16px;
+		}
+	}
+
+	.directory {
 		padding-top: 0px;
 		padding-bottom: 0;
 		display: flex;
@@ -16,89 +64,86 @@ $main-color: #0582ca;
 		justify-content: space-evenly;
 		width: 100%;
 		height: auto;
+		.row-container {
+			display: flex;
+			flex-flow: row nowrap;
+			justify-content: space-between;
 
-			.row-container {
+			.icons {
 				display: flex;
-				flex-flow: row nowrap;
-				justify-content: space-between;
+				align-items: center;
+				cursor: default;
 
-				.icons {
-					display: flex;
-					align-items: center;
+				button {
+					width: 30px;
+					background-color: transparent;
+					border: 0;
+					outline: none;
+					color: $black;
+				}
+				svg,
+				path {
 					cursor: default;
-
-					button {
-						width: 30px;
-						background-color: transparent;
-						border: 0;
-						outline: none;
-						color: $black;
-					}
-svg,
+					color: $black;
+					padding-right: 5px;
+				}
+				button:hover {
+					svg,
 					path {
-						cursor: default;
-						color: $black;
-						padding-right: 5px;
-					}
-
-					button:hover {
-						svg,
-						path {
-							cursor: pointer;
-							color: $white;
-						}
-					}
-					svg:hover,
-					path:hover {
 						cursor: pointer;
 						color: $white;
 					}
-
 				}
-
-				.row {
-					display: flex;
-					flex-flow: row nowrap;
-					justify-content: space-between;
-					align-items: center;
-					z-index: 99;
-					width: 100%;
-					height: 30px;
-					color: $black;
-					list-style-type: none;
-					text-decoration: none;
-
-					.left {
-						color: $black;
-						display: flex;
-						align-items: center;
-						padding-left: 30px;
-					}
-
-					.right {
-						display: flex;
-						align-items: flex-end;
-						padding-right: 15px;
-						* {
-							color: $black;
-						}
-					}&:hover {
-						* {
-							color: $white !important;
-						}
-					}
-				}
-
-				&:hover {
-					width: 100%;
-					background-color: $main-color;
-					border-radius: 5px;
+				svg:hover,
+				path:hover {
 					cursor: pointer;
+					color: $white;
+				}
+			}
+			.row {
+				display: flex;
+				flex-flow: row nowrap;
+				justify-content: space-between;
+				align-items: center;
+				z-index: 99;
+				width: 100%;
+				height: 30px;
+				color: $black;
+				list-style-type: none;
+				text-decoration: none;
 
+				.left {
+					color: $black;
+					display: flex;
+					align-items: center;
+					padding-left: 30px;
+				}
 
+				.right {
+					display: flex;
+					align-items: flex-end;
+					padding-right: 15px;
 					* {
-						color: $white;
+						color: $black;
 					}
+				}&:hover {
+					 * {
+						 color: $white !important;
+					 }
+				 }
+			}
+
+			&:hover {
+				width: 100%;
+				background-color: $main-color;
+				border-radius: 5px;
+				cursor: pointer;
+
+
+				* {
+					color: $white;
 				}
 			}
 		}
+	}
+}
