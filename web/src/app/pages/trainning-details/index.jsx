@@ -1,13 +1,16 @@
+import React, { Component } from "react";
 import { faArrowLeft, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AnonymousUser from '@Images/anonymous-person.jpeg';
 import GenericImage from '@Images/generic-image.jpeg';
 import GenericPdfImage from '@Images/generic-pdf.jpeg';
-import { addNewComment, getTrainning, repplyComment } from "@Services";
-import { Component } from "react";
+import { addNewComment, getTrainning, repplyComment, putAttachments } from "@Services";
+import { fileUtils } from '@Utils';
+import { Toast } from "@Components";
 import { LOCAL_STORAGE_USER_IDENTIFICATION } from "../../../context/session.context";
 import "./style.scss";
-import { Link } from "react-router-dom";
+import {routes} from "../../routes";
+
 function TrainningItem({ value }) {
     return (
         <p>{value}</p>
@@ -18,7 +21,6 @@ function NewComment({ type, sendCommentFunction, cancelCommentFunction }) {
     const getCommentContent = (e) => {
         const id = type === 'subcomment' ? `comment-${type}` : 'comment';
         const commentContent = document.getElementById(id).value;
-
         sendCommentFunction(commentContent, type);
     };
 
@@ -54,6 +56,7 @@ export default class TrainningModuleDetailPage extends Component {
             loading: false,
             activeReply: ''
         }
+        this.onChangeFile = this.onChangeFile.bind(this);
     }
 
     componentDidMount() {
@@ -154,6 +157,35 @@ export default class TrainningModuleDetailPage extends Component {
         });
     }
 
+    saveFileInTraining = async (trainningModuleId, file) => {
+        try {
+            const attachments = [file];
+            await putAttachments(trainningModuleId, attachments);
+            Toast({icon: 'success', title: "Arquivo adicionado com sucesso!", didClose: () => this.fetchTrainning()});
+        } catch (error) {
+            Toast({icon: 'error', title: error, didClose: () => this.fetchTrainning()});
+        }
+
+    }
+
+    getAttachment = (file) => {
+        return fileUtils.toBase64(file);
+    }
+
+    onChangeFile = async (event) => {
+        event.stopPropagation();
+        event.preventDefault();
+        const file = event.target.files[0];
+        const id = this.props.match.params.id;
+        const base64 = await this.getAttachment(file);
+        const attachment = {
+            name: file.name,
+            base64Adress: base64,
+            mimeType: file.type,
+        }
+        await this.saveFileInTraining(id, attachment);
+    }
+
     render() {
         return this.state.loading || !this.state.trainning ? (
             <h1>Carregando...</h1>
@@ -185,9 +217,12 @@ export default class TrainningModuleDetailPage extends Component {
 
                 </main>
                 <aside id='trainning-material'>
-                    {this.getLoggedUserFromStorage()?.role === 'ADMIN' ? <Link title='Incluir material'>
-                        <FontAwesomeIcon className="add-material" icon={faPlusCircle} size="2x" />
-                    </Link> : null}
+                    {this.getLoggedUserFromStorage()?.role === 'ADMIN' ?
+                        <React.Fragment>
+                            <label htmlFor="file"><FontAwesomeIcon className="add-material" icon={faPlusCircle} size="2x" title="Incluir material" /></label>
+                            <input type="file" id="file" onChange={this.onChangeFile} />
+                        </React.Fragment>
+                        : null}
                     <h3><strong>Materiais do treinamento</strong></h3>
                     {this.getAttachments()}
                 </aside>

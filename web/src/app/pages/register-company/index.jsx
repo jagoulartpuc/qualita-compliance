@@ -29,7 +29,6 @@ export function RegisterCompany() {
 
   async function submit(e) {
     e.preventDefault();
-
     try {
       let data = {
         name: name,
@@ -41,7 +40,6 @@ export function RegisterCompany() {
         owner: owner,
         business: business,
       }
-
       var message = "";
       if (!!isNew) {
         await createCompany(data);
@@ -50,9 +48,7 @@ export function RegisterCompany() {
         await updateCompany(data);
         message = "Empresa atualizada com sucesso!";
       }
-
       Toast({icon: 'success', title: message, didClose: () => history.push(routes.CONSULT_COMPANY)});
-
     } catch (error) { }
   }
 

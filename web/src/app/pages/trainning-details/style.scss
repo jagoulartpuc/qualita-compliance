@@ -76,10 +76,30 @@
       color: #0078FD;
     }
 
-    .add-material{
+    [input]#img_src::before {
+      font-family: 'FontAwesome';
+      content: '\f069'
+    }
+
+    .element {
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .add-material {
       color:#A5CE32;
       margin-bottom: 20px;
+      cursor: pointer;
     }
+
+    add-material:hover {
+      opacity: 0.6;
+    }
+
+    input {
+      display: none;
+    }
+
   }
 
   .trainnning-content {

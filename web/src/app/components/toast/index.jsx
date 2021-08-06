@@ -3,7 +3,6 @@ import Swal from "sweetalert2";
 
 export function Toast(props) {
     const options = { ...props }
-    console.log(options)
     const Toast = Swal.mixin({
         toast: true,
         position: options.position || 'top-end',

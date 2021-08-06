@@ -22,3 +22,8 @@ export function repplyComment(trainningModuleId, commentId, comment) {
 export function addNewComment(trainningModuleId, comment) {
   return trainningInstance.put(`/comentario?trainingModuleId=${trainningModuleId}`, comment);
 }
+
+export async function putAttachments(trainningModuleId, attachments) {
+  console.log(attachments)
+  return await trainningInstance.put(`/anexo?trainingModuleId=${trainningModuleId}`,  attachments);
+}
