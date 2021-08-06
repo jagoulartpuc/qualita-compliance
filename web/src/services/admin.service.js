@@ -41,7 +41,7 @@ export async function updateCompany(data) {
 }
 
 export async function updatePerson(data) {
-    return await adminInstance.put(`/funcionario/${data.cnpj}`, data);
+    return await adminInstance.put(`/funcionario/`, data);
 }
 
 export function validateModule(moduleId, cnpj) {

@@ -146,7 +146,6 @@ export default function CustomTable(props) {
     }
     const  edit = async function(company) {
         history.replace('cadastrar-empresas/' + company.cnpj);
-
     }
 
     const handleRequestSort = (event, property) => {

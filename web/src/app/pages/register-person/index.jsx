@@ -3,8 +3,10 @@ import { FormControl, Input, InputLabel, Switch } from "@material-ui/core";
 import React, { useEffect, useState } from 'react';
 import { maskUtils } from "../../utils/mask-utils";
 import "./style.scss";
+import { routes } from "../../routes";
 import { createPerson, readPersonByCpf, updatePerson } from '../../../services/index'
-
+import { useHistory } from "react-router-dom";
+import Swal from 'sweetalert2'
 
 export function RegisterPerson() {
   const [name, setName] = useState("");
@@ -18,6 +20,21 @@ export function RegisterPerson() {
   const [companyCnpj, setCompanyCnpj] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [isNew, setIsNew] = useState(true)
+  const history = useHistory();
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 1500,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    },                                                                                                                                                             
+    didClose: () => {
+      history.push(routes.CONSULT_PERSON);
+    }
+  });
 
   async function submit(e) {
     e.preventDefault();
@@ -34,12 +51,18 @@ export function RegisterPerson() {
         companyCnpj: companyCnpj,
         isAdmin: isAdmin
       }
-
-      if (!!isNew)
+      var message = "";
+      if (!!isNew) {
         await createPerson(data);
-      else
-        await updatePerson(data)
-
+        message = "Funcionário registrado com sucesso!";
+      } else {
+        await updatePerson(data);
+        message = 'Funcionário atualizado com sucesso!';
+      }
+      Toast.fire({
+        icon: 'success',
+        title: message
+      });
     } catch (error) {
     }
   }
@@ -91,7 +114,7 @@ export function RegisterPerson() {
             <FormControl className="form-item half">
               <InputLabel className="label">Celular</InputLabel>
               <Input
-                value={maskUtils.phoneMask(phone)}
+                value={!!phone ? maskUtils.phoneMask(phone) : ""}
                 onChange={(e) => setPhone(e.target.value)}
               />
             </FormControl>
