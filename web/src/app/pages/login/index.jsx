@@ -41,11 +41,11 @@ export function LoginPage() {
                 <div className="presentation-text-wrapper">
                     <p className="presentation-text">
                         A Qualità Compliance é uma plataforma para implantação e
-                        gerenciamento de Canal de Denúncias, totalmente virtual e disponível
+                        gerenciamento de canal de Denúncias, totalmente virtual e disponível
                         24h por dia. Agrega, ainda, treinamentos, capacitações, seminários e
                         mecanismos para implementação e operação de sistema de Compliance ou
                         anticorrupção. O atendimento é feito por advogados especializados, o
-                        que garante o sigilo e o auto grau técnico no tratamento das
+                        que garante o sigilo e o alto grau técnico no tratamento das
                         denúncias. Tem como missão precípua prevenir ilícitos, mitigar
                         riscos, gerando indicadores para uma boa governança corporativa, o
                         que propicia economia de até 5% do faturamento e a preservação da
@@ -58,15 +58,10 @@ export function LoginPage() {
                     <div className="module-wrapper">
                         <h3 className="module-title">Treinamentos</h3>
                         <p className="module-content">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-                            ultricies neque sed diam efficitur, sit amet semper eros pulvinar.
-                            Suspendisse non lacus sed ante sagittis congue pulvinar a neque.
-                            Suspendisse tristique lectus ac arcu euismod tempor. Maecenas
-                            varius mi non orci lobortis dapibus. Curabitur varius turpis ac
-                            tempus cursus. Ut efficitur ultricies blandit. Maecenas rhoncus
-                            urna luctus, hendrerit tortor sit amet, pellentesque metus. Sed
-                            sit amet tristique diam. Etiam vestibulum odio non tellus laoreet,
-                            nec bibendum tortor dictum
+                            Os treinamentos tem como objetivo instruir os colaborades sobre leis e normas a serem seguidas dentro do ambiente
+                            de trabalho. Cada módulo terá um vídeo sobre determinado assunto e também uma lista de materiais e documentos a serem estudados.
+                            Colaboradores e organizações podem interagir e dar feedback sobre o conteúdo através dos comentários.
+
                         </p>
                         {user && (
                             <Link to={routes.TRAINING_MODULES_PAGE} className="module-button">
@@ -77,12 +72,10 @@ export function LoginPage() {
                     <div className="module-wrapper">
                         <h3 className="module-title">Canal de denúncias</h3>
                         <p className="module-content">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-                            ultricies neque sed diam efficitur, sit amet semper eros pulvinar.
-                            Suspendisse non lacus sed ante sagittis congue pulvinar a neque.
-                            Suspendisse tristique lectus ac arcu euismod tempor. Maecenas
-                            varius mi non orci lobortis dapibus. Curabitur varius turpis ac
-                            tempus cursus.{" "}
+                            O canal de denúncias é uma ferramenta onde os funcionários das organizações podem relatar situações irregulares envolvendo
+                            outro colaborador ou até mesmo terceiros, dentro ou fora da corporação. As denúncias serão encaminhadas e avaliadas pelo
+                            administrador do sistema e, assim que possível, o denunciante irá receber um feedback sobre tal denúncia. Podendo ser acompanhada
+                            a qualquer momento.{" "}
                         </p>
 
                         {user?.role === "PERSON" && (
