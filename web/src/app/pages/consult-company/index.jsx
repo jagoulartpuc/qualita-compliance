@@ -14,7 +14,7 @@ export function ConsultCompany() {
 
   const childProps = { companies, setCompanies }
   return (
-    <div id="report-page">
+    <div id="consult-company-page">
       <main className="content">
         <h3 className="title">Consultar Empresas</h3>
         <section className="form-section">
@@ -22,9 +22,7 @@ export function ConsultCompany() {
             {!!companies &&
               companies.length > 0 &&
               (
-                  <div style={{ maxHeight: 600, maxWidth: 800 }}>
-                    <CustomTable {...childProps} />
-                  </div>
+                <CustomTable {...childProps} />
               )
             }
             {/*no person found*/}

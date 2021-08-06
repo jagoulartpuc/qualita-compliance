@@ -22,9 +22,7 @@ export function ConsultPerson() {
             {!!people &&
               people.length > 0 &&
               (
-                <div style={{ maxHeight: 600, maxWidth: 800 }}>
-                  <CustomTable {...childProps} />
-                </div>
+                <CustomTable {...childProps} />
               )
             }
             {/*no person found*/}
