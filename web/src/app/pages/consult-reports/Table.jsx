@@ -12,7 +12,7 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from "@material-ui/icons/Edit";
-import {deleteCompany, readCompany} from "../../../services";
+import {deleteReport, getReports, getReport} from "../../../services/report.service";
 import { useHistory } from "react-router-dom";
 
 
@@ -43,15 +43,16 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-    { id: 'name', numeric: false, sort: true, disablePadding: false, label: 'Nome' },
-    { id: 'cnpj',  numeric: false, sort: true, disablePadding: false, label: 'CNPJ' },
-    { id: 'adress',  numeric: false, sort: true, disablePadding: false, label: 'Endereço' },
-    { id: 'email',  numeric: false, sort: true, disablePadding: false, label: 'E-mail' },
-    { id: 'phones',  numeric: false, sort: true, disablePadding: false, label: 'Telefones' },
-    { id: 'owner',  numeric: false, sort: true, disablePadding: false, label: 'Proprietário' },
-    { id: 'business',  numeric: false, sort: true, disablePadding: false, label: 'Área' },
-    { id: 'edit', numeric: false, sort: false, disablePadding: false, label: 'Editar' },
-    { id: 'delete', numeric: false, sort: false, disablePadding: false, label: 'Deletar' },
+    { id: 'trackingId', numeric: false, sort: true, disablePadding: false, label: 'Nº de protocolo' },
+    { id: 'companyName',  numeric: false, sort: true, disablePadding: false, label: 'Empresa' },
+    { id: 'local',  numeric: false, sort: true, disablePadding: false, label: 'Local' },
+    { id: 'category', numeric: false, sort: false, disablePadding: false, label: 'Categoria' },
+    { id: 'dates', numeric: false, sort: false, disablePadding: false, label: 'Datas' },
+    { id: 'urgent', numeric: false, sort: false, disablePadding: false, label: 'Urgênte' },
+    { id: 'isManagerKnowledge', numeric: false, sort: false, disablePadding: false, label: 'De conhecimento do gestor' },
+    { id: 'description', numeric: false, sort: false, disablePadding: false, label: 'Descrição' },
+    { id: 'status', numeric: false, sort: false, disablePadding: false, label: 'Status' },
+    { id: 'delete', numeric: false, sort: false, disablePadding: false, label: 'Deletar' }
 ];
 
 function EnhancedTableHead(props) {
@@ -135,17 +136,14 @@ export default function CustomTable(props) {
     const [orderBy, setOrderBy] = React.useState('calories');
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
-    const { companies, setCompanies } = props;
+    const { reports, setReports } = props;
 
-    const deleteP = async function(company) {
-        if (window.confirm(`Deseja mesmo excluir o usuário: ${company.cnpj}?`)) {
-            await deleteCompany(Number(company.cnpj)).then(async () => {
-                await readCompany().then(data => setCompanies(data.data))
+    const deleteP = async function(report) {
+        if (window.confirm(`Deseja mesmo excluir a denúncia: ${report.trackingId}?`)) {
+            await deleteReport(Number(report.trackingId)).then(async () => {
+                await getReports().then(data => setReports(data.data))
             })
         }
-    }
-    const  edit = async function(company) {
-        history.replace('cadastrar-empresas/' + company.cnpj);
     }
 
     const handleRequestSort = (event, property) => {
@@ -164,7 +162,7 @@ export default function CustomTable(props) {
         setPage(0);
     };
 
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, companies.length - page * rowsPerPage);
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, reports.length - page * rowsPerPage);
 
     return (
         <div className={classes.root}>
@@ -181,10 +179,10 @@ export default function CustomTable(props) {
                             order={order}
                             orderBy={orderBy}
                             onRequestSort={handleRequestSort}
-                            rowCount={companies.length}
+                            rowCount={reports.length}
                         />
                         <TableBody>
-                            {stableSort(companies, getComparator(order, orderBy))
+                            {stableSort(reports, getComparator(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row, index) => {
                                     const labelId = `enhanced-table-checkbox-${index}`;
@@ -193,22 +191,19 @@ export default function CustomTable(props) {
                                         <TableRow
                                             hover
                                             tabIndex={-1}
-                                            key={row.cnpj}
+                                            key={row.trackingId}
                                         >
                                             <TableCell id={labelId} scope="row" padding="normal">
-                                                {row.name}
+                                                {row.trackingId}
                                             </TableCell>
-                                            <TableCell>{row.cnpj}</TableCell>
-                                            <TableCell>{row.adress}</TableCell>
-                                            <TableCell>{row.email}</TableCell>
-                                            <TableCell>{row.phones.toString()}</TableCell>
-                                            <TableCell>{row.owner}</TableCell>
-                                            <TableCell>{row.business}</TableCell>
-                                            <TableCell width="10%">
-                                              <button type='button' className={classes.button} onClick={() => edit(row)}>
-                                                  <EditIcon />
-                                              </button>
-                                            </TableCell>
+                                            <TableCell>{row.companyName}</TableCell>
+                                            <TableCell>{row.local}</TableCell>
+                                            <TableCell>{row.category}</TableCell>
+                                            <TableCell>{row.dates.toString()}</TableCell>
+                                            <TableCell>{row.urgent}</TableCell>
+                                            <TableCell>{row.isManagerKnowledge}</TableCell>
+                                            <TableCell>{row.description}</TableCell>
+                                            <TableCell>{row.status}</TableCell>
                                             <TableCell width="10%">
                                                 <button type='button' className={classes.button} onClick={() => deleteP(row)}>
                                                     <DeleteIcon />
@@ -228,7 +223,7 @@ export default function CustomTable(props) {
                 <TablePagination
                     rowsPerPageOptions={[5, 10]}
                     component="div"
-                    count={companies.length}
+                    count={reports.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}

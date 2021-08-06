@@ -16,6 +16,7 @@ import { ConsultCompany } from "./pages/consult-company";
 import { ConsultPerson } from "./pages/consult-person";
 import { RegisterCompany } from "./pages/register-company";
 import { RegisterPerson } from "./pages/register-person";
+import {ConsultReports} from "./pages/consult-reports";
 
 function App() {
   return (
@@ -64,6 +65,9 @@ function App() {
             />
             <Route exact path={routes.COMPANY_REPORTS_PAGE}>
               <CompanyReportsPage />
+            </Route>
+            <Route exact path={routes.CONSULT_REPORTS}>
+              <ConsultReports/>
             </Route>
           </Switch>
         </SessionProvider>

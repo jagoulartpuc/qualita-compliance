@@ -29,3 +29,11 @@ export function createReport(payload) {
 export function getReport(id) {
   return reportInstance.get(id);
 }
+
+export function deleteReport(id) {
+  return reportInstance.delete(id);
+}
+
+export function getReports() {
+  return reportInstance.get();
+}

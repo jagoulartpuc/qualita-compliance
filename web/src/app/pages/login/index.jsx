@@ -89,7 +89,7 @@ export function LoginPage() {
                             </Link>
                         )}
                         {user?.role === "ADMIN" && (
-                            <Link to={routes.COMPANY_REPORTS_PAGE} className="report-link">
+                            <Link to={routes.CONSULT_REPORTS} className="report-link">
                                 Visualizar todas as denúncias
                             </Link>
                         )}

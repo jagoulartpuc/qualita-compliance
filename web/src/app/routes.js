@@ -8,5 +8,6 @@ export const routes = {
   REGISTER_PERSON: "/cadastrar-pessoas",
   REGISTER_COMPANY: "/cadastrar-empresas",
   CONSULT_PERSON: "/consultar-pessoas",
-  CONSULT_COMPANY: "/consultar-empresas"
+  CONSULT_COMPANY: "/consultar-empresas",
+  CONSULT_REPORTS: "/consultar-denuncias"
 };

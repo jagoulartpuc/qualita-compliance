@@ -56,11 +56,9 @@ public class ReportController {
     }
 
     @GetMapping
-    public Page<Report> getAllReports(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+    public List<Report> getAllReports(
     ) {
-        return reportService.getReports(PageRequest.of(page, size));
+        return reportService.getReports();
     }
 
     @GetMapping("/filtro")

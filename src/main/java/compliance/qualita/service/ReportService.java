@@ -92,8 +92,8 @@ public class ReportService {
         return reportRepository.save(report);
     }
 
-    public Page<Report> getReports(Pageable pageable) {
-        return reportRepository.findAll(pageable);
+    public List<Report> getReports() {
+        return reportRepository.findAll();
     }
 
     public Page<Report> filterReports(String category, String date, String urgent, Pageable pageable) {
