@@ -37,11 +37,11 @@ export async function deletePerson(cpf) {
 }
 
 export async function updateCompany(data) {
-    return await adminInstance.put(`/empresa/${data.cnpj}`, data);
+    return await adminInstance.put(`/empresa`, data);
 }
 
 export async function updatePerson(data) {
-    return await adminInstance.put(`/funcionario/`, data);
+    return await adminInstance.put(`/funcionario`, data);
 }
 
 export function validateModule(moduleId, cnpj) {

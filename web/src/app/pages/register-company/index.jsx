@@ -1,4 +1,4 @@
-import { Button } from "@Components";
+import { Button, Toast } from "@Components";
 import { Chip, FormControl, IconButton, Input, InputLabel } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { maskUtils } from "../../utils/mask-utils";
@@ -6,6 +6,8 @@ import "./style.scss";
 import { createCompany, readCompanyByCnpj, updateCompany } from '../../../services/index'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import {routes} from "../../routes";
+import { useHistory } from "react-router-dom";
 
 
 export function RegisterCompany() {
@@ -19,6 +21,7 @@ export function RegisterCompany() {
   const [business, setBusiness] = useState("");
   const [site, setSite] = useState("");
   const [isNew, setIsNew] = useState(true)
+  const history = useHistory();
 
   const removeFromList = (value, list, updateFn) => {
     updateFn(list.filter((name) => value !== name));
@@ -31,7 +34,7 @@ export function RegisterCompany() {
       let data = {
         name: name,
         cnpj: cnpj,
-        phone: phones,
+        phones: phones,
         email: email,
         adress: adress,
         site: site,
@@ -39,10 +42,16 @@ export function RegisterCompany() {
         business: business,
       }
 
-      if (!!isNew)
+      var message = "";
+      if (!!isNew) {
         await createCompany(data);
-      else
-        await updateCompany(data)
+        message = "Empresa registrada com sucesso!";
+      } else {
+        await updateCompany(data);
+        message = "Empresa atualizada com sucesso!";
+      }
+
+      Toast({icon: 'success', title: message, didClose: () => history.push(routes.CONSULT_COMPANY)});
 
     } catch (error) { }
   }

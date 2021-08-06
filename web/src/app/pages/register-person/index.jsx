@@ -1,4 +1,4 @@
-import { Button } from "@Components";
+import { Button, Toast } from "@Components";
 import { FormControl, Input, InputLabel, Switch } from "@material-ui/core";
 import React, { useEffect, useState } from 'react';
 import { maskUtils } from "../../utils/mask-utils";
@@ -21,20 +21,6 @@ export function RegisterPerson() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isNew, setIsNew] = useState(true)
   const history = useHistory();
-  const Toast = Swal.mixin({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 1500,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener('mouseenter', Swal.stopTimer)
-      toast.addEventListener('mouseleave', Swal.resumeTimer)
-    },                                                                                                                                                             
-    didClose: () => {
-      history.push(routes.CONSULT_PERSON);
-    }
-  });
 
   async function submit(e) {
     e.preventDefault();
@@ -57,12 +43,9 @@ export function RegisterPerson() {
         message = "Funcionário registrado com sucesso!";
       } else {
         await updatePerson(data);
-        message = 'Funcionário atualizado com sucesso!';
+        message = "Funcionário atualizado com sucesso!";
       }
-      Toast.fire({
-        icon: 'success',
-        title: message
-      });
+      Toast({icon: 'success', title: message, didClose: () => history.push(routes.CONSULT_PERSON)});
     } catch (error) {
     }
   }
