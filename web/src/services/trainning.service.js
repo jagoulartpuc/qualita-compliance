@@ -24,6 +24,5 @@ export function addNewComment(trainningModuleId, comment) {
 }
 
 export async function putAttachments(trainningModuleId, attachments) {
-  console.log(attachments)
   return await trainningInstance.put(`/anexo?trainingModuleId=${trainningModuleId}`,  attachments);
 }

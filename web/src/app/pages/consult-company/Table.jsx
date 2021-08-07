@@ -13,6 +13,7 @@ import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from "@material-ui/icons/Edit";
 import {deleteCompany, readCompany} from "../../../services";
+import { Toast } from "@Components";
 import { useHistory } from "react-router-dom";
 
 
@@ -138,10 +139,13 @@ export default function CustomTable(props) {
     const { companies, setCompanies } = props;
 
     const deleteP = async function(company) {
-        if (window.confirm(`Deseja mesmo excluir o usuário: ${company.cnpj}?`)) {
-            await deleteCompany(Number(company.cnpj)).then(async () => {
-                await readCompany().then(data => setCompanies(data.data))
-            })
+        if (window.confirm(`Deseja mesmo excluir a empresa: ${company.cnpj}?`)) {
+            try {
+                await deleteCompany(Number(company.cnpj));
+                Toast({icon: 'success', title: "Empresa deletada com sucesso!", didClose: () => readCompany().then(data => setCompanies(data.data))});
+            } catch (err) {
+                Toast({icon: 'error', title: err, didClose: () => ""});
+            }
         }
     }
     const  edit = async function(company) {

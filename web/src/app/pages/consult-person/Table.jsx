@@ -12,7 +12,8 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from "@material-ui/icons/Edit";
-import {deleteCompany, readPerson} from "../../../services";
+import {deletePerson, readPerson} from "../../../services";
+import { Toast } from "@Components";
 import { useHistory } from "react-router-dom";
 
 
@@ -139,10 +140,13 @@ export default function CustomTable(props) {
     const { people, setPeople } = props;
 
     const deleteP = async function(person) {
-        if (window.confirm(`Deseja mesmo excluir o usuário: ${person.cpf}?`)) {
-            await deleteCompany(Number(person.cpf)).then(async () => {
-                await readPerson().then(data => setPeople(data.data))
-            })
+        if (window.confirm(`Deseja mesmo excluir o funcionário: ${person.cpf}?`)) {
+            try {
+                await deletePerson(Number(person.cpf));
+                Toast({icon: 'success', title: "Funcionário deletada com sucesso!", didClose: () => readPerson().then(data => setPeople(data.data))});
+            } catch (err) {
+                Toast({icon: 'error', title: err, didClose: () => ""});
+            }
         }
     }
     const  edit = async function(person) {

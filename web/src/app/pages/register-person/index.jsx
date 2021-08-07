@@ -39,14 +39,18 @@ export function RegisterPerson() {
       }
       var message = "";
       if (!!isNew) {
-        await createPerson(data);
-        message = "Funcionário registrado com sucesso!";
+        try {
+          await createPerson(data);
+        } catch (err) {
+          message = "Funcionário registrado com sucesso!";
+        }
       } else {
         await updatePerson(data);
         message = "Funcionário atualizado com sucesso!";
       }
       Toast({icon: 'success', title: message, didClose: () => history.push(routes.CONSULT_PERSON)});
     } catch (error) {
+      Toast({icon: 'error', title: error});
     }
   }
 
