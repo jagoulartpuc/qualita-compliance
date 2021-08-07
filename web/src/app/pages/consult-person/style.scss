@@ -53,6 +53,10 @@ $main-color: #0582ca;
 			background: white;
 			box-shadow: $standard-box-shadow;
 			padding: 16px;
+
+			.no-data-found {
+				color: black;
+			}
 		}
 	}
 

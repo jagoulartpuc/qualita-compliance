@@ -24,9 +24,7 @@ export function TrainingModulesPage() {
     }
 
     const validateTrainnningModule = (event) => {
-        console.log(event.target);
         const moduleId = event.target.id;
-
         validateModule(moduleId, user.identifier).then(async data => {
             const {data: modulesResponse} = await getTrainningsByUserId();
             setModules(modulesResponse);
