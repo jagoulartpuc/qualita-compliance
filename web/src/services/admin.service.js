@@ -4,6 +4,14 @@ const adminInstance = axios.create({
     baseURL: process.env.REACT_APP_API_BASE_URL,
 });
 
+export async function changePasswordPerson(cpf, password) {
+    return await adminInstance.patch('/funcionario/mudar-senha?cpf=' + cpf + "&password=" + password);
+}
+
+export async function changePasswordCompany(cnpj, password) {
+    return await adminInstance.patch('/empresa/mudar-senha?cpf=' + cnpj + "&password=" + password);
+}
+
 export async function createPerson(data) {
     return await adminInstance.post('/funcionario', data);
 }

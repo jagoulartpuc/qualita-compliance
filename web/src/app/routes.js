@@ -10,5 +10,6 @@ export const routes = {
   REGISTER_COMPANY: "/cadastrar-empresas",
   CONSULT_PERSON: "/consultar-pessoas",
   CONSULT_COMPANY: "/consultar-empresas",
-  CONSULT_REPORTS: "/consultar-denuncias"
+  CONSULT_REPORTS: "/consultar-denuncias",
+  CHANGE_PASSWORD: "/trocar-senha"
 };

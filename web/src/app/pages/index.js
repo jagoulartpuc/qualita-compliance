@@ -5,3 +5,5 @@ export { default as ReportDetailsPage } from "./report-details";
 export { CompanyReportsPage } from "./company-report";
 export { default as TrainningModuleDetailPage } from './trainning-details';
 export { default as ReportDetailsAdminPage } from "./report-details-admin";
+export { ChangePasswordPage } from "./change-password";
+

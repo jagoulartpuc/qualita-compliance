@@ -18,8 +18,12 @@ export function RegisterCompany() {
   const [phone, setNewPhone] = useState("");
   const [email, setEmail] = useState("");
   const [owner, setOwner] = useState("");
+  const [password, setPassword] = useState("");
   const [business, setBusiness] = useState("");
   const [site, setSite] = useState("");
+  const [persons, setPersons] = useState("");
+  const [reports, setReports] = useState("");
+  const [features, setFeatures] = useState("");
   const [isNew, setIsNew] = useState(true)
   const history = useHistory();
 
@@ -39,6 +43,10 @@ export function RegisterCompany() {
         site: site,
         owner: owner,
         business: business,
+        password: password,
+        persons: persons,
+        reports: reports,
+        features: features
       }
       var message = "";
       if (!!isNew) {
@@ -69,6 +77,10 @@ export function RegisterCompany() {
         setOwner(data.data.owner);
         setBusiness(data.data.business);
         setSite(data.data.site);
+        setPassword(data.data.password)
+        setPersons(data.data.persons)
+        setReports(data.data.reports)
+        setFeatures(data.data.features)
         setIsNew(false);
       })
     } else {

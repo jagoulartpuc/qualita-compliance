@@ -15,6 +15,7 @@ export function RegisterPerson() {
   const [email, setEmail] = useState("");
   const [schooling, setSchooling] = useState("");
   const [profession, setProfession] = useState("");
+  const [password, setPassword] = useState("");
   const [occupation, setOccupation] = useState("");
   const [birthday, setBirthday] = useState("");
   const [companyCnpj, setCompanyCnpj] = useState("");
@@ -32,6 +33,7 @@ export function RegisterPerson() {
         email: email,
         schooling: schooling,
         profession: profession,
+        password: password,
         occupation: occupation,
         birthday: birthday,
         companyCnpj: companyCnpj,
@@ -71,6 +73,7 @@ export function RegisterPerson() {
         setBirthday(data.data.birthday);
         setCompanyCnpj(data.data.companyCnpj);
         setIsAdmin(data.data.isAdmin);
+        setPassword(data.data.password)
         setIsNew(false);
       })
     } else {

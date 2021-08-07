@@ -47,7 +47,7 @@ export function CompanyReportsPage() {
                         );
 
                         const icons =  <FontAwesomeIcon className="card-icon" icon={faExclamationTriangle} size="2x" /> 
-                        return <Card key={comp.trackingId} title={comp.category} description={description} icons={icons} href={`reports/${comp.trackingId}`} />;
+                        return <Card key={comp.trackingId} title={comp.category} description={description} icons={icons} href={`denuncia-admin/${comp.trackingId}`} />;
                     })}
                 </div>
             </main>

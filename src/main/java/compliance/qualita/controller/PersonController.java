@@ -43,7 +43,7 @@ public class PersonController {
         return personService.editPerson(person);
     }
 
-    @PutMapping("/mudar-senha")
+    @PatchMapping("/mudar-senha")
     public Person changePassword(
             @RequestParam String cpf,
             @RequestParam String password

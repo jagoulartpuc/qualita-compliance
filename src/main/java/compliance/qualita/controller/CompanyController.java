@@ -50,7 +50,7 @@ public class CompanyController {
         return companyService.editCompany(company);
     }
 
-    @PutMapping("/mudar-senha")
+    @PatchMapping("/mudar-senha")
     public Company changePassword(
             @RequestParam String cnpj,
             @RequestParam String password

@@ -18,6 +18,7 @@ import { RegisterCompany } from "./pages/register-company";
 import { RegisterPerson } from "./pages/register-person";
 import {ConsultReports} from "./pages/consult-reports";
 import ReportDetailsAdminPage from "./pages/report-details-admin";
+import {ChangePasswordPage} from "./pages/change-password";
 
 function App() {
   return (
@@ -40,6 +41,9 @@ function App() {
             <Route exact path={routes.HOME_PAGE}>
               <LoginPage />
             </Route>
+            <Route exact path={routes.CHANGE_PASSWORD}>
+              <ChangePasswordPage />
+            </Route>
             <Route exact path={routes.TRAINING_MODULES_PAGE}>
               <TrainingModulesPage />
             </Route>
@@ -56,8 +60,8 @@ function App() {
               <RegisterPerson />
             </Route>
             <Route exact path={`${routes.REGISTER_PERSON}/:cpf`}>
-              <RegisterPerson />
-            </Route>
+            <RegisterPerson />
+          </Route>
             <Route exact path={routes.CONSULT_COMPANY}>
               <ConsultCompany />
             </Route>

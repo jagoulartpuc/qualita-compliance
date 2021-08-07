@@ -70,6 +70,7 @@ export function Header() {
             onClose={handleClose}
           >
             <MenuItem onClick={handleLogout}>Sair </MenuItem>
+            <MenuItem onClick={() => { history.replace('/trocar-senha')}}>Trocar senha </MenuItem>
             {user?.role === 'ADMIN' ? <MenuItem onClick={() => { history.replace('/painel-de-controle') }}>Painel de controle </MenuItem> : null}
           </Menu>
         </section>
