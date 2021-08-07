@@ -2,18 +2,30 @@ import React, { useEffect, useState } from 'react';
 import "./style.scss";
 import { getReports } from '../../../services/report.service'
 import CustomTable from "./Table";
+import {useHistory} from "react-router-dom";
+import {readPerson} from "../../../services";
 
 export function ConsultReports() {
+    const [reports, setReports] = useState([]);
+    const [loading, setLoading] = useState(false);
 
-    const [reports, setReports] = useState([])
+    const history = useHistory();
 
-    useEffect(async () => {
-        await getReports().then((data) => setReports(data.data));
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect( () => {
+        (async () => {
+            try {
+                setLoading(true);
+                const {data: reportsResponse} = await getReports();
+                setReports(reportsResponse);
+                setLoading(false);
+            } catch (error) {
+                history.replace("/");
+            }
+        })();
     }, []);
 
     const childProps = { reports, setReports }
-    return (
+    return loading ? <h1>Carregando...</h1> : (
         <div id="consult-company-page">
             <main className="content">
                 <h3 className="title">Consultar Denúncias</h3>
@@ -28,7 +40,7 @@ export function ConsultReports() {
                         {/*no person found*/}
                         {(!reports) ||
                         (reports.length === 0 && (
-                            <div className='no-file-found'>NENHUM REGISTRO ENCONTRADO </div>
+                            <div className='no-data-found'>NENHUM REGISTRO ENCONTRADO </div>
                         ))}
                     </div>
                 </section>

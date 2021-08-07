@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { getReport } from "@Services";
 import "./style.scss";
-import GenericPdfImage from "*.jpeg";
-import GenericImage from "*.jpeg";
 
 function formatDates(dates) {
     return dates.reduce((acc, current) => {
