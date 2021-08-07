@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -11,10 +11,9 @@ import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from "@material-ui/icons/Edit";
-import {deleteReport, getReports, getReport} from "../../../services/report.service";
-import { useHistory } from "react-router-dom";
-
+import {deleteReport, getReports} from "../../../services/report.service";
+import {useHistory} from "react-router-dom";
+import "./style.scss";
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -43,20 +42,19 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-    { id: 'trackingId', numeric: false, sort: true, disablePadding: false, label: 'Nº de protocolo' },
-    { id: 'companyName',  numeric: false, sort: true, disablePadding: false, label: 'Empresa' },
-    { id: 'local',  numeric: false, sort: true, disablePadding: false, label: 'Local' },
-    { id: 'category', numeric: false, sort: false, disablePadding: false, label: 'Categoria' },
-    { id: 'dates', numeric: false, sort: false, disablePadding: false, label: 'Datas' },
-    { id: 'urgent', numeric: false, sort: false, disablePadding: false, label: 'Urgênte' },
-    { id: 'isManagerKnowledge', numeric: false, sort: false, disablePadding: false, label: 'De conhecimento do gestor' },
-    { id: 'description', numeric: false, sort: false, disablePadding: false, label: 'Descrição' },
-    { id: 'status', numeric: false, sort: false, disablePadding: false, label: 'Status' },
-    { id: 'delete', numeric: false, sort: false, disablePadding: false, label: 'Deletar' }
+    {id: 'trackingId', numeric: false, sort: true, disablePadding: false, label: 'Nº de protocolo'},
+    {id: 'companyName', numeric: false, sort: true, disablePadding: false, label: 'Empresa'},
+    {id: 'local', numeric: false, sort: true, disablePadding: false, label: 'Local'},
+    {id: 'category', numeric: false, sort: false, disablePadding: false, label: 'Categoria'},
+    {id: 'dates', numeric: false, sort: false, disablePadding: false, label: 'Datas'},
+    {id: 'urgent', numeric: false, sort: false, disablePadding: false, label: 'Urgênte'},
+    {id: 'isManagerKnowledge', numeric: false, sort: false, disablePadding: false, label: 'De conhecimento do gestor'},
+    {id: 'status', numeric: false, sort: false, disablePadding: false, label: 'Status'},
+    {id: 'delete', numeric: false, sort: false, disablePadding: false, label: 'Deletar'}
 ];
 
 function EnhancedTableHead(props) {
-    const { classes, order, orderBy, onRequestSort } = props;
+    const {classes, order, orderBy, onRequestSort} = props;
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
@@ -136,9 +134,9 @@ export default function CustomTable(props) {
     const [orderBy, setOrderBy] = React.useState('calories');
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
-    const { reports, setReports } = props;
+    const {reports, setReports} = props;
 
-    const deleteP = async function(report) {
+    const deleteP = async function (report) {
         if (window.confirm(`Deseja mesmo excluir a denúncia: ${report.trackingId}?`)) {
             await deleteReport(Number(report.trackingId)).then(async () => {
                 await getReports().then(data => setReports(data.data))
@@ -202,19 +200,27 @@ export default function CustomTable(props) {
                                             <TableCell>{row.dates.toString()}</TableCell>
                                             <TableCell>{row.urgent}</TableCell>
                                             <TableCell>{row.isManagerKnowledge}</TableCell>
-                                            <TableCell>{row.description}</TableCell>
                                             <TableCell>{row.status}</TableCell>
                                             <TableCell width="10%">
-                                                <button type='button' className={classes.button} onClick={() => deleteP(row)}>
-                                                    <DeleteIcon />
+                                                <button type='button' className={classes.button}
+                                                        onClick={() => deleteP(row)}>
+                                                    <DeleteIcon/>
+                                                </button>
+                                            </TableCell>
+                                            <TableCell width="10%">
+                                                <button type='button' className={classes.button}
+                                                        onClick={() => history.push(`/denuncia-admin/${row.trackingId}`)}>
+                                                    <div className="details">
+                                                        Ver Detalhes
+                                                    </div>
                                                 </button>
                                             </TableCell>
                                         </TableRow>
                                     );
                                 })}
                             {emptyRows > 0 && (
-                                <TableRow style={{ height: 33 * emptyRows }}>
-                                    <TableCell colSpan={6} />
+                                <TableRow style={{height: 33 * emptyRows}}>
+                                    <TableCell colSpan={6}/>
                                 </TableRow>
                             )}
                         </TableBody>

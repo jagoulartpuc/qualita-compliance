@@ -16,6 +16,11 @@ $main-color: #0582ca;
     flex-direction: column;
   }
 
+  .details {
+    color: #00A64E;
+    font-weight: bold;
+  }
+
   > .content {
     flex: 1;
     padding: 20px;
@@ -68,6 +73,7 @@ $main-color: #0582ca;
       display: flex;
       flex-flow: row nowrap;
       justify-content: space-between;
+
 
       .icons {
         display: flex;

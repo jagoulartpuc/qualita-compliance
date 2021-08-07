@@ -17,6 +17,7 @@ import { ConsultPerson } from "./pages/consult-person";
 import { RegisterCompany } from "./pages/register-company";
 import { RegisterPerson } from "./pages/register-person";
 import {ConsultReports} from "./pages/consult-reports";
+import ReportDetailsAdminPage from "./pages/report-details-admin";
 
 function App() {
   return (
@@ -30,6 +31,11 @@ function App() {
               exact
               path={`${routes.REPORT_PAGE}/:id`}
               component={ReportDetailsPage}
+            />
+            <Route
+                exact
+                path={`${routes.ADMIN_REPORT_PAGE}/:id`}
+                component={ReportDetailsAdminPage}
             />
             <Route exact path={routes.HOME_PAGE}>
               <LoginPage />
