@@ -49,7 +49,9 @@ export function RegisterCompany() {
         message = "Empresa atualizada com sucesso!";
       }
       Toast({icon: 'success', title: message, didClose: () => history.push(routes.CONSULT_COMPANY)});
-    } catch (error) { }
+    } catch (error) {
+      Toast({icon: 'error', title: error, didClose: () => ""});
+    }
   }
 
   useEffect(async () => {

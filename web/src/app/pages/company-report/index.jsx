@@ -1,5 +1,5 @@
 import React from "react";
-import { LOCAL_STORAGE_USER_IDENTIFICATION       } from "@Context";
+import { LOCAL_STORAGE_USER_IDENTIFICATION } from "@Context";
 import { Card } from "@Components";
 import {
     faExclamationTriangle,

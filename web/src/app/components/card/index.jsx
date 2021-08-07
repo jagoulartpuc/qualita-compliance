@@ -1,7 +1,6 @@
 import React from "react";
-import { Card as MaterialCard, Divider } from "@material-ui/core";
+import { Card as MaterialCard } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./style.scss";
 
 export function Card({

@@ -9,7 +9,6 @@ import { fileUtils } from '@Utils';
 import { Toast } from "@Components";
 import { LOCAL_STORAGE_USER_IDENTIFICATION } from "../../../context/session.context";
 import "./style.scss";
-import {routes} from "../../routes";
 
 function TrainningItem({ value }) {
     return (
