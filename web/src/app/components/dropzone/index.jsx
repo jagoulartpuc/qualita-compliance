@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import "./style.scss";
 
@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 
 export function Dropzone({ onUpload, className }) {
-  const [selectedFileUrl, setSelectedFileUrl] = useState("");
 
   const onDrop = useCallback(
     (acceptedFiles) => {
@@ -18,10 +17,6 @@ export function Dropzone({ onUpload, className }) {
   function handleFileUrl(file) {
     file.URL = URL.createObjectURL(file);
     onUpload(file);
-  }
-
-  function test(file) {
-    console.log("file test", file);
   }
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({

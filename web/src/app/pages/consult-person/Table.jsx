@@ -149,6 +149,7 @@ export default function CustomTable(props) {
             }
         }
     }
+
     const  edit = async function(person) {
         history.replace('cadastrar-pessoas/' + person.cpf);
 
