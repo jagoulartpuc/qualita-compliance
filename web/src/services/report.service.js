@@ -37,3 +37,7 @@ export function deleteReport(id) {
 export function getReports() {
   return reportInstance.get();
 }
+
+export function shareReport(cnpj, trackingId, attachments) {
+  return reportInstance.put(`/encaminhamento/?cnpj=${cnpj}&trackingId=${trackingId}`, attachments);
+}
