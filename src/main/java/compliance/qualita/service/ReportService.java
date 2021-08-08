@@ -43,8 +43,8 @@ public class ReportService {
         if (!CollectionUtils.isEmpty(report.getAttachments())) {
             attachmentsConverter.fromBase64(report.getAttachments());
         }
+        report.setStatus("RECEBIDA");
         String trackingId = reportRepository.insert(report).getTrackingId();
-
         Runnable runnable = () ->{
             try{
                 emailSender.sendEmail("Denúncia recebida", templateBuilder.buildReportReceived(trackingId), adminEmail);
@@ -56,25 +56,32 @@ public class ReportService {
         };
 
         new Thread(runnable).start();
-        report.setStatus("RECEBIDA");
         return report;
     }
 
     public List<Report> shareReportWithEnvolved(String companyCNPJ, String trackingId, String moreDestinations, List<Attachment> attachments) throws MessagingException, IOException {
         Company company = companyService.getCompanyByCNPJ(companyCNPJ);
         Report report = getReportByTrackingId(trackingId);
-        report.setStatus("EM ANALISE");
+        report.setStatus("ENCAMINHADA");
         if (attachments != null) {
             report.getAttachments().addAll(attachmentsConverter.fromBase64(attachments));
-            company.getReports().add(report);
         }
+        Report reportUpdated = reportRepository.save(report);
+        company.getReports().add(reportUpdated);
         companyService.editCompany(company);
-        emailSender.sendEmail("Denúncia encaminhada", templateBuilder.buildReportShared(trackingId), company.getEmail() + moreDestinations);
+        String destinations = company.getEmail();
+        if (moreDestinations != null) {
+            destinations += moreDestinations;
+        }
+
+        emailSender.sendEmail("Denúncia encaminhada", templateBuilder.buildReportShared(trackingId), destinations);
         return company.getReports();
     }
 
     public Report answerCompanyReport(String trackingId, List<Attachment> attachments) throws MessagingException, IOException {
         Report report = getReportByTrackingId(trackingId);
+        report.setStatus("EM ANÁLISE");
+
         if (attachments != null) {
             report.getAttachments().addAll(attachmentsConverter.fromBase64(attachments));
         }

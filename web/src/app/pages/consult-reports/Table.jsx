@@ -16,6 +16,21 @@ import {deleteReport, getReports} from "../../../services/report.service";
 import {useHistory} from "react-router-dom";
 import "./style.scss";
 
+function formatDates(dates) {
+    return dates.reduce((acc, current) => {
+        return [...acc, Intl.DateTimeFormat("pt-br").format(new Date(current))];
+    }, []);
+}
+
+function listToStringDate(list) {
+    if (list.length <= 1) {
+        return '';
+    }
+    console.log(list)
+    const lastItem = list.pop();
+    return `${list.join(", ")} e ${lastItem}`;
+}
+
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
         return -1;
@@ -199,7 +214,7 @@ export default function CustomTable(props) {
                                             <TableCell>{row.companyName}</TableCell>
                                             <TableCell>{row.local}</TableCell>
                                             <TableCell>{row.category}</TableCell>
-                                            <TableCell>{row.dates.toString()}</TableCell>
+                                            <TableCell>{listToStringDate(formatDates(row.dates))}</TableCell>
                                             <TableCell>{row.urgent}</TableCell>
                                             <TableCell>{row.isManagerKnowledge}</TableCell>
                                             <TableCell>{row.status}</TableCell>

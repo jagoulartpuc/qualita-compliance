@@ -202,6 +202,9 @@ export function ReportPage() {
                 <FontAwesomeIcon icon={faCopy} />
               </button>
             </div>
+            <p className="success-text">
+              Para consulta, acesse: www.qualitacompliance.com/denuncia/numero-da-denuncia
+            </p>
           </>
         ) : (
           <>

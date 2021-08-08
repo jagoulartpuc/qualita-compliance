@@ -35,6 +35,7 @@ export function Header() {
   const handleLogout = () => {
     logout();
     handleClose();
+    history.replace(routes.HOME_PAGE)
   };
   return (
     <header id="header-component">

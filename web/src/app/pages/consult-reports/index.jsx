@@ -3,7 +3,6 @@ import "./style.scss";
 import { getReports } from '../../../services/report.service'
 import CustomTable from "./Table";
 import {useHistory} from "react-router-dom";
-import {readPerson} from "../../../services";
 
 export function ConsultReports() {
     const [reports, setReports] = useState([]);

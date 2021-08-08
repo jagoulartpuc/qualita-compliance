@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import { useHistory } from "react-router";
 import { getReport, shareReport } from "@Services";
 import "./style.scss";
@@ -7,14 +7,31 @@ import GenericPdfImage from '@Images/generic-pdf.jpeg';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faArrowRight, faTrash} from "@fortawesome/free-solid-svg-icons";
 import { Button, Dropzone, Toast, CustomDialog } from "@Components";
-import {Divider, FormControl, Input, InputLabel, TextField} from "@material-ui/core";
+import {Divider, FormControl, Input, InputLabel} from "@material-ui/core";
 import {fileUtils, maskUtils} from "../../utils";
 import {routes} from "../../routes";
+import {useSession} from "@Context";
+
 
 function formatDates(dates) {
     return dates.reduce((acc, current) => {
         return [...acc, Intl.DateTimeFormat("pt-br").format(new Date(current))];
     }, []);
+}
+
+function listToStringDate(list) {
+  if (list.length <= 1) {
+    return list[0];
+  }
+  const lastItem = list.pop();
+  return `${list.join(", ")} e ${lastItem}`;
+}
+
+function listToString(list) {
+    if (list.length <= 1) {
+        return list[0];
+    }
+    return `${list.join(", ")}`;
 }
 
 function ReportItem({ label, value }) {
@@ -27,6 +44,8 @@ function ReportItem({ label, value }) {
 }
 
 export default function ReportDetailsAdminPage({ match }) {
+
+    const {user, isLoggedIn, signIn} = useSession();
     const [report, setReport] = useState(null);
     const [loading, setLoading] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
@@ -90,7 +109,7 @@ export default function ReportDetailsAdminPage({ match }) {
             Toast({
                 icon: 'success',
                 title: "Denúncia encaminhada com sucesso!",
-                didClose: () => history.push(routes.ADMIN_REPORT_PAGE)
+                didClose: () => history.push(routes.CONSULT_REPORTS)
             });
         } catch (error) {
             Toast({icon: 'error', title: error, didClose: () => ""});
@@ -127,27 +146,39 @@ export default function ReportDetailsAdminPage({ match }) {
                             <ReportItem label="Empresa" value={report?.companyName} />
                             <ReportItem label="Local" value={report?.local} />
                             <ReportItem label="Categoria" value={report?.category} />
-                            <ReportItem label="Datas" value={formatDates(report?.dates)} />
+                            <ReportItem label="Datas" value={listToStringDate(formatDates(report?.dates))} />
                             <ReportItem label="Urgente" value={report?.urgent} />
                             <ReportItem label="De conhecimento do gestor" value={report?.isManagerKnowledge} />
                             <ReportItem label="Descrição do ocorrido" value={report?.description} />
                             <ReportItem label="Caso de conhecimento" value={report?.caseKnowledge} />
-                            <ReportItem label="Pessoas envolvidas" value={report?.reportDetails.envolvedPeople} />
+                            <ReportItem label="Pessoas envolvidas" value={listToString(report?.reportDetails.envolvedPeople)} />
                             <ReportItem label="Período" value={report?.reportDetails.period} />
-                            <ReportItem label="Suspeitos" value={report?.reportDetails.suspects} />
-                            <ReportItem label="Testemunhas" value={report?.reportDetails.witnesses} />
+                            <ReportItem label="Suspeitos" value={listToString(report?.reportDetails.suspects)} />
+                            <ReportItem label="Testemunhas" value={listToString(report?.reportDetails.witnesses)} />
                             <ReportItem label="Status" value={report?.status} />
                         </section>
                     </div>
                 </main>
                 <aside className="report-details-admin-material">
-                    <h3><strong>Materiais do treinamento</strong></h3>
+                    <h3><strong>Anexos da Denúncia</strong></h3>
                     {getAttachments()}
                 </aside>
             </section>
-            <div className="forward-button">
-                <Button onClick={() => setModalOpen(true)}>Encaminhar&nbsp;<FontAwesomeIcon icon={faArrowRight} /></Button>
-            </div>
+            {user?.role === 'ADMIN' && (
+                <div className="forward-button">
+                    <Button onClick={() => setModalOpen(true)}>Encaminhar&nbsp;<FontAwesomeIcon icon={faArrowRight} /></Button>
+                </div>
+            )}
+            {user?.role === 'ADMIN' && (
+                <div className="forward-button">
+                    <Button onClick={() => setModalOpen(true)}>Responder Informante&nbsp;<FontAwesomeIcon icon={faArrowRight} /></Button>
+                </div>
+            )}
+            {user?.role === 'COMPANY' && (
+                <div className="forward-button">
+                    <Button onClick={() => setModalOpen(true)}>Responder&nbsp;<FontAwesomeIcon icon={faArrowRight} /></Button>
+                </div>
+            )}
             {modalOpen &&
                 <CustomDialog title="Encaminhar denúncia"
                         open={modalOpen}
