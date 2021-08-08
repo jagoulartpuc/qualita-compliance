@@ -209,12 +209,18 @@ export default function CustomTable(props) {
                                             <TableCell>{row.owner}</TableCell>
                                             <TableCell>{row.business}</TableCell>
                                             <TableCell width="10%">
-                                              <button type='button' className={classes.button} onClick={() => edit(row)}>
+                                              <button type='button'
+                                                      className={classes.button}
+                                                      title="Editar"
+                                                      onClick={() => edit(row)}>
                                                   <EditIcon />
                                               </button>
                                             </TableCell>
                                             <TableCell width="10%">
-                                                <button type='button' className={classes.button} onClick={() => deleteP(row)}>
+                                                <button type='button'
+                                                        className={classes.button}
+                                                        title="Deletar"
+                                                        onClick={() => deleteP(row)}>
                                                     <DeleteIcon />
                                                 </button>
                                             </TableCell>
@@ -223,7 +229,7 @@ export default function CustomTable(props) {
                                 })}
                             {emptyRows > 0 && (
                                 <TableRow style={{ height: 33 * emptyRows }}>
-                                    <TableCell colSpan={6} />
+                                    <TableCell colSpan={9} />
                                 </TableRow>
                             )}
                         </TableBody>

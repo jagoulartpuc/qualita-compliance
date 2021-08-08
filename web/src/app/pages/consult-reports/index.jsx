@@ -26,7 +26,7 @@ export function ConsultReports() {
 
     const childProps = { reports, setReports }
     return loading ? <h1>Carregando...</h1> : (
-        <div id="consult-company-page">
+        <div id="consult-reports-page">
             <main className="content">
                 <h3 className="title">Consultar Denúncias</h3>
                 <section className="form-section">

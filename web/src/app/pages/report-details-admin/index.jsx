@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { getReport } from "@Services";
 import "./style.scss";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faPlusCircle} from "@fortawesome/free-solid-svg-icons";
 
 function formatDates(dates) {
     return dates.reduce((acc, current) => {
@@ -9,13 +11,13 @@ function formatDates(dates) {
     }, []);
 }
 
-function listToString(list) {
-    if (list.length === 1) {
-        return list[0];
-    }
-    const lastItem = list.pop();
-    return `${list.join(", ")} e ${lastItem}`;
-}
+// function listToString(list) {
+//     if (list.length === 1) {
+//         return list[0];
+//     }
+//     const lastItem = list.pop();
+//     return `${list.join(", ")} e ${lastItem}`;
+// }
 
 function ReportItem({ label, value }) {
     return (
@@ -70,6 +72,17 @@ export default function ReportDetailsAdminPage({ match }) {
                 <ReportItem label="Suspeitos" value={report?.reportDetails.suspects} />
                 <ReportItem label="Testemunhas" value={report?.reportDetails.witnesses} />
                 <ReportItem label="Status" value={report?.status} />
+
+                {/*<aside id='trainning-material'>*/}
+                {/*    {this.getLoggedUserFromStorage()?.role === 'ADMIN' ?*/}
+                {/*        <React.Fragment>*/}
+                {/*            <label htmlFor="file"><FontAwesomeIcon className="add-material" icon={faPlusCircle} size="2x" title="Incluir material" /></label>*/}
+                {/*            <input type="file" id="file" onChange={this.onChangeFile} />*/}
+                {/*        </React.Fragment>*/}
+                {/*        : null}*/}
+                {/*    <h3><strong>Materiais do treinamento</strong></h3>*/}
+                {/*    {this.getAttachments()}*/}
+                {/*</aside>*/}
             </section>
         </main>
     );

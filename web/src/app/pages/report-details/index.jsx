@@ -36,7 +36,6 @@ export default function ReportDetails({ match }) {
       try {
         setLoading(true);
         const { data: reportResponse } = await getReport(id);
-        console.log(reportResponse);
         setReport(reportResponse);
         setLoading(false);
       } catch (error) {

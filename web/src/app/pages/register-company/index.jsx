@@ -48,7 +48,7 @@ export function RegisterCompany() {
         reports: reports,
         features: features
       }
-      var message = "";
+      let message = "";
       if (!!isNew) {
         await createCompany(data);
         message = "Empresa registrada com sucesso!";
@@ -63,12 +63,10 @@ export function RegisterCompany() {
   }
 
   useEffect(async () => {
-    var arr = (window.location.pathname).split("/");
-    var val = (arr[arr.length - 1]);
-    console.log(arr.length)
+    let arr = (window.location.pathname).split("/");
+    let val = (arr[arr.length - 1]);
     if (arr.length === 3) {
       await readCompanyByCnpj(val).then((data) => {
-        console.log(data.data)
         setName(data.data.name)
         setCnpj(data.data.cnpj)
         setAdress(data.data.adress);
@@ -90,7 +88,7 @@ export function RegisterCompany() {
   }, [])
 
   return (
-    <div id="report-page">
+    <div id="register-company-page">
       <main className="content">
         <h3 className="title">Registrar Empresas</h3>
         <section className="form-section">

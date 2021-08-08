@@ -6,7 +6,6 @@ import "./style.scss";
 import { routes } from "../../routes";
 import { createPerson, readPersonByCpf, updatePerson } from '../../../services/index'
 import { useHistory } from "react-router-dom";
-import Swal from 'sweetalert2'
 
 export function RegisterPerson() {
   const [name, setName] = useState("");
@@ -39,7 +38,7 @@ export function RegisterPerson() {
         companyCnpj: companyCnpj,
         isAdmin: isAdmin
       }
-      var message = "";
+      let message = "";
       if (!!isNew) {
         try {
           await createPerson(data);
@@ -57,12 +56,10 @@ export function RegisterPerson() {
   }
 
   useEffect(async () => {
-    var arr = (window.location.pathname).split("/");
-    var val = (arr[arr.length - 1]);
-    console.log(arr.length)
+    let arr = (window.location.pathname).split("/");
+    let val = (arr[arr.length - 1]);
     if (arr.length === 3) {
       await readPersonByCpf(val).then((data) => {
-        console.log(data)
         setName(data.data.name)
         setCpf(data.data.cpf)
         setSchooling(data.data.schooling);
@@ -83,7 +80,7 @@ export function RegisterPerson() {
   }, [])
 
   return (
-    <div id="report-page">
+    <div id="register-person-page">
       <main className="content">
         <h3 className="title">Registrar Pessoas</h3>
         <section className="form-section">

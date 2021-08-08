@@ -1,5 +1,40 @@
-p {
-  strong {
-    color: #0078FD;
+@import "@StyleCommon/mixins.scss";
+@import "@StyleCommon/fonts.scss";
+@import "@StyleCommon/other-patterns.scss";
+
+#report-details-page {
+  @include page-basic;
+  > h2 {
+    text-align: center;
+    font-size: 2.4rem;
+    margin-top: 1.4rem;
+  }
+  > section {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    max-height: 500px;
+    flex-direction: column;
+    flex-wrap: wrap;
+    background-color: $color-white;
+    border-radius: $border-radius;
+    box-shadow: $standard-box-shadow;
+    margin: 2rem 4rem;
+    padding: 2rem;
+    color: $color-black;
+    > .report-details-item {
+      width: 49%;
+      > strong {
+        margin-right: 0.25rem;
+      }
+      &:not(:last-child) {
+        margin-bottom: 0.75rem;
+      }
+    }
+    > p {
+      strong {
+        color: #0078FD;
+      }
+    }
   }
 }

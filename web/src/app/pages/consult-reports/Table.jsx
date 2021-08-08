@@ -11,6 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
+import FindInPageIcon from '@material-ui/icons/FindInPage';
 import {deleteReport, getReports} from "../../../services/report.service";
 import {useHistory} from "react-router-dom";
 import "./style.scss";
@@ -49,8 +50,7 @@ const headCells = [
     {id: 'dates', numeric: false, sort: false, disablePadding: false, label: 'Datas'},
     {id: 'urgent', numeric: false, sort: false, disablePadding: false, label: 'Urgênte'},
     {id: 'isManagerKnowledge', numeric: false, sort: false, disablePadding: false, label: 'De conhecimento do gestor'},
-    {id: 'status', numeric: false, sort: false, disablePadding: false, label: 'Status'},
-    {id: 'delete', numeric: false, sort: false, disablePadding: false, label: 'Deletar'}
+    {id: 'status', numeric: false, sort: false, disablePadding: false, label: 'Status'}
 ];
 
 function EnhancedTableHead(props) {
@@ -87,6 +87,8 @@ function EnhancedTableHead(props) {
                         }
                     </TableCell>
                 ))}
+                <TableCell width="10%"></TableCell>
+                <TableCell width="10%"></TableCell>
             </TableRow>
         </TableHead>
     );
@@ -202,17 +204,19 @@ export default function CustomTable(props) {
                                             <TableCell>{row.isManagerKnowledge}</TableCell>
                                             <TableCell>{row.status}</TableCell>
                                             <TableCell width="10%">
-                                                <button type='button' className={classes.button}
-                                                        onClick={() => deleteP(row)}>
-                                                    <DeleteIcon/>
+                                                <button type='button'
+                                                        className={classes.button}
+                                                        title="Visualizar"
+                                                        onClick={() => history.push(`/denuncia-admin/${row.trackingId}`)}>
+                                                    <FindInPageIcon />
                                                 </button>
                                             </TableCell>
                                             <TableCell width="10%">
-                                                <button type='button' className={classes.button}
-                                                        onClick={() => history.push(`/denuncia-admin/${row.trackingId}`)}>
-                                                    <div className="details">
-                                                        Ver Detalhes
-                                                    </div>
+                                                <button type='button'
+                                                        className={classes.button}
+                                                        title="Deletar"
+                                                        onClick={() => deleteP(row)}>
+                                                    <DeleteIcon />
                                                 </button>
                                             </TableCell>
                                         </TableRow>
@@ -220,7 +224,7 @@ export default function CustomTable(props) {
                                 })}
                             {emptyRows > 0 && (
                                 <TableRow style={{height: 33 * emptyRows}}>
-                                    <TableCell colSpan={6}/>
+                                    <TableCell colSpan={10}/>
                                 </TableRow>
                             )}
                         </TableBody>
