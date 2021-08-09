@@ -12,6 +12,7 @@ import { fileUtils } from '@Utils';
 import React, { useRef, useState } from "react";
 import { maskUtils } from "../../utils/mask-utils";
 import "./style.scss";
+import {Toast} from "../../components";
 
 function formatDate(date) {
   return Intl.DateTimeFormat("pt-br", {
@@ -130,9 +131,13 @@ export function ReportPage() {
   }
 
   async function getAttachments() {
-    return (await Promise.all(attachments.map(file => fileUtils.toBase64(file)))).map(file => {
-      return { base64Adress: file }
-    });
+    return (await Promise.all(attachments.map(async file => {
+      return {
+        name: file.name,
+        base64Adress: await fileUtils.toBase64(file),
+        mimeType: file.type
+      }
+    })));
   }
 
   async function submit(e) {

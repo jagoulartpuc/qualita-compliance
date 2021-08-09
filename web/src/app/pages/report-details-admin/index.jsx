@@ -1,16 +1,17 @@
 import React, {useEffect, useState} from "react";
 import { useHistory } from "react-router";
-import { getReport, shareReport } from "@Services";
+import { getReport, shareReport, answerCompanyReport, answerInformerReport } from "@Services";
 import "./style.scss";
 import GenericImage from '@Images/generic-image.jpeg';
 import GenericPdfImage from '@Images/generic-pdf.jpeg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Button, Dropzone, Toast, CustomDialog } from "@Components";
-import { Divider, FormControl, Input, InputLabel } from "@material-ui/core";
+import {Divider, FormControl, Input, InputLabel, TextareaAutosize, TextField} from "@material-ui/core";
 import { fileUtils, maskUtils } from "../../utils";
 import { routes } from "../../routes";
 import { LOCAL_STORAGE_USER_IDENTIFICATION } from "../../../context";
+import {DialogReportType} from "../../constants/DialogReportType";
 
 function formatDates(dates) {
     return dates.reduce((acc, current) => {
@@ -33,6 +34,11 @@ export default function ReportDetailsAdminPage({ match }) {
     const [modalOpen, setModalOpen] = useState(false);
     const [attachments, setAttachments] = useState([]);
     const [cnpj, setCnpj] = useState("");
+    const [message, setMessage] = useState("");
+    const [titleDialog, setTitleDialog] = useState("");
+    const [buttonTitleDialog, setButtonTitleDialog] = useState("");
+    const [onClickFunctionDialog, setOnClickFunctionDialog] = useState(null);
+    const [dialogReportType, setDialogReportType] = useState(null);
 
     const { id } = match.params;
     const history = useHistory();
@@ -52,7 +58,6 @@ export default function ReportDetailsAdminPage({ match }) {
     }, []);
 
     const getAttachments = () => {
-            console.log(report)
         return report?.attachments.map(attach => {
             const contentForDownload = `data:${attach.mimeType};base64,${attach.base64Adress}`;
             return (
@@ -93,6 +98,38 @@ export default function ReportDetailsAdminPage({ match }) {
         });
     }
 
+    const answerCompany = async () => {
+        try {
+            const att = await getAttachmentsToSend();
+            await answerCompanyReport(id, att);
+            Toast({
+                icon: 'success',
+                title: "Denúncia respondida com sucesso!",
+                didClose: () => ""
+            });
+        } catch (error) {
+            Toast({icon: 'error', title: error, didClose: () => ""});
+        }
+        handleClose();
+    }
+    const answerInformer = async () => {
+        try {
+            const answer = {
+                message,
+                attachments: await getAttachmentsToSend()
+            };
+            await answerInformerReport(id, answer);
+            Toast({
+                icon: 'success',
+                title: "Denúncia respondida com sucesso!",
+                didClose: () => ""
+            });
+        } catch (error) {
+            Toast({icon: 'error', title: error, didClose: () => ""});
+        }
+        handleClose();
+    }
+
     const forwardReport = async () => {
         try {
             const att = await getAttachmentsToSend();
@@ -105,7 +142,6 @@ export default function ReportDetailsAdminPage({ match }) {
         } catch (error) {
             Toast({icon: 'error', title: error, didClose: () => ""});
         }
-
         handleClose();
     }
 
@@ -113,7 +149,30 @@ export default function ReportDetailsAdminPage({ match }) {
         setModalOpen(false);
         setAttachments([]);
         setCnpj("");
+        setMessage("");
     };
+
+    const handleOpen = (type) => {
+        switch (type) {
+            case DialogReportType.FORWARD_REPORT:
+                setTitleDialog("Encaminhar denúncia");
+                setButtonTitleDialog("Encaminhar");
+                setOnClickFunctionDialog(() => forwardReport);
+                break;
+            case DialogReportType.ANSWER_COMPANY:
+                setTitleDialog("Responder");
+                setButtonTitleDialog("Responder");
+                setOnClickFunctionDialog(() => answerCompany);
+                break;
+            case DialogReportType.ANSWER_INFORMER:
+                setTitleDialog("Responder Informante");
+                setButtonTitleDialog("Responder");
+                setOnClickFunctionDialog(() => answerInformer);
+                break;
+        }
+        setDialogReportType(type);
+        setModalOpen(true);
+    }
 
     return loading || !report ? (
         <h1>Carregando...</h1>
@@ -155,23 +214,48 @@ export default function ReportDetailsAdminPage({ match }) {
                     {getAttachments()}
                 </aside>
             </section>
-            <div className="forward-button">
-                <Button onClick={() => setModalOpen(true)}>Encaminhar&nbsp;<FontAwesomeIcon icon={faArrowRight} /></Button>
+            <div className="group-button">
+                {
+                    getLoggedUserFromStorage()?.role === 'ADMIN' ? (
+                        <React.Fragment>
+                            <Button onClick={() => handleOpen(DialogReportType.FORWARD_REPORT)}>Encaminhar&nbsp;<FontAwesomeIcon icon={faArrowRight} /></Button>
+                            <Button onClick={() => handleOpen(DialogReportType.ANSWER_INFORMER)}>Responder Informante&nbsp;<FontAwesomeIcon icon={faArrowRight} /></Button>
+                        </React.Fragment>
+                    ) : <Button onClick={() => handleOpen(DialogReportType.ANSWER_COMPANY)}>Responder&nbsp;<FontAwesomeIcon icon={faArrowRight} /></Button>
+                }
             </div>
             {modalOpen &&
-            <CustomDialog title="Encaminhar denúncia"
+            <CustomDialog title={titleDialog}
                           open={modalOpen}
                           setOpen={setModalOpen}
-                          titleButton="Encaminhar"
-                          onClick={forwardReport}
+                          titleButton={buttonTitleDialog}
+                          onClick={onClickFunctionDialog}
                           handleClose={handleClose}
             >
-                <FormControl className="form-item">
-                    <InputLabel>CNPJ</InputLabel>
-                    <Input
-                        value={maskUtils.cnpjMask(cnpj)}
-                        onChange={(e) => setCnpj(e.target.value)}
-                    />
+                <FormControl id="form-item_input">
+                    {
+                        !!dialogReportType &&
+                        dialogReportType === DialogReportType.FORWARD_REPORT && (
+                            <React.Fragment>
+                                <InputLabel>CNPJ</InputLabel>
+                                <Input
+                                value={maskUtils.cnpjMask(cnpj)}
+                                onChange={(e) => setCnpj(e.target.value)}
+                                />
+                            </React.Fragment>
+                        ) || dialogReportType === DialogReportType.ANSWER_INFORMER && (
+                            <React.Fragment>
+                                <TextField
+                                    id="outlined-multiline-static"
+                                    label="Mensagem"
+                                    multiline
+                                    rows={4}
+                                    variant="outlined"
+                                    onChange={(e) => setMessage(e.target.value)}
+                                />
+                            </React.Fragment>
+                        )
+                    }
                 </FormControl>
                 <div id="report-details-admin-attachments-area">
                     <Dropzone

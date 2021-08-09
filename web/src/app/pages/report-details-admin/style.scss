@@ -81,19 +81,26 @@
       }
     }
   }
-  .forward-button {
-    width: 200px;
+  .group-button {
+    width: 100%;
     margin: 10px;
+    display: flex;
+    justify-content: center;
     > #button-component {
+      width: 200px;
+      margin: 5px;
+      padding: 10px;
       background-color: $color-light-green;
       &:hover {
         background-color: $color-blue;
       }
     }
   }
-
-  .form-item {
-    width: 10px;
+}
+#form-item_input {
+  width: 100%;
+  .MuiTextField-root {
+    width: 100%;
   }
 }
 #report-details-admin-attachments-area {

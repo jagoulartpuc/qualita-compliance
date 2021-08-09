@@ -41,3 +41,11 @@ export function getReports() {
 export function shareReport(cnpj, trackingId, attachments) {
   return reportInstance.put(`/encaminhamento/?cnpj=${cnpj}&trackingId=${trackingId}`, attachments);
 }
+
+export async function answerCompanyReport(trackingId, attachments) {
+  return reportInstance.put(`/resposta-empresa/?trackingId=${trackingId}`, attachments);
+}
+
+export async function answerInformerReport(trackingId, attachments) {
+  return reportInstance.put(`/resposta-informante/?trackingId=${trackingId}`, attachments);
+}
