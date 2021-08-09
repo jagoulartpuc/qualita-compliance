@@ -5,14 +5,11 @@
 .report-details-admin-page {
   @include page-basic;
   align-items: center;
-
-
   .content {
     width: 80%;
     margin: auto;
     display: flex;
     flex-direction: row;
-
     > h2 {
       text-align: center;
       font-size: 2.4rem;
@@ -66,6 +63,7 @@
     .report-details-admin-content {
       width: 100%;
       > section {
+        overflow-y: auto;
         background-color: $color-white;
         border-radius: $border-radius;
         box-shadow: $standard-box-shadow;
@@ -74,6 +72,7 @@
         color: $color-black;
         height: 435px;
         line-height: 25px;
+        word-break: break-all;
         > p {
           strong {
             color: $color-blue;
@@ -97,7 +96,6 @@
     width: 10px;
   }
 }
-
 #report-details-admin-attachments-area {
   border-radius: $border-radius;
   flex: 1;

@@ -4,34 +4,18 @@ import { getReport, shareReport } from "@Services";
 import "./style.scss";
 import GenericImage from '@Images/generic-image.jpeg';
 import GenericPdfImage from '@Images/generic-pdf.jpeg';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft, faArrowRight, faTrash} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft, faArrowRight, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Button, Dropzone, Toast, CustomDialog } from "@Components";
-import {Divider, FormControl, Input, InputLabel} from "@material-ui/core";
-import {fileUtils, maskUtils} from "../../utils";
-import {routes} from "../../routes";
-import {useSession} from "@Context";
-
+import { Divider, FormControl, Input, InputLabel } from "@material-ui/core";
+import { fileUtils, maskUtils } from "../../utils";
+import { routes } from "../../routes";
+import { LOCAL_STORAGE_USER_IDENTIFICATION } from "../../../context";
 
 function formatDates(dates) {
     return dates.reduce((acc, current) => {
         return [...acc, Intl.DateTimeFormat("pt-br").format(new Date(current))];
     }, []);
-}
-
-function listToStringDate(list) {
-  if (list.length <= 1) {
-    return list[0];
-  }
-  const lastItem = list.pop();
-  return `${list.join(", ")} e ${lastItem}`;
-}
-
-function listToString(list) {
-    if (list.length <= 1) {
-        return list[0];
-    }
-    return `${list.join(", ")}`;
 }
 
 function ReportItem({ label, value }) {
@@ -44,8 +28,6 @@ function ReportItem({ label, value }) {
 }
 
 export default function ReportDetailsAdminPage({ match }) {
-
-    const {user, isLoggedIn, signIn} = useSession();
     const [report, setReport] = useState(null);
     const [loading, setLoading] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
@@ -70,9 +52,9 @@ export default function ReportDetailsAdminPage({ match }) {
     }, []);
 
     const getAttachments = () => {
+            console.log(report)
         return report?.attachments.map(attach => {
             const contentForDownload = `data:${attach.mimeType};base64,${attach.base64Adress}`;
-
             return (
                 <div className='attachment'>
                     <span>{attach.name}</span>
@@ -83,6 +65,16 @@ export default function ReportDetailsAdminPage({ match }) {
                 </div>
             );
         });
+    }
+
+    const getLoggedUserFromStorage = () => {
+        return JSON.parse(localStorage.getItem(LOCAL_STORAGE_USER_IDENTIFICATION));
+    }
+
+    const goBack = () => {
+        const route = getLoggedUserFromStorage()?.role === 'ADMIN' ?
+            routes.CONSULT_REPORTS : routes.COMPANY_REPORTS_PAGE;
+        history.replace(route);
     }
 
     const onUpload = (file) => {
@@ -104,12 +96,11 @@ export default function ReportDetailsAdminPage({ match }) {
     const forwardReport = async () => {
         try {
             const att = await getAttachmentsToSend();
-            const response = await shareReport(cnpj, id, att);
-            console.log(response);
+            await shareReport(cnpj, id, att);
             Toast({
                 icon: 'success',
                 title: "Denúncia encaminhada com sucesso!",
-                didClose: () => history.push(routes.CONSULT_REPORTS)
+                didClose: () => history.push(routes.ADMIN_REPORT_PAGE)
             });
         } catch (error) {
             Toast({icon: 'error', title: error, didClose: () => ""});
@@ -131,7 +122,7 @@ export default function ReportDetailsAdminPage({ match }) {
             <section className='content'>
                 <main>
                     <div className='goback'>
-                        <a onClick={() => history.replace("/consultar-denuncias")}>
+                        <a onClick={goBack}>
                             <FontAwesomeIcon icon={faArrowLeft} />
                             <span>Voltar</span>
                         </a>
@@ -146,87 +137,75 @@ export default function ReportDetailsAdminPage({ match }) {
                             <ReportItem label="Empresa" value={report?.companyName} />
                             <ReportItem label="Local" value={report?.local} />
                             <ReportItem label="Categoria" value={report?.category} />
-                            <ReportItem label="Datas" value={listToStringDate(formatDates(report?.dates))} />
+                            <ReportItem label="Datas" value={formatDates(report?.dates)} />
                             <ReportItem label="Urgente" value={report?.urgent} />
                             <ReportItem label="De conhecimento do gestor" value={report?.isManagerKnowledge} />
                             <ReportItem label="Descrição do ocorrido" value={report?.description} />
                             <ReportItem label="Caso de conhecimento" value={report?.caseKnowledge} />
-                            <ReportItem label="Pessoas envolvidas" value={listToString(report?.reportDetails.envolvedPeople)} />
+                            <ReportItem label="Pessoas envolvidas" value={report?.reportDetails.envolvedPeople} />
                             <ReportItem label="Período" value={report?.reportDetails.period} />
-                            <ReportItem label="Suspeitos" value={listToString(report?.reportDetails.suspects)} />
-                            <ReportItem label="Testemunhas" value={listToString(report?.reportDetails.witnesses)} />
+                            <ReportItem label="Suspeitos" value={report?.reportDetails.suspects} />
+                            <ReportItem label="Testemunhas" value={report?.reportDetails.witnesses} />
                             <ReportItem label="Status" value={report?.status} />
                         </section>
                     </div>
                 </main>
                 <aside className="report-details-admin-material">
-                    <h3><strong>Anexos da Denúncia</strong></h3>
+                    <h3><strong>Anexos da denúncia</strong></h3>
                     {getAttachments()}
                 </aside>
             </section>
-            {user?.role === 'ADMIN' && (
-                <div className="forward-button">
-                    <Button onClick={() => setModalOpen(true)}>Encaminhar&nbsp;<FontAwesomeIcon icon={faArrowRight} /></Button>
-                </div>
-            )}
-            {user?.role === 'ADMIN' && (
-                <div className="forward-button">
-                    <Button onClick={() => setModalOpen(true)}>Responder Informante&nbsp;<FontAwesomeIcon icon={faArrowRight} /></Button>
-                </div>
-            )}
-            {user?.role === 'COMPANY' && (
-                <div className="forward-button">
-                    <Button onClick={() => setModalOpen(true)}>Responder&nbsp;<FontAwesomeIcon icon={faArrowRight} /></Button>
-                </div>
-            )}
+            <div className="forward-button">
+                <Button onClick={() => setModalOpen(true)}>Encaminhar&nbsp;<FontAwesomeIcon icon={faArrowRight} /></Button>
+            </div>
             {modalOpen &&
-                <CustomDialog title="Encaminhar denúncia"
-                        open={modalOpen}
-                        setOpen={setModalOpen}
-                        titleButton="Encaminhar"
-                        onClick={forwardReport}
-                        handleClose={handleClose}
-                >
-                    <FormControl className="form-item">
-                        <InputLabel>CNPJ</InputLabel>
-                        <Input
-                            value={maskUtils.cnpjMask(cnpj)}
-                            onChange={(e) => setCnpj(e.target.value)}
-                        />
-                    </FormControl>
-                    <div id="report-details-admin-attachments-area">
-                        <Dropzone
-                            className="attachment-dropzone"
-                            onUpload={onUpload}
-                        />
-                        <div className="attachment-list-wrapper">
-                            <h5 className="title">
-                                {attachments.length
-                                    ? "Anexos adicionados:"
-                                    : "Sem anexos"}
-                            </h5>
-                            <ul className="attachment-list">
-                                {attachments.length > 0 &&
-                                attachments.map((att, index) => {
-                                    return (
-                                        <li key={index} className="list-item">
-                                            <div className="attachment-name">
-                                                <p>{att.name}</p>
-                                                <FontAwesomeIcon
-                                                    className="remove-attachment-icon"
-                                                    onClick={() => removeAttachment(index)}
-                                                    icon={faTrash}
-                                                />
-                                            </div>
-                                            {/* <LinearProgress className="progress" variant="determinate" value={100} /> */}
-                                            <Divider className="divider" />
-                                        </li>
-                                    );
-                                })}
-                            </ul>
-                        </div>
+            <CustomDialog title="Encaminhar denúncia"
+                          open={modalOpen}
+                          setOpen={setModalOpen}
+                          titleButton="Encaminhar"
+                          onClick={forwardReport}
+                          handleClose={handleClose}
+            >
+                <FormControl className="form-item">
+                    <InputLabel>CNPJ</InputLabel>
+                    <Input
+                        value={maskUtils.cnpjMask(cnpj)}
+                        onChange={(e) => setCnpj(e.target.value)}
+                    />
+                </FormControl>
+                <div id="report-details-admin-attachments-area">
+                    <Dropzone
+                        className="attachment-dropzone"
+                        onUpload={onUpload}
+                    />
+                    <div className="attachment-list-wrapper">
+                        <h5 className="title">
+                            {attachments.length
+                                ? "Anexos adicionados:"
+                                : "Sem anexos"}
+                        </h5>
+                        <ul className="attachment-list">
+                            {attachments.length > 0 &&
+                            attachments.map((att, index) => {
+                                return (
+                                    <li key={index} className="list-item">
+                                        <div className="attachment-name">
+                                            <p>{att.name}</p>
+                                            <FontAwesomeIcon
+                                                className="remove-attachment-icon"
+                                                onClick={() => removeAttachment(index)}
+                                                icon={faTrash}
+                                            />
+                                        </div>
+                                        {/* <LinearProgress className="progress" variant="determinate" value={100} /> */}
+                                        <Divider className="divider" />
+                                    </li>
+                                );
+                            })}
+                        </ul>
                     </div>
-                </CustomDialog>
+                </div>
+            </CustomDialog>
             }
         </div>
     );
