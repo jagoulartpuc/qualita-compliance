@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { } from "react-router-dom";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import Logo from "@Icons/logo.png";
 import { useSession } from "@Context";
-
 import "./style.scss";
 import { routes } from "../../routes";
 
@@ -15,7 +13,6 @@ function getRole(value) {
     PERSON: "Pessoa",
     COMPANY: "Empresa",
   };
-
   return textByRole[value];
 }
 
@@ -37,6 +34,7 @@ export function Header() {
     handleClose();
     history.replace(routes.HOME_PAGE)
   };
+
   return (
     <header id="header-component">
       <Link to={routes.HOME_PAGE} className="logo-name">

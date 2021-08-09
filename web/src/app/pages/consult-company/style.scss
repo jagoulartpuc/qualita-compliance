@@ -15,7 +15,6 @@ $main-color: #0582ca;
     display: flex;
     flex-direction: column;
   }
-
   > .content {
     flex: 1;
     padding: 20px;
@@ -25,25 +24,29 @@ $main-color: #0582ca;
       text-align: center;
       padding: 16px 0;
     }
-
+    > .goback {
+      color: #f1f1f1;
+      font-size: 18pt;
+      margin-left: 7%;
+      font-weight: bold;
+      span {
+        margin: 0 10px
+      }
+    }
     .switch-wrapper {
       margin: 15px 0;
-
       > .switch-label {
         color: $color-black !important;
         font-weight: $fweight-light;
-
         &.-active {
           font-weight: $fweight-regular;
           color: $color-green !important;
         }
       }
-
       > .switch {
         width: 100px;
       }
     }
-
     > .form-section {
       flex: 1;
       max-width: 85%;
@@ -53,13 +56,11 @@ $main-color: #0582ca;
       background: white;
       box-shadow: $standard-box-shadow;
       padding: 16px;
-
       .no-data-found {
         color: black;
       }
     }
   }
-
   .directory {
     padding-top: 0px;
     padding-bottom: 0;
@@ -72,7 +73,6 @@ $main-color: #0582ca;
       display: flex;
       flex-flow: row nowrap;
       justify-content: space-between;
-
       .icons {
         display: flex;
         align-items: center;
@@ -115,14 +115,12 @@ $main-color: #0582ca;
         color: $black;
         list-style-type: none;
         text-decoration: none;
-
         .left {
           color: $black;
           display: flex;
           align-items: center;
           padding-left: 30px;
         }
-
         .right {
           display: flex;
           align-items: flex-end;
@@ -136,14 +134,11 @@ $main-color: #0582ca;
            }
          }
       }
-
       &:hover {
         width: 100%;
         background-color: $main-color;
         border-radius: 5px;
         cursor: pointer;
-
-
         * {
           color: $white;
         }

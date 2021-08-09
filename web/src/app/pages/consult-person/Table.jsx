@@ -12,7 +12,7 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from "@material-ui/icons/Edit";
-import {deletePerson, readPerson} from "../../../services";
+import { deletePerson, readPerson } from "../../../services";
 import { Toast } from "@Components";
 import { useHistory } from "react-router-dom";
 

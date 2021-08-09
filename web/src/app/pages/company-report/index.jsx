@@ -1,9 +1,7 @@
 import React from "react";
 import { LOCAL_STORAGE_USER_IDENTIFICATION } from "@Context";
 import { Card } from "@Components";
-import {
-    faExclamationTriangle,
-} from "@fortawesome/free-solid-svg-icons";
+import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import "./style.scss";
 import { useEffect } from "react";
 import { getCompanyReports } from '@Services';
@@ -31,10 +29,8 @@ export function CompanyReportsPage() {
         })();
     }, []);
 
-
     return loading ?
-        <h1>Carregando</h1>
-        : (
+        <h1>Carregando...</h1> : (
             <main id="company-reports-page">
                 <h2 className="page-title">Selecione uma das denúncias abaixo</h2>
                 <div className="card-list">
@@ -45,7 +41,6 @@ export function CompanyReportsPage() {
                                 <strong>Ver detalhes</strong>
                             </div>
                         );
-
                         const icons =  <FontAwesomeIcon className="card-icon" icon={faExclamationTriangle} size="2x" /> 
                         return <Card key={comp.trackingId} title={comp.category} description={description} icons={icons} href={`denuncia-admin/${comp.trackingId}`} />;
                     })}

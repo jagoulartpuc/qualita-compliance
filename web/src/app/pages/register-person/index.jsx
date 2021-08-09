@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { maskUtils } from "../../utils/mask-utils";
 import "./style.scss";
 import { routes } from "../../routes";
-import { createPerson, readPersonByCpf, updatePerson } from '../../../services/index'
+import {createPerson, readCompanyByCnpj, readPersonByCpf, updatePerson} from '../../../services/index'
 import { useHistory } from "react-router-dom";
 
 export function RegisterPerson() {
@@ -55,28 +55,33 @@ export function RegisterPerson() {
     }
   }
 
-  useEffect(async () => {
-    let arr = (window.location.pathname).split("/");
-    let val = (arr[arr.length - 1]);
-    if (arr.length === 3) {
-      await readPersonByCpf(val).then((data) => {
-        setName(data.data.name)
-        setCpf(data.data.cpf)
-        setSchooling(data.data.schooling);
-        setPhone(data.data.phone);
-        setEmail(data.data.email);
-        setProfession(data.data.profession);
-        setOccupation(data.data.occupation);
-        setBirthday(data.data.birthday);
-        setCompanyCnpj(data.data.companyCnpj);
-        setIsAdmin(data.data.isAdmin);
-        setPassword(data.data.password)
-        setIsNew(false);
-      })
-    } else {
-      setIsNew(true);
-    }
-
+  useEffect(() => {
+    (async () => {
+      try {
+        let arr = (window.location.pathname).split("/");
+        let val = (arr[arr.length - 1]);
+        if (arr.length === 3) {
+          await readPersonByCpf(val).then((data) => {
+            setName(data.data.name)
+            setCpf(data.data.cpf)
+            setSchooling(data.data.schooling);
+            setPhone(data.data.phone);
+            setEmail(data.data.email);
+            setProfession(data.data.profession);
+            setOccupation(data.data.occupation);
+            setBirthday(data.data.birthday);
+            setCompanyCnpj(data.data.companyCnpj);
+            setIsAdmin(data.data.isAdmin);
+            setPassword(data.data.password)
+            setIsNew(false);
+          })
+        } else {
+          setIsNew(true);
+        }
+      } catch (error) {
+        history.replace("/");
+      }
+    })();
   }, [])
 
   return (

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { deleteCompany, readCompany } from '../../../services';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -16,6 +15,7 @@ const Row = React.memo(
                 })
             }
         }
+
         async function edit() {
             history.replace('cadastrar-empresas/' + company.cnpj);
 

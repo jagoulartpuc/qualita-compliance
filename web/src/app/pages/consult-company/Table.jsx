@@ -16,7 +16,6 @@ import {deleteCompany, readCompany} from "../../../services";
 import { Toast } from "@Components";
 import { useHistory } from "react-router-dom";
 
-
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
         return -1;

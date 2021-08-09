@@ -15,7 +15,6 @@ $main-color: #0582ca;
 		display: flex;
 		flex-direction: column;
 	}
-
 	> .content {
 		flex: 1;
 		padding: 20px;
@@ -25,7 +24,15 @@ $main-color: #0582ca;
 			text-align: center;
 			padding: 16px 0;
 		}
-
+		> .goback {
+			color: #f1f1f1;
+			font-size: 18pt;
+			margin-left: 9%;
+			font-weight: bold;
+			span {
+				margin: 0 10px
+			}
+		}
 		.switch-wrapper {
 			margin: 15px 0;
 
@@ -38,12 +45,10 @@ $main-color: #0582ca;
 					color: $color-green !important;
 				}
 			}
-
 			> .switch {
 				width: 100px;
 			}
 		}
-
 		> .form-section {
 			flex: 1;
 			max-width: 80%;
@@ -59,7 +64,6 @@ $main-color: #0582ca;
 			}
 		}
 	}
-
 	.directory {
 		padding-top: 0px;
 		padding-bottom: 0;
@@ -72,12 +76,10 @@ $main-color: #0582ca;
 			display: flex;
 			flex-flow: row nowrap;
 			justify-content: space-between;
-
 			.icons {
 				display: flex;
 				align-items: center;
 				cursor: default;
-
 				button {
 					width: 30px;
 					background-color: transparent;
@@ -115,14 +117,12 @@ $main-color: #0582ca;
 				color: $black;
 				list-style-type: none;
 				text-decoration: none;
-
 				.left {
 					color: $black;
 					display: flex;
 					align-items: center;
 					padding-left: 30px;
 				}
-
 				.right {
 					display: flex;
 					align-items: flex-end;
@@ -136,14 +136,11 @@ $main-color: #0582ca;
 					 }
 				 }
 			}
-
 			&:hover {
 				width: 100%;
 				background-color: $main-color;
 				border-radius: 5px;
 				cursor: pointer;
-
-
 				* {
 					color: $white;
 				}

@@ -1,11 +1,11 @@
-import {Card} from "@Components";
-import {LOCAL_STORAGE_USER_IDENTIFICATION} from "@Context/session.context";
-import {faAward} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {validateModule} from '@Services/company.service';
-import {getAllTrainnings} from '@Services/trainning.service';
-import React, {useEffect, useState} from "react";
-import {useHistory} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Card } from "@Components";
+import { LOCAL_STORAGE_USER_IDENTIFICATION } from "@Context/session.context";
+import { faAward } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { validateModule } from '@Services/company.service';
+import { getAllTrainnings } from '@Services/trainning.service';
+import { useHistory } from "react-router-dom";
 import "./style.scss";
 import ConfirmationImage from '@Images/confirmation.jpeg';
 
@@ -13,7 +13,6 @@ export function TrainingModulesPage() {
     const getLoggedUserFromStorage = () => {
         return JSON.parse(localStorage.getItem(LOCAL_STORAGE_USER_IDENTIFICATION));
     }
-
     const user = getLoggedUserFromStorage();
     const [modules, setModules] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -53,14 +52,12 @@ export function TrainingModulesPage() {
                 {modules.map((mod, index) => {
                         let icons;
                         let descriptionHtml;
-
                         if (mod.validated) {
                             icons = (
                                 <div className='card-icons'>
                                     <FontAwesomeIcon className="card-icon" icon={faAward} size="2x"/>
                                 </div>
                             );
-
                             descriptionHtml = (
                                 <span><span className='card-description'>{mod.description}</span>
                                 <span>
@@ -68,7 +65,6 @@ export function TrainingModulesPage() {
                                 </span>
                             </span>
                             );
-
                         } else {
                             icons = <FontAwesomeIcon className="card-icon" icon={faAward} size="2x"/>
 
@@ -100,7 +96,6 @@ export function TrainingModulesPage() {
                         }
                         return <Card key={index} title={mod.title} description={descriptionHtml}
                                      href={`/treinamentos/${mod.id}`} icons={icons}/>
-
                     }
                 )
                 }

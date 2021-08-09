@@ -12,7 +12,6 @@ export function Card({
 }) {
   return (
     <div className="card-wrapper">
-
       <MaterialCard className="card-container">
         <label className='only-label'><strong>{additionalLabel}</strong></label>
         <Link to={href}>
@@ -22,7 +21,6 @@ export function Card({
           </section>
           <p className="card-description">{description}</p>
         </Link>
-
       </MaterialCard>
     </div>
   );

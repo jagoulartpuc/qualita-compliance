@@ -1,14 +1,13 @@
-import React, {useEffect, useState} from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import {LOCAL_STORAGE_USER_IDENTIFICATION} from "@Context/session.context";
+import React, { useState } from 'react';
+import {  useHistory } from 'react-router-dom';
+import { LOCAL_STORAGE_USER_IDENTIFICATION } from "@Context/session.context";
 import { Button, Toast } from "@Components";
 import './style.scss';
-import {FormControl, Input, InputLabel} from "@material-ui/core";
-import {routes} from "../../routes";
-import {changePasswordPerson, changePasswordCompany} from "../../../services/admin.service";
+import { Input, InputLabel } from "@material-ui/core";
+import { routes } from "../../routes";
+import { changePasswordPerson, changePasswordCompany } from "../../../services/admin.service";
 
 export function ChangePasswordPage() {
-
     const getLoggedUserFromStorage = () => {
         return JSON.parse(localStorage.getItem(LOCAL_STORAGE_USER_IDENTIFICATION));
     }

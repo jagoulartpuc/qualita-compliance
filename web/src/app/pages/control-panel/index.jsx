@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import { Button } from "@Components";
+import React  from 'react';
+import { Link } from 'react-router-dom';
 import './style.scss';
 
 export function ControlPanel() {
-
   return (
     <div id="control-panel-page">
       <main className="content">

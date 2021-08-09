@@ -1,19 +1,17 @@
-import React, {useState} from "react";
-import {useHistory} from "react-router-dom";
-import {LabeledInput, Button, PasswordInput} from "@Components";
-import {maskUtils} from "@Utils";
-import {useSession} from "@Context";
-
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { LabeledInput, Button, PasswordInput } from "@Components";
+import { maskUtils } from "@Utils";
+import { useSession } from "@Context";
 import "./style.scss";
-import {Link} from "react-router-dom";
-import {routes} from "../../routes";
+import { Link } from "react-router-dom";
+import { routes } from "../../routes";
 
 export function LoginPage() {
     const [identifier, setIdentifier] = useState("");
     const [maskedIdentifier, setMaskedIdentifier] = useState("");
     const [password, setPassword] = useState("");
-    const history = useHistory();
-    const {user, isLoggedIn, signIn} = useSession();
+    const {user, signIn} = useSession();
 
     async function onSubmit(event) {
         event.preventDefault();
@@ -61,7 +59,6 @@ export function LoginPage() {
                             Os treinamentos tem como objetivo instruir os colaborades sobre leis e normas a serem seguidas dentro do ambiente
                             de trabalho. Cada módulo terá um vídeo sobre determinado assunto e também uma lista de materiais e documentos a serem estudados.
                             Colaboradores e organizações podem interagir e dar feedback sobre o conteúdo através dos comentários.
-
                         </p>
                         {user && (
                             <Link to={routes.TRAINING_MODULES_PAGE} className="module-button">
@@ -77,7 +74,6 @@ export function LoginPage() {
                             administrador do sistema e, assim que possível, o denunciante irá receber um feedback sobre tal denúncia. Podendo ser acompanhada
                             a qualquer momento.{" "}
                         </p>
-
                         {user?.role === "PERSON" && (
                             <Link to={routes.REPORT_PAGE} className="report-link">
                                 Quero fazer uma denúncia

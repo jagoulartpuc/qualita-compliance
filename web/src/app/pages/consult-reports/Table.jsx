@@ -12,8 +12,8 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FindInPageIcon from '@material-ui/icons/FindInPage';
-import {deleteReport, getReports} from "../../../services/report.service";
-import {useHistory} from "react-router-dom";
+import { deleteReport, getReports } from "../../../services/report.service";
+import { useHistory } from "react-router-dom";
 import "./style.scss";
 
 function formatDates(dates) {
@@ -26,7 +26,6 @@ function listToStringDate(list) {
     if (list.length <= 1) {
         return '';
     }
-    console.log(list)
     const lastItem = list.pop();
     return `${list.join(", ")} e ${lastItem}`;
 }
@@ -61,11 +60,11 @@ const headCells = [
     {id: 'trackingId', numeric: false, sort: true, disablePadding: false, label: 'Nº de protocolo'},
     {id: 'companyName', numeric: false, sort: true, disablePadding: false, label: 'Empresa'},
     {id: 'local', numeric: false, sort: true, disablePadding: false, label: 'Local'},
-    {id: 'category', numeric: false, sort: false, disablePadding: false, label: 'Categoria'},
-    {id: 'dates', numeric: false, sort: false, disablePadding: false, label: 'Datas'},
-    {id: 'urgent', numeric: false, sort: false, disablePadding: false, label: 'Urgênte'},
-    {id: 'isManagerKnowledge', numeric: false, sort: false, disablePadding: false, label: 'De conhecimento do gestor'},
-    {id: 'status', numeric: false, sort: false, disablePadding: false, label: 'Status'}
+    {id: 'category', numeric: false, sort: true, disablePadding: false, label: 'Categoria'},
+    {id: 'dates', numeric: false, sort: true, disablePadding: false, label: 'Datas'},
+    {id: 'urgent', numeric: false, sort: true, disablePadding: false, label: 'Urgênte'},
+    {id: 'isManagerKnowledge', numeric: false, sort: true, disablePadding: false, label: 'De conhecimento do gestor'},
+    {id: 'status', numeric: false, sort: true, disablePadding: false, label: 'Status'}
 ];
 
 function EnhancedTableHead(props) {
@@ -208,7 +207,7 @@ export default function CustomTable(props) {
                                             tabIndex={-1}
                                             key={row.trackingId}
                                         >
-                                            <TableCell id={labelId} scope="row" padding="normal">
+                                            <TableCell id={labelId}>
                                                 {row.trackingId}
                                             </TableCell>
                                             <TableCell>{row.companyName}</TableCell>

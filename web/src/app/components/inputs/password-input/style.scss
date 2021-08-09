@@ -5,43 +5,31 @@
 #password-input-component {
     display: flex;
     flex-direction: column;
-
     align-items: flex-start;
     width: 100%;
-
     > .input-label {
         font-weight: $fweight-regular;
     }
-
     > .input-wrapper {
         position: relative;
-
         > input {
             $horizontal-padding: 20px;
             width: calc(100% - #{$horizontal-padding} * 2);
-    
             padding: 10px $horizontal-padding;
-    
             border-radius: $border-radius;
             background-color: $color-white;
-    
             box-shadow: inset $standard-box-shadow;
-    
             font-size: 16px;
             font-weight: $fweight-medium;
         }
-
         > .password-icon {
             $icon-size: 24px;
-
             height: $icon-size;
             width: $icon-size;
-
             position: absolute;
             right: calc(#{$icon-size / 2});
             top: calc(50% - #{$icon-size / 2});
             color: $color-black;
-
             cursor: pointer;
         }
     }

@@ -10,11 +10,8 @@
     margin-top: 1.4rem;
   }
   > section {
-    flex: 1;
     overflow-y: auto;
     display: flex;
-    max-height: 500px;
-    flex-direction: column;
     flex-wrap: wrap;
     background-color: $color-white;
     border-radius: $border-radius;
@@ -22,8 +19,11 @@
     margin: 2rem 4rem;
     padding: 2rem;
     color: $color-black;
+    max-height: 435px;
+    word-break: break-all;
     > .report-details-item {
       width: 49%;
+      padding: 5px;
       > strong {
         margin-right: 0.25rem;
       }

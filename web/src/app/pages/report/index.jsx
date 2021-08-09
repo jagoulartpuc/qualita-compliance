@@ -1,17 +1,12 @@
 import { Button, Dropzone } from "@Components";
 import DateFnsUtils from "@date-io/date-fns";
-import {
-  faChevronDown, faCopy, faPlus, faTrash
-} from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown, faCopy, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Accordion, AccordionDetails,
   AccordionSummary, Chip, Divider, FormControl, IconButton, Input, InputLabel, MenuItem, Select, Switch, TextField
 } from "@material-ui/core";
-import {
-  KeyboardDatePicker,
-  MuiPickersUtilsProvider
-} from "@material-ui/pickers";
+import { KeyboardDatePicker,  MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { createReport } from "@Services";
 import { fileUtils } from '@Utils';
 import React, { useRef, useState } from "react";

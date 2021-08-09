@@ -1,7 +1,6 @@
 import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import "./style.scss";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 

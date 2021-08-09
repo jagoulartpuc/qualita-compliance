@@ -5,25 +5,18 @@
 #basic-input-component {
     display: flex;
     flex-direction: column;
-
     align-items: flex-start;
     width: 100%;
-
     > .input-label {
         font-weight: $fweight-regular;
     }
-
     > input {
         $horizontal-padding: 20px;
         width: calc(100% - #{$horizontal-padding} * 2);
-
         padding: 10px $horizontal-padding;
-
         border-radius: $border-radius;
         background-color: $color-white;
-
         box-shadow: inset $standard-box-shadow;
-
         font-size: 16px;
         font-weight: $fweight-medium;
     }

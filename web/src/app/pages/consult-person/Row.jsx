@@ -1,6 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { deletePerson, readPerson } from '../../../services/index';
@@ -18,6 +16,7 @@ const Row = React.memo(
                 })
             }
         }
+
         async function edit() {
             history.replace('cadastrar-pessoas/' + person.cpf);
         }

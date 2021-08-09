@@ -3,12 +3,11 @@ import { Chip, FormControl, IconButton, Input, InputLabel } from "@material-ui/c
 import React, { useEffect, useState } from "react";
 import { maskUtils } from "../../utils/mask-utils";
 import "./style.scss";
-import { createCompany, readCompanyByCnpj, updateCompany } from '../../../services/index'
+import {createCompany, readCompany, readCompanyByCnpj, updateCompany} from '../../../services/index'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import {routes} from "../../routes";
+import { routes } from "../../routes";
 import { useHistory } from "react-router-dom";
-
 
 export function RegisterCompany() {
   const [name, setName] = useState("");
@@ -62,29 +61,34 @@ export function RegisterCompany() {
     }
   }
 
-  useEffect(async () => {
-    let arr = (window.location.pathname).split("/");
-    let val = (arr[arr.length - 1]);
-    if (arr.length === 3) {
-      await readCompanyByCnpj(val).then((data) => {
-        setName(data.data.name)
-        setCnpj(data.data.cnpj)
-        setAdress(data.data.adress);
-        setPhones(data.data.phones);
-        setEmail(data.data.email);
-        setOwner(data.data.owner);
-        setBusiness(data.data.business);
-        setSite(data.data.site);
-        setPassword(data.data.password)
-        setPersons(data.data.persons)
-        setReports(data.data.reports)
-        setFeatures(data.data.features)
-        setIsNew(false);
-      })
-    } else {
-      setIsNew(true);
-    }
-
+  useEffect(() => {
+    (async () => {
+      try {
+        let arr = (window.location.pathname).split("/");
+        let val = (arr[arr.length - 1]);
+        if (arr.length === 3) {
+          await readCompanyByCnpj(val).then((data) => {
+            setName(data.data.name)
+            setCnpj(data.data.cnpj)
+            setAdress(data.data.adress);
+            setPhones(data.data.phones);
+            setEmail(data.data.email);
+            setOwner(data.data.owner);
+            setBusiness(data.data.business);
+            setSite(data.data.site);
+            setPassword(data.data.password)
+            setPersons(data.data.persons)
+            setReports(data.data.reports)
+            setFeatures(data.data.features)
+            setIsNew(false);
+          })
+        } else {
+          setIsNew(true);
+        }
+      } catch (error) {
+        history.replace("/");
+      }
+    })();
   }, [])
 
   return (

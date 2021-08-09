@@ -1,21 +1,7 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { getReport } from "@Services";
 import "./style.scss";
-
-// function formatDates(dates) {
-//   return dates.reduce((acc, current) => {
-//     return [...acc, Intl.DateTimeFormat("pt-br").format(new Date(current))];
-//   }, []);
-// }
-//
-// function listToString(list) {
-//   if (list.length === 1) {
-//     return list[0];
-//   }
-//   const lastItem = list.pop();
-//   return `${list.join(", ")} e ${lastItem}`;
-// }
 
 function ReportItem({ label, value }) {
   return (

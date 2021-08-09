@@ -6,7 +6,6 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-
   > .logo-name {
     display: flex;
     align-items: center;
@@ -17,28 +16,21 @@
     background-color: $color-white;
     height: 100%;
     box-shadow: $standard-box-shadow;
-
     > .logo {
       $size: 90px;
-
       height: $size;
       width: $size;
-
       margin-right: 10px;
     }
-
     > .name {
       font-size: 27px;
       font-weight: bolder;
       text-align: left;
-
       color: $color-blue;
-
       > .compliance-name {
         font-size: 14px;
       }
     }
-
     > div {
       color: $color-blue;
       padding-left: 16px;
@@ -51,7 +43,6 @@
         text-align: left;
       }
     }
-
     &::after {
       position: absolute;
       content: "";
@@ -61,7 +52,6 @@
       border-right: 90px solid transparent;
     }
   }
-
   > .visits-card {
     display: flex;
     align-items: flex-start;
@@ -74,7 +64,6 @@
     color: rgb(241, 241, 241);
     border-radius: 10%;
   }
-
   > .user-menu {
     display: flex;
     flex: 0.3;
@@ -97,7 +86,6 @@
         font-weight: 600;
         font-size: 24px;
       }
-
       > .user-role {
         font-weight: 400;
         font-size: 14px;
