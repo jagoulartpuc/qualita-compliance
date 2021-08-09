@@ -12,6 +12,7 @@ import { fileUtils, maskUtils } from "../../utils";
 import { routes } from "../../routes";
 import { LOCAL_STORAGE_USER_IDENTIFICATION } from "../../../context";
 import {DialogReportType} from "../../constants/DialogReportType";
+import DialogReport from "./DialogReport";
 
 function formatDates(dates) {
     return dates.reduce((acc, current) => {
@@ -93,9 +94,13 @@ export default function ReportDetailsAdminPage({ match }) {
     }
 
     const getAttachmentsToSend = async () => {
-        return (await Promise.all(attachments.map(file => fileUtils.toBase64(file)))).map(file => {
-            return { base64Adress: file }
-        });
+        return (await Promise.all(attachments.map(async file => {
+            return {
+                name: file.name,
+                base64Adress: await fileUtils.toBase64(file),
+                mimeType: file.type
+            }
+        })));
     }
 
     const answerCompany = async () => {
@@ -105,7 +110,7 @@ export default function ReportDetailsAdminPage({ match }) {
             Toast({
                 icon: 'success',
                 title: "Denúncia respondida com sucesso!",
-                didClose: () => ""
+                didClose: () => history.push(`${routes.ADMIN_REPORT_PAGE}/${id}`)
             });
         } catch (error) {
             Toast({icon: 'error', title: error, didClose: () => ""});
@@ -113,6 +118,7 @@ export default function ReportDetailsAdminPage({ match }) {
         handleClose();
     }
     const answerInformer = async () => {
+        console.log(message);
         try {
             const answer = {
                 message,
@@ -122,7 +128,7 @@ export default function ReportDetailsAdminPage({ match }) {
             Toast({
                 icon: 'success',
                 title: "Denúncia respondida com sucesso!",
-                didClose: () => ""
+                didClose: () => history.push(`${routes.ADMIN_REPORT_PAGE}/${id}`)
             });
         } catch (error) {
             Toast({icon: 'error', title: error, didClose: () => ""});
@@ -131,13 +137,14 @@ export default function ReportDetailsAdminPage({ match }) {
     }
 
     const forwardReport = async () => {
+        console.log(cnpj);
         try {
             const att = await getAttachmentsToSend();
             await shareReport(cnpj, id, att);
             Toast({
                 icon: 'success',
                 title: "Denúncia encaminhada com sucesso!",
-                didClose: () => history.push(routes.ADMIN_REPORT_PAGE)
+                didClose: () => history.push(`${routes.ADMIN_REPORT_PAGE}/${id}`)
             });
         } catch (error) {
             Toast({icon: 'error', title: error, didClose: () => ""});
@@ -153,23 +160,6 @@ export default function ReportDetailsAdminPage({ match }) {
     };
 
     const handleOpen = (type) => {
-        switch (type) {
-            case DialogReportType.FORWARD_REPORT:
-                setTitleDialog("Encaminhar denúncia");
-                setButtonTitleDialog("Encaminhar");
-                setOnClickFunctionDialog(() => forwardReport);
-                break;
-            case DialogReportType.ANSWER_COMPANY:
-                setTitleDialog("Responder");
-                setButtonTitleDialog("Responder");
-                setOnClickFunctionDialog(() => answerCompany);
-                break;
-            case DialogReportType.ANSWER_INFORMER:
-                setTitleDialog("Responder Informante");
-                setButtonTitleDialog("Responder");
-                setOnClickFunctionDialog(() => answerInformer);
-                break;
-        }
         setDialogReportType(type);
         setModalOpen(true);
     }
@@ -225,71 +215,116 @@ export default function ReportDetailsAdminPage({ match }) {
                 }
             </div>
             {modalOpen &&
-            <CustomDialog title={titleDialog}
-                          open={modalOpen}
-                          setOpen={setModalOpen}
-                          titleButton={buttonTitleDialog}
-                          onClick={onClickFunctionDialog}
-                          handleClose={handleClose}
-            >
-                <FormControl id="form-item_input">
-                    {
-                        !!dialogReportType &&
-                        dialogReportType === DialogReportType.FORWARD_REPORT && (
-                            <React.Fragment>
-                                <InputLabel>CNPJ</InputLabel>
-                                <Input
-                                value={maskUtils.cnpjMask(cnpj)}
-                                onChange={(e) => setCnpj(e.target.value)}
-                                />
-                            </React.Fragment>
-                        ) || dialogReportType === DialogReportType.ANSWER_INFORMER && (
-                            <React.Fragment>
-                                <TextField
-                                    id="outlined-multiline-static"
-                                    label="Mensagem"
-                                    multiline
-                                    rows={4}
-                                    variant="outlined"
-                                    onChange={(e) => setMessage(e.target.value)}
-                                />
-                            </React.Fragment>
-                        )
-                    }
-                </FormControl>
-                <div id="report-details-admin-attachments-area">
-                    <Dropzone
-                        className="attachment-dropzone"
+                !!dialogReportType &&
+                dialogReportType === DialogReportType.FORWARD_REPORT && (
+                    <DialogReport
+                        titleDialog={"Encaminhar denúncia"}
+                        buttonTitleDialog={"Encaminhar"}
+                        modalOpen={modalOpen}
+                        setModalOpen={setModalOpen}
+                        onClickFunctionDialog={forwardReport}
+                        handleClose={handleClose}
+                        attachments={attachments}
                         onUpload={onUpload}
+                        removeAttachment={removeAttachment}
+                        cnpj={cnpj}
+                        setCnpj={setCnpj}
+                        dialogReportType={dialogReportType}
                     />
-                    <div className="attachment-list-wrapper">
-                        <h5 className="title">
-                            {attachments.length
-                                ? "Anexos adicionados:"
-                                : "Sem anexos"}
-                        </h5>
-                        <ul className="attachment-list">
-                            {attachments.length > 0 &&
-                            attachments.map((att, index) => {
-                                return (
-                                    <li key={index} className="list-item">
-                                        <div className="attachment-name">
-                                            <p>{att.name}</p>
-                                            <FontAwesomeIcon
-                                                className="remove-attachment-icon"
-                                                onClick={() => removeAttachment(index)}
-                                                icon={faTrash}
-                                            />
-                                        </div>
-                                        {/* <LinearProgress className="progress" variant="determinate" value={100} /> */}
-                                        <Divider className="divider" />
-                                    </li>
-                                );
-                            })}
-                        </ul>
-                    </div>
-                </div>
-            </CustomDialog>
+            ) || dialogReportType === DialogReportType.ANSWER_INFORMER && (
+                <DialogReport
+                    titleDialog={"Responder Informante"}
+                    buttonTitleDialog={"Responder"}
+                    modalOpen={modalOpen}
+                    setModalOpen={setModalOpen}
+                    onClickFunctionDialog={answerInformer}
+                    handleClose={handleClose}
+                    attachments={attachments}
+                    onUpload={onUpload}
+                    removeAttachment={removeAttachment}
+                    setMessage={setMessage}
+                    dialogReportType={dialogReportType}
+                />
+            ) || dialogReportType === DialogReportType.ANSWER_COMPANY && (
+                <DialogReport
+                    titleDialog={"Responder"}
+                    buttonTitleDialog={"Responder"}
+                    modalOpen={modalOpen}
+                    setModalOpen={setModalOpen}
+                    onClickFunctionDialog={answerCompany}
+                    handleClose={handleClose}
+                    attachments={attachments}
+                    onUpload={onUpload}
+                    removeAttachment={removeAttachment}
+                    dialogReportType={dialogReportType}
+                />
+            )
+            // <CustomDialog title={titleDialog}
+            //               open={modalOpen}
+            //               setOpen={setModalOpen}
+            //               titleButton={buttonTitleDialog}
+            //               onClick={() => onClickFunctionDialog}
+            //               handleClose={handleClose}
+            // >
+            //     <FormControl id="form-item_input">
+            //         {
+            //             !!dialogReportType &&
+            //             dialogReportType === DialogReportType.FORWARD_REPORT && (
+            //                 <React.Fragment>
+            //                     <InputLabel>CNPJ</InputLabel>
+            //                     <Input
+            //                         value={maskUtils.cnpjMask(cnpj)}
+            //                         onBlur={()=>console.log(cnpj)}
+            //                         onChange={(e) => setCnpj(e.target.value)}
+            //                     />
+            //                 </React.Fragment>
+            //             ) || dialogReportType === DialogReportType.ANSWER_INFORMER && (
+            //                 <React.Fragment>
+            //                     <TextField
+            //                         id="outlined-multiline-static"
+            //                         label="Mensagem"
+            //                         multiline
+            //                         rows={4}
+            //                         variant="outlined"
+            //                         onChange={(e) => setMessage(e.target.value)}
+            //                     />
+            //                 </React.Fragment>
+            //             )
+            //         }
+            //     </FormControl>
+            //     <div id="report-details-admin-attachments-area">
+            //         <Dropzone
+            //             className="attachment-dropzone"
+            //             onUpload={onUpload}
+            //         />
+            //         <div className="attachment-list-wrapper">
+            //             <h5 className="title">
+            //                 {attachments.length
+            //                     ? "Anexos adicionados:"
+            //                     : "Sem anexos"}
+            //             </h5>
+            //             <ul className="attachment-list">
+            //                 {attachments.length > 0 &&
+            //                 attachments.map((att, index) => {
+            //                     return (
+            //                         <li key={index} className="list-item">
+            //                             <div className="attachment-name">
+            //                                 <p>{att.name}</p>
+            //                                 <FontAwesomeIcon
+            //                                     className="remove-attachment-icon"
+            //                                     onClick={() => removeAttachment(index)}
+            //                                     icon={faTrash}
+            //                                 />
+            //                             </div>
+            //                             {/* <LinearProgress className="progress" variant="determinate" value={100} /> */}
+            //                             <Divider className="divider" />
+            //                         </li>
+            //                     );
+            //                 })}
+            //             </ul>
+            //         </div>
+            //     </div>
+            // </CustomDialog>
             }
         </div>
     );
