@@ -5,10 +5,9 @@ import "./style.scss";
 import GenericImage from '@Images/generic-image.jpeg';
 import GenericPdfImage from '@Images/generic-pdf.jpeg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faArrowRight, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { Button, Dropzone, Toast, CustomDialog } from "@Components";
-import {Divider, FormControl, Input, InputLabel, TextareaAutosize, TextField} from "@material-ui/core";
-import { fileUtils, maskUtils } from "../../utils";
+import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { Button, Toast } from "@Components";
+import { fileUtils } from "../../utils";
 import { routes } from "../../routes";
 import { LOCAL_STORAGE_USER_IDENTIFICATION } from "../../../context";
 import {DialogReportType} from "../../constants/DialogReportType";
@@ -36,9 +35,6 @@ export default function ReportDetailsAdminPage({ match }) {
     const [attachments, setAttachments] = useState([]);
     const [cnpj, setCnpj] = useState("");
     const [message, setMessage] = useState("");
-    const [titleDialog, setTitleDialog] = useState("");
-    const [buttonTitleDialog, setButtonTitleDialog] = useState("");
-    const [onClickFunctionDialog, setOnClickFunctionDialog] = useState(null);
     const [dialogReportType, setDialogReportType] = useState(null);
 
     const { id } = match.params;
@@ -110,7 +106,7 @@ export default function ReportDetailsAdminPage({ match }) {
             Toast({
                 icon: 'success',
                 title: "Denúncia respondida com sucesso!",
-                didClose: () => history.push(`${routes.ADMIN_REPORT_PAGE}/${id}`)
+                didClose: () => history.push(routes.COMPANY_REPORTS_PAGE)
             });
         } catch (error) {
             Toast({icon: 'error', title: error, didClose: () => ""});
@@ -128,7 +124,7 @@ export default function ReportDetailsAdminPage({ match }) {
             Toast({
                 icon: 'success',
                 title: "Denúncia respondida com sucesso!",
-                didClose: () => history.push(`${routes.ADMIN_REPORT_PAGE}/${id}`)
+                didClose: () => history.push(routes.CONSULT_REPORTS)
             });
         } catch (error) {
             Toast({icon: 'error', title: error, didClose: () => ""});
@@ -144,7 +140,7 @@ export default function ReportDetailsAdminPage({ match }) {
             Toast({
                 icon: 'success',
                 title: "Denúncia encaminhada com sucesso!",
-                didClose: () => history.push(`${routes.ADMIN_REPORT_PAGE}/${id}`)
+                didClose: () => history.push(routes.CONSULT_REPORTS)
             });
         } catch (error) {
             Toast({icon: 'error', title: error, didClose: () => ""});
@@ -190,7 +186,6 @@ export default function ReportDetailsAdminPage({ match }) {
                             <ReportItem label="Urgente" value={report?.urgent} />
                             <ReportItem label="De conhecimento do gestor" value={report?.isManagerKnowledge} />
                             <ReportItem label="Descrição do ocorrido" value={report?.description} />
-                            <ReportItem label="Caso de conhecimento" value={report?.caseKnowledge} />
                             <ReportItem label="Pessoas envolvidas" value={report?.reportDetails.envolvedPeople} />
                             <ReportItem label="Período" value={report?.reportDetails.period} />
                             <ReportItem label="Suspeitos" value={report?.reportDetails.suspects} />

@@ -15,6 +15,8 @@ import FindInPageIcon from '@material-ui/icons/FindInPage';
 import { deleteReport, getReports } from "../../../services/report.service";
 import { useHistory } from "react-router-dom";
 import "./style.scss";
+import { Toast } from "@Components";
+
 
 function formatDates(dates) {
     return dates.reduce((acc, current) => {
@@ -152,11 +154,14 @@ export default function CustomTable(props) {
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const {reports, setReports} = props;
 
-    const deleteP = async function (report) {
-        if (window.confirm(`Deseja mesmo excluir a denúncia: ${report.trackingId}?`)) {
-            await deleteReport(Number(report.trackingId)).then(async () => {
-                await getReports().then(data => setReports(data.data))
-            })
+    const deleteP = async function(trackingId) {
+        if (window.confirm(`Deseja mesmo excluir a denúncia: ${trackingId}?`)) {
+            try {
+                await deleteReport(trackingId);
+                Toast({icon: 'success', title: "Denúncia deletada com sucesso!", didClose: () => getReports().then(data => setReports(data.data))});
+            } catch (err) {
+                Toast({icon: 'error', title: err, didClose: () => ""});
+            }
         }
     }
 
@@ -229,7 +234,7 @@ export default function CustomTable(props) {
                                                 <button type='button'
                                                         className={classes.button}
                                                         title="Deletar"
-                                                        onClick={() => deleteP(row)}>
+                                                        onClick={() => deleteP(row.trackingId)}>
                                                     <DeleteIcon />
                                                 </button>
                                             </TableCell>

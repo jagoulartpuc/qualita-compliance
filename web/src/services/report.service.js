@@ -31,7 +31,7 @@ export function getReport(id) {
 }
 
 export function deleteReport(id) {
-  return reportInstance.delete(id);
+  return reportInstance.delete("/" + id);
 }
 
 export function getReports() {

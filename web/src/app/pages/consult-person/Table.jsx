@@ -143,7 +143,7 @@ export default function CustomTable(props) {
         if (window.confirm(`Deseja mesmo excluir o funcionário: ${person.cpf}?`)) {
             try {
                 await deletePerson(Number(person.cpf));
-                Toast({icon: 'success', title: "Funcionário deletada com sucesso!", didClose: () => readPerson().then(data => setPeople(data.data))});
+                Toast({icon: 'success', title: "Funcionário deletado com sucesso!", didClose: () => readPerson().then(data => setPeople(data.data))});
             } catch (err) {
                 Toast({icon: 'error', title: err, didClose: () => ""});
             }

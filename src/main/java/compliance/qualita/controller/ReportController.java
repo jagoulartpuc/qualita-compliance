@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -81,7 +82,7 @@ public class ReportController {
 
     @DeleteMapping
     public boolean deleteReport(
-            @RequestParam String trackingId
+            @PathVariable String trackingId
     ) {
         return reportService.deleteReport(trackingId);
     }
