@@ -80,7 +80,7 @@ public class ReportController {
         return reportService.getReportByTrackingId(trackingId);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{trackingId}")
     public boolean deleteReport(
             @PathVariable String trackingId
     ) {

@@ -32,11 +32,8 @@ public class Report {
     private boolean isManagerKnowledge;
     @NonNull
     private String description;
-    @NonNull
-    private String caseKnowledge;
     private ReportDetails reportDetails;
     private List<Attachment> attachments;
-    private List<ReportAnswer> reportAnswers = new ArrayList<>();
     private String status;
     private ReportAnswer answerToInformer;
 

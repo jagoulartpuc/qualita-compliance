@@ -13,8 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import javax.mail.MessagingException;
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 

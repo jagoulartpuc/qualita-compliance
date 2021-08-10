@@ -4,6 +4,27 @@
 
 #report-details-page {
   @include page-basic;
+  .report-details-admin-material {
+    > h3 {
+      color: #0078FD;
+    }
+    [input]#img_src::before {
+      font-family: 'FontAwesome', serif;
+      content: '\f069'
+    }
+    .element {
+      display: inline-flex;
+      align-items: center;
+    }
+    .attachment {
+      margin-left: 100px;
+      color: #0078FD;
+      .attachment-icon {
+        width: 90px;
+        height: 90px;
+      }
+    }
+  }
   > h2 {
     text-align: center;
     font-size: 2.4rem;
