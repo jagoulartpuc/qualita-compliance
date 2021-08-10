@@ -4,12 +4,10 @@ import compliance.qualita.domain.Company;
 import compliance.qualita.domain.Report;
 import compliance.qualita.domain.TrainingModule;
 import compliance.qualita.service.CompanyService;
-import compliance.qualita.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -18,9 +16,6 @@ public class CompanyController {
 
     @Autowired
     private CompanyService companyService;
-
-    @Autowired
-    private ReportService reportService;
 
     @PostMapping
     public Company postCompany(
@@ -45,14 +40,7 @@ public class CompanyController {
     public List<Report> getCompanyReports(
             @PathVariable String cnpj
     ) {
-        return companyService.getCompanyByCNPJ(cnpj)
-                .getReports()
-                .stream()
-                .map(Report::getTrackingId)
-                .distinct()
-                .map(id -> reportService.getReportByTrackingId(id))
-                .filter(report -> !report.getStatus().equals("FINALIZADA"))
-                .collect(Collectors.toList());
+        return companyService.getCompanyReports(cnpj);
     }
 
     @PutMapping

@@ -45,7 +45,7 @@ public class ReportService {
         }
         report.setStatus("RECEBIDA");
         String trackingId = reportRepository.insert(report).getTrackingId();
-        Runnable runnable = () ->{
+        Runnable runnable = () -> {
             try{
                 emailSender.sendEmail("Denúncia recebida", templateBuilder.buildReportReceived(trackingId), adminEmail);
                 System.out.println("E-mail has been sent");
@@ -59,7 +59,7 @@ public class ReportService {
         return report;
     }
 
-    public List<Report> shareReportWithEnvolved(String companyCNPJ, String trackingId, String moreDestinations, List<Attachment> attachments) throws MessagingException, IOException {
+    public List<Report> shareReportWithEnvolved(String companyCNPJ, String trackingId, String moreDestinations, List<Attachment> attachments) {
         Company company = companyService.getCompanyByCNPJ(companyCNPJ);
         Report report = getReportByTrackingId(trackingId);
         report.setStatus("ENCAMINHADA");
@@ -74,18 +74,40 @@ public class ReportService {
             destinations += moreDestinations;
         }
 
-        emailSender.sendEmail("Denúncia encaminhada", templateBuilder.buildReportShared(trackingId), destinations);
+        String finalDestinations = destinations;
+        Runnable runnable = () -> {
+            try{
+                emailSender.sendEmail("Denúncia encaminhada", templateBuilder.buildReportShared(trackingId), finalDestinations);
+                System.out.println("E-mail has been sent");
+            }catch (Exception e){
+                e.printStackTrace();
+                System.out.println("Thread has been finished:");
+            }
+        };
+
+        new Thread(runnable).start();
         return company.getReports();
     }
 
-    public Report answerCompanyReport(String trackingId, List<Attachment> attachments) throws MessagingException, IOException {
+    public Report answerCompanyReport(String trackingId, List<Attachment> attachments) {
         Report report = getReportByTrackingId(trackingId);
         report.setStatus("EM ANÁLISE");
 
         if (attachments != null) {
             report.getAttachments().addAll(attachmentsConverter.fromBase64(attachments));
         }
-        emailSender.sendEmail("Resposta de denúncia", templateBuilder.buildReportAnswered(trackingId), adminEmail);
+
+        Runnable runnable = () -> {
+            try{
+                emailSender.sendEmail("Resposta de denúncia", templateBuilder.buildReportAnswered(trackingId), adminEmail);
+                System.out.println("E-mail has been sent");
+            } catch (Exception e){
+                e.printStackTrace();
+                System.out.println("Thread has been finished:");
+            }
+        };
+
+        new Thread(runnable).start();
         return reportRepository.save(report);
     }
 

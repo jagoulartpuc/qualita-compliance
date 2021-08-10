@@ -36,7 +36,7 @@ public class ReportController {
             @RequestParam String trackingId,
             @RequestParam(required = false) String moreDestinations,
             @RequestBody List<Attachment> attachments
-    ) throws MessagingException, IOException {
+    ) {
         return reportService.shareReportWithEnvolved(cnpj, trackingId, moreDestinations, attachments);
     }
 
@@ -44,7 +44,7 @@ public class ReportController {
     public Report answerCompanyReport(
             @RequestParam String trackingId,
             @RequestBody List<Attachment> attachments
-            ) throws MessagingException, IOException {
+            ) {
         return reportService.answerCompanyReport(trackingId, attachments);
     }
 
