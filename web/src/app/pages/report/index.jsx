@@ -203,7 +203,7 @@ export function ReportPage() {
               </button>
             </div>
             <p className="success-text">
-              Para consulta, acesse: www.qualitacompliance.com/denuncia/numero-da-denuncia
+              Para consulta, acesse: www.qualitacompliance.com.br/denuncia/numero-da-denuncia
             </p>
           </>
         ) : (

@@ -1,7 +1,6 @@
 package compliance.qualita.service;
 
 import compliance.qualita.domain.Attachment;
-import compliance.qualita.domain.Company;
 import compliance.qualita.domain.ModuleComment;
 import compliance.qualita.domain.TrainingModule;
 import compliance.qualita.repository.ModuleCommentRepository;
@@ -30,9 +29,6 @@ public class TrainingModuleService {
 
     @Autowired
     private PersonService personService;
-
-    @Autowired
-    private CompanyService companyService;
 
     public TrainingModule addTrainingModule(TrainingModule trainingModule) {
         if (!CollectionUtils.isEmpty(trainingModule.getAttachments())) {

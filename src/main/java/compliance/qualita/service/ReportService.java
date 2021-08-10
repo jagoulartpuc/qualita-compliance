@@ -58,16 +58,15 @@ public class ReportService {
         return report;
     }
 
-    public List<Report> shareReportWithEnvolved(String companyCNPJ, String trackingId, String moreDestinations, List<Attachment> attachments) {
+    public Report shareReportWithEnvolved(String companyCNPJ, String trackingId, String moreDestinations, List<Attachment> attachments) {
         Company company = companyService.getCompanyByCNPJ(companyCNPJ);
         Report report = getReportByTrackingId(trackingId);
         report.setStatus("ENCAMINHADA");
         if (attachments != null) {
             report.getAttachments().addAll(attachmentsConverter.fromBase64(attachments));
         }
+        report.getSharedWith().add(companyCNPJ);
         Report reportUpdated = reportRepository.save(report);
-        company.getReports().add(reportUpdated);
-        companyService.editCompany(company);
         String destinations = company.getEmail();
         if (moreDestinations != null) {
             destinations += moreDestinations;
@@ -85,7 +84,7 @@ public class ReportService {
         };
 
         new Thread(runnable).start();
-        return company.getReports();
+        return reportUpdated;
     }
 
     public Report answerCompanyReport(String trackingId, List<Attachment> attachments) {

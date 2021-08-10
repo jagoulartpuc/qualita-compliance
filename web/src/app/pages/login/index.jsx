@@ -74,11 +74,11 @@ export function LoginPage() {
                             administrador do sistema e, assim que possível, o denunciante irá receber um feedback sobre tal denúncia. Podendo ser acompanhada
                             a qualquer momento.{" "}
                         </p>
-                        {user?.role === "PERSON" && (
+
                             <Link to={routes.REPORT_PAGE} className="report-link">
                                 Quero fazer uma denúncia
                             </Link>
-                        )}
+
                         {user?.role === "COMPANY" && (
                             <Link to={routes.COMPANY_REPORTS_PAGE} className="report-link">
                                 Visualizar denúncias da empresa

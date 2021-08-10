@@ -54,33 +54,10 @@ public class CompanyService {
     }
 
     public List<Report> getCompanyReports(String cnpj) {
-        return editCompany(getCompanyByCNPJ(cnpj))
-                .getReports()
+        return reportService.getReports()
                 .parallelStream()
-                .map(Report::getTrackingId)
-                .distinct()
-                .map(id -> reportService.getReportByTrackingId(id))
-                .filter(report -> !report.getStatus().equals("FINALIZADA"))
+                .filter(report -> report.getSharedWith().contains(cnpj) && !report.getStatus().equals("FINALIZADA"))
                 .collect(Collectors.toList());
-    }
-
-    public List<Report> getCompanyReports2(String cnpj) {
-        Company company = getCompanyByCNPJ(cnpj);
-        List<Report> reports = company.getReports();
-        for (int i = 0; i < reports.size(); i++) {
-            for (int j = 0; j < reports.size(); j++) {
-                if (i != j) {
-                    if (reports.get(i).getTrackingId().equals(reports.get(j).getTrackingId())) {
-                        reports.remove(reports.get(j));
-                    }
-                }
-            }
-            assert reports.get(i) != null;
-            if (reports.get(i).getStatus().equals("FINALIZADA")) {
-                reports.remove(reports.get(i));
-            }
-        }
-        return editCompany(company).getReports();
     }
 
     public Company editCompany(Company company) {

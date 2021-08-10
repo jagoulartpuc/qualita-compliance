@@ -5,11 +5,6 @@ import "./style.scss";
 import GenericImage from '@Images/generic-image.jpeg';
 import GenericPdfImage from '@Images/generic-pdf.jpeg';
 
-function singletonList(list) {
-  return list[0]
-}
-
-
 function ReportItem({ label, value }) {
   return (
     <p className="report-details-item">
